@@ -1,5 +1,5 @@
 {
-  "name": "frontend-ts",
+  "name": "integration-platform-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -20,7 +20,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint . --ext .ts"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +40,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "eslint": "^8.9.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0"
   }
 }
