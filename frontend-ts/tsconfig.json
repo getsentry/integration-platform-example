@@ -16,10 +16,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "tests"],
-  "references": [
-    {
-      "path": "../data/types"
-    }
-  ]
+  "include": ["src", "tests"]
 }
