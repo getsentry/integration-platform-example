@@ -1,0 +1,41 @@
+{
+  "files.exclude": {
+    "build": true,
+    "dist": true,
+    "node_modules": true
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
+  "eslint.options": {
+    "configFile": ".eslintrc.js"
+  },
+  "files.associations": {
+    "*.jsx": "javascriptreact"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
+  "python.linting.flake8Path": "${workspaceFolder}/backend-py/.venv/bin/flake8",
+  "python.testing.pytestPath": "${workspaceFolder}/backend-py/.venv/bin/pytest",
+  "python.formatting.blackPath": "${workspaceFolder}/backend-py/.venv/bin/black",
+  "python.formatting.provider": "black"
+}

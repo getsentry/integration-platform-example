@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask
 
 server = Flask(__name__)
@@ -10,4 +11,4 @@ def hello_world():
 
 
 if __name__ == "__main__":
-    server.run(port=os.environ.get('SERVER_PORT'))
+    server.run(port=os.environ.get("SERVER_PORT"))
