@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import {Example} from '../../data/types';
 
 function App() {
   console.log('Testing');

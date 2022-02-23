@@ -1,4 +1,5 @@
 import express from 'express';
+import {Example} from '../../data/types';
 
 const app = express();
 const port = 5001;
