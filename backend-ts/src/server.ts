@@ -1,7 +1,5 @@
 import express from 'express';
 import path from 'path';
-// TS hints work
-import {Example} from '../../data/types';
 import {config} from 'dotenv';
 
 // Load .env environment file from the project root
@@ -15,6 +13,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(process.env.BACKEND_PORT, () => {
-  // Linting errors also work
+  // TS Linting errors also work
   console.log(`Server started at http://localhost:${process.env.BACKEND_PORT}`);
 });

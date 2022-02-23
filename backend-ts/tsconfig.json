@@ -15,7 +15,8 @@
   "include": ["src/**/*"],
   "references": [
     {
-      "path": "../data/types"
+      // TODO(Leander): Share TS types
+      // "path": "../data/types"
     }
   ]
 }
