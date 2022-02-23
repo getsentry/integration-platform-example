@@ -14,3 +14,8 @@ If adding dependencies:
 $ (.venv) pip install {my-package}
 $ (.venv) pip freeze > requirements.txt
 ```
+
+To start the app:
+```bash
+$ python src/server.py
+```

@@ -1,8 +1,10 @@
 import React from 'react';
 import './App.css';
+// TS hints also work
 import {Example} from '../../data/types';
 
 function App() {
+  // Editor linting works
   console.log('Testing');
   return (
     <div className="App">

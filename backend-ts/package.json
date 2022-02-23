@@ -2,7 +2,7 @@
   "name": "integration-platform-backend",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "dist/backend-ts/src/server.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",

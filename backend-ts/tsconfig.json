@@ -12,10 +12,5 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": [
-    // {
-    //   "path": "../data/types"
-    // }
-  ]
+  "include": ["src/**/*"]
 }
