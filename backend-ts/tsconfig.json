@@ -14,8 +14,8 @@
   },
   "include": ["src/**/*"],
   "references": [
-    {
-      "path": "../data/types"
-    }
+    // {
+    //   "path": "../data/types"
+    // }
   ]
 }

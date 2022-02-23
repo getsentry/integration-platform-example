@@ -11,4 +11,4 @@ def hello_world():
 
 
 if __name__ == "__main__":
-    server.run(port=os.environ.get("SERVER_PORT"))
+    server.run(port=os.environ.get("BACKEND_PORT"))

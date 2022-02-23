@@ -1,13 +1,16 @@
 import express from 'express';
 import {Example} from '../../data/types';
+import {config} from 'dotenv';
+
+// Load environment
+config({path: '../../.env'});
 
 const app = express();
-const port = 5001;
 
 app.get('/', (req, res) => {
-  res.send('Hello world!');
+  res.send('Hello wordasdfasdf!');
 });
 
-app.listen(port, () => {
-  console.log(`Server started at http://localhost:${port}`);
+app.listen(process.env.BACKEND_PORT, () => {
+  console.log(`Server started at http://localhost:${process.env.BACKEND_PORT}`);
 });
