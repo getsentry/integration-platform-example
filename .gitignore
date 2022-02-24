@@ -5,10 +5,10 @@ node_modules
 __pycache__
 .venv
 
-# testing
+# Testing
 coverage
 
-# production
+# Production
 build
 dist
 
