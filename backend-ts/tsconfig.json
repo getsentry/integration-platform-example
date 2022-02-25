@@ -12,11 +12,5 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*"],
-  "references": [
-    {
-      // TODO(Leander): Share TS types
-      // "path": "../data/types"
-    }
-  ]
+  "include": ["src/**/*"]
 }

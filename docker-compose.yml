@@ -1,13 +1,5 @@
 version: "3.9"
 services:
-  # backend-py:
-  #   build:
-  #     context: .
-  #     target: backend-py
-  # backend-ts:
-  #   build:
-  #     context: .
-  #     target: backend-ts
   frontend-ts:
     container_name: frontend
     build:
@@ -15,8 +7,7 @@ services:
       target: frontend-ts
     ports:
       - "3000:3000"
-      - "3001:3001"
-    # Watch and react to changes in...
+    # Watch and react to changes in local...
     volumes:
       #  frontend-ts/src directory
       - type: bind
@@ -26,7 +17,40 @@ services:
       - type: bind
         source: ./data
         target: /data
-      #  .env file
+
+  backend-py:
+    container_name: backend-py
+    build:
+      context: .
+      target: backend-py
+    ports:
+      - "5100:5100"
+    # Watch and react to changes in local...
+    volumes:
+      #  backend-ts/src directory
       - type: bind
-        source: .env
-        target: /.env
+        source: ./backend-py/src
+        target: /backend-py/src
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+  backend-ts:
+    container_name: backend-ts
+    build:
+      context: .
+      target: backend-ts
+
+    ports:
+      - "5200:5200"
+    # Watch and react to changes in local...
+    volumes:
+      #  backend-ts/src directory
+      - type: bind
+        source: ./backend-ts/src
+        target: /backend-ts/src
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
