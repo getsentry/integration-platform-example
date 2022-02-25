@@ -1,9 +1,10 @@
 import express from 'express';
 import path from 'path';
 import {config} from 'dotenv';
+import {Example} from './../../data/types';
 
 // Load .env environment file from the project root
-// We need to traverse up from /backend-ts/dist/backend-ts/src/server.js
+// We need to traverse up from /backend-ts/dist/server.js
 config({path: path.resolve(__dirname, '../../.env'), debug: true});
 
 const app = express();
