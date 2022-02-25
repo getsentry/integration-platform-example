@@ -5,7 +5,7 @@ import {Example} from '../../data/types';
 
 function App() {
   // Editor linting works
-  console.log('Testing');
+  // console.log('Testing');
   return (
     <div className="App">
       <header className="App-header">

@@ -9,10 +9,24 @@ services:
   #     context: .
   #     target: backend-ts
   frontend-ts:
+    container_name: frontend
     build:
       context: .
       target: frontend-ts
     ports:
       - "3000:3000"
+      - "3001:3001"
+    # Watch and react to changes in...
     volumes:
-      - /frontend-ts:/frontend-ts
+      #  frontend-ts/src directory
+      - type: bind
+        source: ./frontend-ts/src
+        target: /frontend-ts/src
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+      #  .env file
+      - type: bind
+        source: .env
+        target: /.env
