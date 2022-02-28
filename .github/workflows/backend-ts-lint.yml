@@ -1,0 +1,30 @@
+name: backend-ts lint
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: backend-ts lint
+    timeout-minutes: 20
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cache node modules
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: backend-ts/package-lock.json
+
+      - name: Install node modules
+        working-directory: backend-ts
+        run: npm install
+
+      - name: Lint files
+        working-directory: backend-ts
+        run: npm run lint:ci
