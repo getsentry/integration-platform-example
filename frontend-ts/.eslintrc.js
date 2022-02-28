@@ -25,12 +25,4 @@ module.exports = {
       version: 'detect',
     },
   },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        'no-console': 2,
-      },
-    },
-  ],
 };
