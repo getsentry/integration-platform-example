@@ -20,9 +20,14 @@ jobs:
         working-directory: backend-py
         run: pip install -r requirements.txt
 
-      - name: Run Tests
+      - name: Run Linting
         working-directory: backend-py
-        run: black src
+        run: flake8 src
+
+      - name: Check Formatting
+        working-directory: backend-py
+        run: black src --check
+        continue-on-error: true
 
   test:
     timeout-minutes: 10
