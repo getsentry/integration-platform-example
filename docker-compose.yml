@@ -13,6 +13,10 @@ services:
       - type: bind
         source: ./frontend-ts/src
         target: /frontend-ts/src
+      #  frontend-ts/public directory
+      - type: bind
+        source: ./frontend-ts/public
+        target: /frontend-ts/public
       #  data directory
       - type: bind
         source: ./data
