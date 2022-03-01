@@ -3,7 +3,7 @@ services:
   frontend-ts:
     container_name: frontend
     build:
-      context: .
+      context: frontend-ts
       target: frontend-ts
     ports:
       - "3000:3000"
@@ -21,7 +21,7 @@ services:
   backend-py:
     container_name: backend-py
     build:
-      context: .
+      context: backend-py
       target: backend-py
     ports:
       - "5100:5100"
@@ -39,7 +39,7 @@ services:
   backend-ts:
     container_name: backend-ts
     build:
-      context: .
+      context: backend-ts
       target: backend-ts
 
     ports:

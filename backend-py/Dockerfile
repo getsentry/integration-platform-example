@@ -1,0 +1,13 @@
+FROM python:3.9 as backend-py
+# Copy environment and change directories...
+COPY ../.env .
+WORKDIR /backend-py
+# Installing packages...
+COPY . .
+RUN pip install -r requirements.txt
+# Describing environment...
+ENV FLASK_ENV=development
+ENV FLASK_APP=src/server.py
+ENV BACKEND_PORT=5100
+# Preparing startup...
+CMD ["python", "src/server.py"]
