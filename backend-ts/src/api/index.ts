@@ -1,8 +1,8 @@
 import express from 'express';
-import setupRoutes from './setup';
+import sentryRoutes from './sentry';
 
 const router = express.Router();
 
-router.use('/setup', setupRoutes);
+router.use('/sentry', sentryRoutes);
 
 export default router;
