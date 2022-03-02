@@ -4,10 +4,9 @@ This directory contains the backend code written in TypeScript.
 
 ## Development
 
-To boot up the node backend individually, you'll to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running. Then use `docker-compose` from the root directory.
+To boot up the node backend individually, you'll to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running, then use `docker-compose`.
 
 ```bash
-cd ..
 docker-compose up backend-ts
 ```
 
@@ -15,7 +14,6 @@ If adding dependencies or changing the environment variables, be sure to rebuild
 
 ```bash
 npm install my-package
-cd ..
 docker-compose build backend-ts
 ```
 

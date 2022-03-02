@@ -4,10 +4,9 @@ This directory contains the backend code written in Python (with Flask).
 
 ## Development
 
-To boot up the python backend individually, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running. Then use `docker-compose` from the root directory.
+To boot up the python backend individually, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running, then use `docker-compose`.
 
 ```bash
-cd ..
 docker-compose up backend-ts
 ```
 
@@ -24,7 +23,6 @@ direnv allow
 Then, you'll need to rebuild the image with the new dependancy:
 
 ```bash
-cd ..
 docker-compose build backend-ts
 ```
 
