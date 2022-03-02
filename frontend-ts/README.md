@@ -11,10 +11,9 @@ See more [here](https://create-react-app.dev/docs/adding-typescript/).
 
 ## Development
 
-To boot up the frontend individually, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running. Then use `docker-compose` from the root directory.
+To boot up the frontend individually, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running, then use `docker-compose`.
 
 ```bash
-cd ..
 docker-compose up frontend-ts
 ```
 
@@ -22,7 +21,6 @@ If adding dependencies or changing the environment variables, be sure to rebuild
 
 ```bash
 npm install my-package
-cd ..
 docker-compose build frontend-ts
 ```
 
