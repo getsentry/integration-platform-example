@@ -1,19 +1,14 @@
 import express from 'express';
-import path from 'path';
 import {config} from 'dotenv';
-import {Example} from './../../data/types';
 
-// Load .env environment file from the project root
-// We need to traverse up from /backend-ts/dist/server.js
-config({path: path.resolve(__dirname, '../.env'), debug: true});
+config({debug: true});
 
-const app = express();
+const server = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+server.get('/', (req, res) => res.sendStatus(200));
 
-app.listen(process.env.BACKEND_PORT, () => {
-  // TS Linting errors also work
+server.listen(process.env.BACKEND_PORT, () => {
   console.log(`Server started at http://localhost:${process.env.BACKEND_PORT}`);
 });
+
+export default server;

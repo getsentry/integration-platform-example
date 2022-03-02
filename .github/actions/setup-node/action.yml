@@ -1,0 +1,22 @@
+name: "Setup Node"
+description: "Install and cache relevant node modules"
+
+inputs:
+  project_directory:
+    description: "Project directory with which to find and install dependencies"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+      - name: Cache Node Modules
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: ${{inputs.project_directory}}/package-lock.json
+
+      - name: Install Node Modules
+        working-directory: ${{inputs.project_directory}}
+        shell: bash
+        run: npm install

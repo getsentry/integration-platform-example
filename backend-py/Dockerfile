@@ -4,4 +4,4 @@ WORKDIR /backend-py
 COPY . .
 RUN pip install -r requirements.txt
 # Preparing startup...
-CMD ["python", "src/server.py"]
+CMD ["flask", "run"]

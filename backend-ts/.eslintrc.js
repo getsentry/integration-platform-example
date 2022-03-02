@@ -13,12 +13,4 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
   },
-  overrides: [
-    {
-      files: ['*.ts'],
-      rules: {
-        'no-console': 2,
-      },
-    },
-  ],
 };

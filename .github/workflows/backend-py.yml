@@ -1,0 +1,48 @@
+name: backend-py
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install Python Dependecies
+        working-directory: backend-py
+        run: pip install -r requirements.txt
+
+      - name: Run Linting
+        working-directory: backend-py
+        run: flake8 src
+
+      - name: Check Formatting
+        working-directory: backend-py
+        run: black src --check
+        continue-on-error: true
+
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install Python Dependecies
+        working-directory: backend-py
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        working-directory: backend-py
+        run: pytest

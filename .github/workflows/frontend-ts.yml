@@ -1,0 +1,35 @@
+name: frontend-ts
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: './.github/actions/setup-node'
+        with:
+          project_directory: frontend-ts
+
+      - name: Lint files
+        working-directory: frontend-ts
+        run: npm run lint
+
+  test:
+    timeout-minutes: 20
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: './.github/actions/setup-node'
+        with:
+          project_directory: frontend-ts
+
+      - name: Run Tests
+        working-directory: frontend-ts
+        run: npm run test
