@@ -1,7 +1,8 @@
 import express from 'express';
 import axios from 'axios';
+import {storeTokenDataInDatabase} from '../../util/tokens';
 
-type TokenResponseData = {
+export type TokenResponseData = {
   expiresAt: string; // ISO date string at which token must be refreshed
   token: string; // Bearer token authorized to make Sentry API requests
   refreshToken: string; // Refresh token required to get a new Bearer token after expiration
@@ -26,7 +27,6 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-  console.log('Starting installation process...');
   // 1. Destructure the all the query params we receive from the installation prompt
   const {code, installationId, orgSlug} = req.query;
 
@@ -38,19 +38,19 @@ router.get('/', async (req, res) => {
     client_secret: process.env.SENTRY_CLIENT_SECRET,
   };
 
-  // 3. Send that payload to the Sentry instance and parse its response
-  const tokenResponse = await axios.post(
+  // 3. Send that payload to Sentry and parse its response
+  const tokenResponse: {data: TokenResponseData} = await axios.post(
     `${process.env.SENTRY_URL}/api/0/sentry-app-installations/${installationId}/authorizations/`,
     payload
   );
-  const tokenResponseData: TokenResponseData = tokenResponse.data;
 
   // 4. Store the token information for future requests
-  const {token, refreshToken, expiresAt} = tokenResponseData;
+  const {token, refreshToken, expiresAt} = tokenResponse.data;
+  storeTokenDataInDatabase(installationId, {token, refreshToken, expiresAt});
 
   // 5. Verify the installation to inform Sentry of the success
   //    - This step is only required if you have enabled 'Verify Installation' on your integration
-  const verifyResponse = await axios.put(
+  const verifyResponse: {data: VerifyResponseData} = await axios.put(
     `${process.env.SENTRY_URL}/api/0/sentry-app-installations/${installationId}/`,
     {status: 'installed'},
     {
@@ -64,10 +64,10 @@ router.get('/', async (req, res) => {
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
   //    - Once you're done, you can redirect the user back to Sentry, as we do below
-  const verifyResponseData: VerifyResponseData = verifyResponse.data;
-  console.info(`Installed ${verifyResponseData.app.slug} on '${orgSlug}'`);
+
+  console.info(`Installed ${verifyResponse.data.app.slug} on '${orgSlug}'`);
   res.redirect(
-    `${process.env.SENTRY_URL}/settings/${orgSlug}/sentry-apps/${verifyResponseData.app.slug}/`
+    `${process.env.SENTRY_URL}/settings/${orgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`
   );
 });
 

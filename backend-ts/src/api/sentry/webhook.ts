@@ -1,5 +1,5 @@
 import express from 'express';
-import {VerifyResponseData} from '../setup';
+import {VerifyResponseData} from './setup';
 
 const router = express.Router();
 
