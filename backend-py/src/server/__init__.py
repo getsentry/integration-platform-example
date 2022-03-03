@@ -1,9 +1,4 @@
-from dotenv import load_dotenv
 from flask import Flask
-
-load_dotenv()
-
-server = Flask(__name__)
 
 
 def create_app(config={}):
