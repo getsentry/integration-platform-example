@@ -5,37 +5,39 @@ help:
 	@echo "For python, build with 'make build-python' and server it with 'make python'"
 	@echo "For typescript, build with 'make build-typescript' and server it with 'make typescript'"
 
-setup:
-	@echo "TODO: Seed "
+reset-db:
+	docker-compose rm -fsv -- database
+	docker-compose build database
+	docker-compose up database
 
 build-python:
-	docker-compose -f docker-compose.py.yml --env-file backend-py/.env build
+	docker-compose build database frontend-ts backend-py
 
 build-typescript:
-	docker-compose -f docker-compose.ts.yml --env-file backend-py/.env build
+	docker-compose build database frontend-ts backend-ts
 
 python:
-	docker-compose -f docker-compose.py.yml --env-file backend-py/.env up
+	docker-compose up database frontend-ts backend-py
 
 typescript:
-	docker-compose -f docker-compose.ts.yml --env-file backend-ts/.env up
+	docker-compose up database frontend-ts backend-ts
 
 # Individual Commands
 
 build-only-backend-py:
-	docker-compose -f docker-compose.py.yml --env-file backend-py/.env build backend-py
+	docker-compose build backend-py
 
 build-only-backend-ts:
-	docker-compose -f docker-compose.ts.yml --env-file backend-ts/.env build backend-ts
+	docker-compose build backend-ts
 
 build-only-frontend-ts:
-	docker-compose -f docker-compose.ts.yml --env-file backend-ts/.env build frontend
+	docker-compose build frontend-ts
 
 only-backend-py:
-	docker-compose -f docker-compose.py.yml --env-file backend-py/.env up backend-py
+	docker-compose up backend-py
 
 only-backend-ts:
-	docker-compose -f docker-compose.ts.yml --env-file backend-ts/.env up backend-ts
+	docker-compose up backend-ts
 
 only-frontend-ts:
-	docker-compose -f docker-compose.ts.yml --env-file backend-ts/.env up frontend
+	docker-compose up frontend-ts

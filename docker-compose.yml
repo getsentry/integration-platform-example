@@ -1,9 +1,9 @@
 version: "3.9"
 services:
   backend-py:
-    container_name: backend
+    container_name: backend-py
     env_file:
-      - ./backend-py/.env
+      - .env
     build:
       context: backend-py
       target: backend-py
@@ -20,13 +20,35 @@ services:
         source: ./data
         target: /data
 
+  backend-ts:
+    container_name: backend-ts
+    env_file:
+      - .env
+    build:
+      context: backend-ts
+      target: backend-ts
+    ports:
+      - "${EXPRESS_LISTEN_PORT}:${EXPRESS_LISTEN_PORT}"
+    # Watch and react to changes in local...
+    volumes:
+      #  backend-ts/src directory
+      - type: bind
+        source: ./backend-ts/src
+        target: /backend-ts/src
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+
   frontend-ts:
     container_name: frontend
+    env_file:
+      - .env
     build:
       context: frontend-ts
       target: frontend-ts
     ports:
-      - "3000:3000"
+      - "${REACT_HOST_PORT}:3000"
     # Watch and react to changes in local...
     volumes:
       #  frontend-ts/src directory
@@ -42,13 +64,13 @@ services:
         source: ./data
         target: /data
 
-  db:
+  database:
     container_name: database
+    env_file:
+      - .env
     build:
       context: data
-      target: db
-    environment:
-      - POSTGRES_PASSWORD_FILE=../data/.env
+      target: database
     ports:
       - "${DB_PORT}:5432"
     volumes:
