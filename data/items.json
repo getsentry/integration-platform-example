@@ -1,0 +1,32 @@
+[
+  {
+    "title": "SyntaxError",
+    "description": "This error occured",
+    "complexity": 1,
+    "column": "DOING"
+  },
+  {
+    "title": "OUT_OF_MEMORY",
+    "description": "This error occured",
+    "complexity": 5,
+    "column": "TODO"
+  },
+  {
+    "title": "file_not_found",
+    "description": "This error occured",
+    "complexity": 3,
+    "column": "DOING"
+  },
+  {
+    "title": "Unknown Variable",
+    "description": "This error occured",
+    "complexity": 2,
+    "column": "DONE"
+  },
+  {
+    "title": "MaxStackSizeExceeded",
+    "description": "This error occured",
+    "complexity": 2,
+    "column": "TODO"
+  }
+]
