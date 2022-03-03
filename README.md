@@ -1,6 +1,6 @@
 # Integration Platform Example
 
-So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 That's why we built out this codebase; clone/fork away!.
+So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 That's why we built out this codebase; clone/fork away!
 
 This repository contains some basic starter code to act as a tool/reference for you to refer back to. In it, we'll be covering the following features:
 
