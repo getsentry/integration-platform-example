@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  backend-py:
+    container_name: backend
+    env_file:
+      - ./backend-py/.env
+    build:
+      context: backend-py
+      target: backend-py
+    ports:
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
+    # Watch and react to changes in local...
+    volumes:
+      #  backend-ts/src directory
+      - type: bind
+        source: ./backend-py/src
+        target: /backend-py/src
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+  frontend-ts:
+    container_name: frontend
+    build:
+      context: frontend-ts
+      target: frontend-ts
+    ports:
+      - "3000:3000"
+    # Watch and react to changes in local...
+    volumes:
+      #  frontend-ts/src directory
+      - type: bind
+        source: ./frontend-ts/src
+        target: /frontend-ts/src
+      #  frontend-ts/public directory
+      - type: bind
+        source: ./frontend-ts/public
+        target: /frontend-ts/public
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+  db:
+    container_name: database
+    build:
+      context: data
+      target: db
+    environment:
+      - POSTGRES_PASSWORD_FILE=../data/.env
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      # Create a managed docker volume to persist data if the container shuts down
+      - db:/var/lib/postgresql/data
+      # Watch and react to changes in local data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+volumes:
+  db:

@@ -22,26 +22,8 @@ services:
         source: ./data
         target: /data
 
-  backend-py:
-    container_name: backend-py
-    build:
-      context: backend-py
-      target: backend-py
-    ports:
-      - "5100:5100"
-    # Watch and react to changes in local...
-    volumes:
-      #  backend-ts/src directory
-      - type: bind
-        source: ./backend-py/src
-        target: /backend-py/src
-      #  data directory
-      - type: bind
-        source: ./data
-        target: /data
-
   backend-ts:
-    container_name: backend-ts
+    container_name: backend
     build:
       context: backend-ts
       target: backend-ts
@@ -58,3 +40,23 @@ services:
       - type: bind
         source: ./data
         target: /data
+
+  db:
+    container_name: database
+    build:
+      context: data
+      target: db
+    environment:
+      - POSTGRES_PASSWORD_FILE=../data/.env
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      # Create a managed docker volume to persist data if the container shuts down
+      - db:/var/lib/postgresql/data
+      # Watch and react to changes in local data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+volumes:
+  db:
