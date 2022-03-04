@@ -54,11 +54,14 @@ async function createSeedData(numUsers, numItems) {
     });
   }
   const newItems = await Items.bulkCreate(futureItems, { returning: true });
+
+  console.info("Assigning items to users...");
+
   newItems.forEach(async (item) => {
     await faker.helpers.randomize(newUsers).addItem(item);
   });
-
-  console.info("Finished seeding data. Exiting...");
 }
 
-createSeedData(4, 20);
+createSeedData(4, 20)
+  .then(console.info("Finished seeding data. Exiting..."))
+  .catch((e) => console.error(`[🌱 Seeding Error]: ${e.message}`));
