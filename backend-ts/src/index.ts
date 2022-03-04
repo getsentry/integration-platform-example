@@ -1,5 +1,3 @@
-import {connectToDatabase, loadSeedData} from './util/db';
-
 import createServer from './server';
 
 const server = createServer();
