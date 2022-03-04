@@ -16,7 +16,7 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service individually:
 
 ```bash
-cd .. # Traverse to root directory...
+cd .. # Traverse to the root directory...
 make build-only-frontend-ts
 make only-frontend-ts
 ```
@@ -25,6 +25,6 @@ If adding dependencies or changing the environment variables, be sure to rebuild
 
 ```bash
 npm install my-package
-cd .. # Traverse to root directory...
+cd .. # Traverse to the root directory...
 make build-only-frontend-ts
 ```

@@ -9,7 +9,7 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service individually:
 
 ```bash
-cd .. # Traverse to root directory...
+cd .. # Traverse to the root directory...
 make build-only-backend-py
 make only-backend-py
 ```
@@ -22,6 +22,6 @@ direnv allow
 (.venv) pip install -r requirements.txt
 (.venv) pip install my-package
 (.venv) pip freeze > requirements.txt
-cd .. # Traverse to root directory...
+cd .. # Traverse to the root directory...
 make build-only-backend-py
 ```
