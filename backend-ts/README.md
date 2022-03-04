@@ -6,18 +6,16 @@ This directory contains the backend code written in TypeScript (with Express).
 
 To start, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running.
 
-Then, to spin up this service individually:
+Then, to spin up this service:
 
 ```bash
-cd .. # Traverse to the root directory...
-make build-only-backend-ts
-make only-backend-ts
+docker compose build database backend-ts
+docker compose up database backend-ts
 ```
 
 If adding dependencies or changing the environment variables, be sure to rebuild the image. We suggest using [Volta](https://volta.sh/) to manage your node version when installing packages.
 
 ```bash
 npm install my-package
-cd .. # Traverse to the root directory...
-make build-only-backend-ts
+docker compose build backend-ts
 ```

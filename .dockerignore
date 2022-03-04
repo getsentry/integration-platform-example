@@ -1,4 +1,3 @@
-
 # Python Ignores
 **/.venv
 **/.pytest_cache
@@ -7,7 +6,6 @@
 # Node Ignores
 **/node_modules
 **/dist
-
 
 # Security Ignores
 .env

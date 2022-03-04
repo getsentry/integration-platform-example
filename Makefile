@@ -1,9 +1,10 @@
 .DEFAULT_GOAL := help
 
-help:
-	@echo "Welcome to the Integration Platform Example!"
-	@echo "For python, build with 'make build-python' and server it with 'make python'"
-	@echo "For typescript, build with 'make build-typescript' and server it with 'make typescript'"
+# help:
+# 	@echo "Welcome to the Integration Platform Example!"
+# 	@echo "For a python server, build with 'make build-python' and server it with 'make serve-python'"
+# 	@echo "For a typescript server, build with 'make build-typescript' and server it with 'make serve-typescript'"
+# 	@echo "To seed your database, ensure you've served your application, and run 'make seed-db' in another prompt"
 
 seed-db:
 	docker exec database node scripts/seeder
