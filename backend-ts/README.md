@@ -9,8 +9,8 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service:
 
 ```bash
-docker compose build database backend-ts
-docker compose up database backend-ts
+docker compose build backend-ts
+docker compose up backend-ts
 ```
 
 If adding dependencies or changing the environment variables, be sure to rebuild the image. We suggest using [Volta](https://volta.sh/) to manage your node version when installing packages.

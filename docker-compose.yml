@@ -4,6 +4,8 @@ services:
     container_name: backend-py
     env_file:
       - .env
+    depends_on:
+      - database
     build:
       context: backend-py
       target: backend-py
@@ -24,6 +26,8 @@ services:
     container_name: backend-ts
     env_file:
       - .env
+    depends_on:
+      - database
     build:
       context: backend-ts
       target: backend-ts

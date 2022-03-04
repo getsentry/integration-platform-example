@@ -9,8 +9,8 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service:
 
 ```bash
-docker compose build database backend-py
-docker compose up database backend-py
+docker compose build backend-py
+docker compose up backend-py
 ```
 
 If adding dependencies or changing the environment variables, be sure to setup a virtual environment and then rebuild the image. We suggest using [direnv](https://direnv.net/) when managing your virtual environment:

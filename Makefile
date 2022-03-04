@@ -10,13 +10,13 @@ seed-db:
 	docker exec database node scripts/seeder
 
 build-python:
-	docker-compose build database frontend-ts backend-py
+	docker-compose build frontend-ts backend-py
 
 build-typescript:
-	docker-compose build database frontend-ts backend-ts
+	docker-compose build frontend-ts backend-ts
 
 python:
-	docker-compose up database frontend-ts backend-py
+	docker-compose up frontend-ts backend-py
 
 typescript:
-	docker-compose up database frontend-ts backend-ts
+	docker-compose up frontend-ts backend-ts
