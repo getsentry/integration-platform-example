@@ -3,12 +3,12 @@ import ItemsModelDefiner, {Items} from './Items.model';
 import UsersModelDefiner, {Users} from './Users.model';
 
 // Connect our ORM to the database.
-// Since both we've containerized our server + database, we can use the default bridge network to connect them
-const {POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, DB_CONTAINER} = process.env;
-const sequelize = new Sequelize(
-  `postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_CONTAINER}:5432/${POSTGRES_DB}`,
-  {logging: false}
-);
+const {POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB} = process.env;
+const sequelize = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, {
+  dialect: 'postgres',
+  host: 'database', // Note: This must match the container name for the Docker bridge network to connect properly
+  logging: false,
+});
 
 // Run our model definers
 ItemsModelDefiner(sequelize);
