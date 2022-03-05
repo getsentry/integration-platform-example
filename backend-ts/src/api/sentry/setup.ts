@@ -1,6 +1,6 @@
 import express from 'express';
 import axios from 'axios';
-import {storeTokenDataInDatabase} from '../../util/tokens';
+import {SentryInstallations} from '../../models';
 
 export type TokenResponseData = {
   expiresAt: string; // ISO date string at which token must be refreshed
@@ -44,9 +44,17 @@ router.get('/', async (req, res) => {
     payload
   );
 
-  // 4. Store the token information for future requests
+  // 4. Store the tokenData (i.e. token, refreshToken, expiresAt) for future requests
+  //    - Make sure to associate the installationId and the tokenData since it's unique to the organization
+  //    - Using the wrong token for the a different installation will result 401 Unauthorized responses
   const {token, refreshToken, expiresAt} = tokenResponse.data;
-  storeTokenDataInDatabase(installationId, {token, refreshToken, expiresAt});
+  await SentryInstallations.create({
+    id: installationId as string,
+    orgSlug: orgSlug as string,
+    expiresAt: new Date(expiresAt),
+    token,
+    refreshToken,
+  });
 
   // 5. Verify the installation to inform Sentry of the success
   //    - This step is only required if you have enabled 'Verify Installation' on your integration
@@ -64,7 +72,6 @@ router.get('/', async (req, res) => {
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
   //    - Once you're done, you can redirect the user back to Sentry, as we do below
-
   console.info(`Installed ${verifyResponse.data.app.slug} on '${orgSlug}'`);
   res.redirect(
     `${process.env.SENTRY_URL}/settings/${orgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`

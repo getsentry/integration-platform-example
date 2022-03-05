@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
 
   // Handle Uninstallation webhook...
   if (action === 'deleted' && !!data.installation) {
-    handleUninstall(data);
+    handleUninstall(data.installation);
   }
 
   res.sendStatus(200);
