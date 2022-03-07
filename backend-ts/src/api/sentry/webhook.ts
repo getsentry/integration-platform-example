@@ -1,3 +1,4 @@
+import {SentryInstallations} from './../../models/SentryInstallations.model';
 import express from 'express';
 import {VerifyResponseData} from './setup';
 
@@ -8,16 +9,19 @@ router.post('/', async (req, res) => {
 
   // Handle Uninstallation webhook...
   if (action === 'deleted' && !!data.installation) {
-    handleUninstall(data.installation);
+    await handleUninstall(data.installation);
   }
 
   res.sendStatus(200);
 });
 
-function handleUninstall(data: VerifyResponseData) {
-  // In practice, this would be where you could remove the saved token/refreshToken
-  // from your DB, or delete other information as clean up.
-  console.info(`Uninstalled ${data.app.slug} from '${data.organization.slug}'`);
+async function handleUninstall(data: VerifyResponseData) {
+  const installation = await SentryInstallations.findByPk(data.uuid);
+  if (installation) {
+    // This is where you could destroy any associated data you've created alongside the installation
+    await installation.destroy();
+    console.info(`Uninstalled ${data.app.slug} from '${data.organization.slug}'`);
+  }
 }
 
 export default router;
