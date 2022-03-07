@@ -19,7 +19,7 @@ function verifySentrySignature(req: Request, res: Response, next: NextFunction) 
   res.status(401).send({error: 'Could not verify request came from Sentry'});
 }
 
-router.use('/setup', verifySentrySignature, setupRoutes);
+router.use('/setup', setupRoutes);
 router.use('/webhook', verifySentrySignature, webhookRoutes);
 
 export default router;
