@@ -9,6 +9,7 @@ export async function retrieveTokenDataFromDatabase(installationId: string) {
 
   // If the token is expired, we'll need to refresh it...
   if (installation.expiresAt.getTime() < Date.now()) {
+    console.info(`Token for '${installation.orgSlug}' has expired. Refreshing...`);
     // 1. Construct a payload to ask Sentry for a new token
     const payload = {
       grant_type: 'refresh_token',
@@ -25,19 +26,17 @@ export async function retrieveTokenDataFromDatabase(installationId: string) {
 
     // 3. Store the token information for future requests
     const {token, refreshToken, expiresAt} = tokenResponse.data;
-    await SentryInstallations.update(
-      {
-        token,
-        refreshToken,
-        expiresAt: new Date(expiresAt),
-      },
-      {where: {id: installationId}}
-    );
+    const updatedInstallation = await installation.update({
+      token,
+      refreshToken,
+      expiresAt: new Date(expiresAt),
+    });
+    console.info(`Token for '${updatedInstallation.orgSlug}' has been refreshed.`);
 
-    // 4. Return the newly refreshed token
-    return token;
+    // 4. Return the newly refreshed tokenData
+    return updatedInstallation;
   }
 
   // If the token is not expired, no need to refresh it
-  return installation.token;
+  return installation;
 }
