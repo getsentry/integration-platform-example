@@ -2,9 +2,9 @@ import axios from 'axios';
 import {TokenResponseData} from '../api/sentry/setup';
 import {SentryInstallations} from './../models';
 
-export async function retrieveTokenDataFromDatabase(installationId: string) {
-  // In practice, this is where you'd want to fetch the tokenData that was previously stored.
-  // For this example, imagine tokenData came from a database call
+export async function getRefreshedInstallation(installationId: string) {
+  // In practice, this is where you'd want to fetch the installation that was previously stored.
+  // For this example, imagine installation came from a database call
   const installation = await SentryInstallations.findByPk(installationId);
 
   // If the token is expired, we'll need to refresh it...
@@ -33,10 +33,10 @@ export async function retrieveTokenDataFromDatabase(installationId: string) {
     });
     console.info(`Token for '${updatedInstallation.orgSlug}' has been refreshed.`);
 
-    // 4. Return the newly refreshed tokenData
+    // 4. Return the newly refreshed installation
     return updatedInstallation;
   }
 
-  // If the token is not expired, no need to refresh it
+  // If the installation is not expired, no need to refresh it
   return installation;
 }
