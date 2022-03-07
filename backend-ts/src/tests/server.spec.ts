@@ -1,6 +1,6 @@
-import {assert} from 'chai';
 import createServer from '../server';
 import request from 'supertest';
+import assert from 'assert';
 
 describe('GET /', () => {
   it('responds with a 200', async () => {
