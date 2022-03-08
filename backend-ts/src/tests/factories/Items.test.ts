@@ -1,7 +1,7 @@
 import {Attributes} from 'sequelize';
 
-import {Items} from 'src/models';
-import {Column} from 'src/models/Items';
+import {Items} from '../../models';
+import {Column} from '../../models/Items';
 
 export default async (fields: Partial<Attributes<Items>>) =>
   Items.create({

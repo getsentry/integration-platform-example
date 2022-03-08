@@ -1,4 +1,4 @@
-import apiRoutes from 'src/api';
+import apiRoutes from './api';
 import express from 'express';
 
 function createServer() {

@@ -1,4 +1,4 @@
-import {SentryInstallations} from './../../models/SentryInstallations.model';
+import {SentryInstallations} from '../../models/SentryInstallations';
 import express from 'express';
 import {VerifyResponseData} from './setup';
 

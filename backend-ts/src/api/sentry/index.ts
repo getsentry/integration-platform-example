@@ -1,7 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import {createHmac} from 'crypto';
 import {getRefreshedInstallation} from '../../util/tokens';
-import setupRoutes from 'src/setup';
+import setupRoutes from './setup';
 import webhookRoutes from './webhook';
 import axios from 'axios';
 

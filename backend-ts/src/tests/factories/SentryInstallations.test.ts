@@ -1,6 +1,6 @@
 import {Attributes} from 'sequelize';
 
-import {SentryInstallations} from 'src/models';
+import {SentryInstallations} from '../../models';
 
 export default async (fields: Partial<Attributes<SentryInstallations>>) =>
   SentryInstallations.create({

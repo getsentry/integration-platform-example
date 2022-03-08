@@ -1,6 +1,6 @@
 import {Attributes} from 'sequelize';
 
-import {Users} from 'src/models';
+import {Users} from '../../models';
 
 export default async (fields: Partial<Attributes<Users>>) =>
   Users.create({

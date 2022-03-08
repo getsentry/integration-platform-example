@@ -1,5 +1,5 @@
-import sequelize from 'src/models';
-import createServer from 'src/server';
+import sequelize from './models';
+import createServer from './server';
 
 sequelize
   .authenticate()
