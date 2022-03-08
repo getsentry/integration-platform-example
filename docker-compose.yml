@@ -1,40 +1,22 @@
 version: "3.9"
 services:
-  frontend-ts:
-    container_name: frontend
-    build:
-      context: frontend-ts
-      target: frontend-ts
-    ports:
-      - "3000:3000"
-    # Watch and react to changes in local...
-    volumes:
-      #  frontend-ts/src directory
-      - type: bind
-        source: ./frontend-ts/src
-        target: /frontend-ts/src
-      #  frontend-ts/public directory
-      - type: bind
-        source: ./frontend-ts/public
-        target: /frontend-ts/public
-      #  data directory
-      - type: bind
-        source: ./data
-        target: /data
-
   backend-py:
     container_name: backend-py
+    env_file:
+      - .env
+    depends_on:
+      - database
     build:
       context: backend-py
       target: backend-py
     ports:
-      - "5100:5100"
+      - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
     # Watch and react to changes in local...
     volumes:
-      #  backend-ts/src directory
+      #  backend-py directory
       - type: bind
-        source: ./backend-py/src
-        target: /backend-py/src
+        source: ./backend-py
+        target: /backend-py
       #  data directory
       - type: bind
         source: ./data
@@ -42,19 +24,62 @@ services:
 
   backend-ts:
     container_name: backend-ts
+    env_file:
+      - .env
+    depends_on:
+      - database
     build:
       context: backend-ts
       target: backend-ts
-
     ports:
-      - "5200:5200"
+      - "${EXPRESS_LISTEN_PORT}:${EXPRESS_LISTEN_PORT}"
     # Watch and react to changes in local...
     volumes:
-      #  backend-ts/src directory
+      #  backend-ts directory
       - type: bind
-        source: ./backend-ts/src
-        target: /backend-ts/src
+        source: ./backend-ts
+        target: /backend-ts
       #  data directory
       - type: bind
         source: ./data
         target: /data
+
+  frontend-ts:
+    container_name: frontend
+    env_file:
+      - .env
+    build:
+      context: frontend-ts
+      target: frontend-ts
+    ports:
+      - "${REACT_HOST_PORT}:3000"
+    # Watch and react to changes in local...
+    volumes:
+      #  frontend-ts directory
+      - type: bind
+        source: ./frontend-ts
+        target: /frontend-ts
+      #  data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+  database:
+    container_name: database
+    env_file:
+      - .env
+    build:
+      context: data
+      target: database
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      # Create a managed docker volume to persist data if the container shuts down
+      - db:/var/lib/postgresql/data
+      # Watch and react to changes in local data directory
+      - type: bind
+        source: ./data
+        target: /data
+
+volumes:
+  db:

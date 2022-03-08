@@ -1,10 +1,16 @@
+# Python Ignores
+**/.venv
+**/.pytest_cache
+**/__pycache__
+
+# Node Ignores
 **/node_modules
 **/dist
-**/.venv
-**/__pycache__
-**/.env
 
-*.md
+# Security Ignores
+.env
 
+# Misc Ignores
 .git
 .vscode
+*.md
