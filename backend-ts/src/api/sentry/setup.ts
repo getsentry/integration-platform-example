@@ -27,10 +27,10 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-  // 1. Destructure the all the query params we receive from the installation prompt
+  // Destructure the all the query params we receive from the installation prompt
   const {code, installationId, orgSlug} = req.query;
 
-  // 2. Construct a payload to ask Sentry for a token on the basis that a user is installing
+  // Construct a payload to ask Sentry for a token on the basis that a user is installing
   const payload = {
     grant_type: 'authorization_code',
     code,
@@ -38,13 +38,13 @@ router.get('/', async (req, res) => {
     client_secret: process.env.SENTRY_CLIENT_SECRET,
   };
 
-  // 3. Send that payload to Sentry and parse its response
+  // Send that payload to Sentry and parse its response
   const tokenResponse: {data: TokenResponseData} = await axios.post(
     `${process.env.SENTRY_URL}/api/0/sentry-app-installations/${installationId}/authorizations/`,
     payload
   );
 
-  // 4. Store the tokenData (i.e. token, refreshToken, expiresAt) for future requests
+  // Store the tokenData (i.e. token, refreshToken, expiresAt) for future requests
   //    - Make sure to associate the installationId and the tokenData since it's unique to the organization
   //    - Using the wrong token for the a different installation will result 401 Unauthorized responses
   const {token, refreshToken, expiresAt} = tokenResponse.data;
@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
     refreshToken,
   });
 
-  // 5. Verify the installation to inform Sentry of the success
+  // Verify the installation to inform Sentry of the success
   //    - This step is only required if you have enabled 'Verify Installation' on your integration
   const verifyResponse: {data: VerifyResponseData} = await axios.put(
     `${process.env.SENTRY_URL}/api/0/sentry-app-installations/${installationId}/`,
@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
     }
   );
 
-  // 6. Continue the installation process
+  // Continue the installation process
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
   //    - Once you're done, you can redirect the user back to Sentry, as we do below
