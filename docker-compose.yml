@@ -81,5 +81,15 @@ services:
         source: ./data
         target: /data
 
+  test-database:
+    container_name: test-database
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    image: postgres:14.2
+    ports:
+      - "${TEST_DB_PORT}:5432"
+
 volumes:
   db:

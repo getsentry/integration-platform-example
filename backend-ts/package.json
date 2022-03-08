@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .ts && prettier -c src",
     "lint:ci": "npm run lint",
     "lint:dev": "nodemon -e 'ts' -x 'npm run lint'",
-    "test": "NODE_ENV=test jest src/**/*.spec.ts",
+    "test": "NODE_ENV=test jest .spec.ts",
     "test:ci": "npm run test -- --exit",
     "test:dev": "npm run test -- --watch"
   },
@@ -31,6 +31,7 @@
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
+    "dotenv": "^16.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",

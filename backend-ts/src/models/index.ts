@@ -2,13 +2,27 @@ import {Sequelize} from 'sequelize';
 import UsersModelDefiner, {Users} from './Users';
 import ItemsModelDefiner, {Items} from './Items';
 import SentryInstallationsDefiner, {SentryInstallations} from './SentryInstallations';
+import {config} from 'dotenv';
+import path from 'path';
+
+const sequelizeConfig = {
+  host: 'database', // Note: This must match the container name for the Docker bridge network to connect properly
+  port: 5432,
+};
+
+if (process.env.NODE_ENV === 'test') {
+  config({path: path.resolve(__dirname, '../../../.env')});
+  sequelizeConfig.host = '127.0.0.1';
+  sequelizeConfig.port = parseInt(process.env.TEST_DB_PORT);
+}
+
+const {POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB} = process.env;
 
 // Connect our ORM to the database.
-const {POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB} = process.env;
 const sequelize = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, {
   dialect: 'postgres',
-  host: 'database', // Note: This must match the container name for the Docker bridge network to connect properly
   logging: false,
+  ...sequelizeConfig,
 });
 
 // Run our model definers
