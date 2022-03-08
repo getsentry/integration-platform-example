@@ -6,7 +6,7 @@ import {
   Sequelize,
 } from 'sequelize';
 
-enum Column {
+export enum Column {
   Todo = 'TODO',
   Doing = 'DOING',
   Done = 'DONE',
