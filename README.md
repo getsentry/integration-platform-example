@@ -22,6 +22,7 @@ If we missed something, or you're still having trouble, feel free to [create an 
 ### Step 1: Setup ngrok
 
 To get started, you'll need access to [ngrok](https://ngrok.com/). ngrok is a tool which creates public URLs which redirect traffic to your locally running development server. Since Sentry requires an HTTP connection to your application, this is the easiest way to test changes without having to deploy constantly.
+
 ### Step 2: Setup your environment
 
 We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename to `.env` and fill replace the values with those unique to your application. All of these variables are passed to each dockerized application (i.e. `backend-ts`, `backend-py`, `frontend` and `database`).
@@ -57,7 +58,7 @@ Now, you can set up your integration by going to Sentry and following these step
 
 Now at the bottom of the page, you should find your Client ID and Client Secret. Provide these in the `.env` file as `SENTRY_CLIENT_ID` and `SENTRY_CLIENT_SECRET`.
 
-### Step 3: Build and server your codebase
+### Step 4: Build and serve the codebase
 
 This example code comes with an optional frontend and a choice between two backends, one in NodeJS (Express + TS) and another in Python (Flask). To launch the application, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running.
 
@@ -76,3 +77,15 @@ make python
 # OR
 make typescript
 ```
+
+### Step 5: Install your application
+
+Now that your application is all set up, you can head over to Sentry to install it. Navigate to the Integration Directory (Settings > Integrations) and find your new application.
+
+Click into it, and proceed to 'Accept & Install'.
+
+Now that your integration has been installed, we can test out all of its features.
+
+## Testing your Application
+
+<!-- TODO(Leander): Add testing here -->
