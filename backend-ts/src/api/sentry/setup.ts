@@ -21,11 +21,6 @@ export type VerifyResponseData = {
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
-  console.log({setup: req.body});
-  res.sendStatus(200);
-});
-
 router.get('/', async (req, res) => {
   // Destructure the all the query params we receive from the installation prompt
   const {code, installationId, orgSlug} = req.query;
@@ -71,7 +66,7 @@ router.get('/', async (req, res) => {
   // Continue the installation process
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
-  //    - Once you're done, you can redirect the user back to Sentry, as we do below
+  //    - Once you're done, you can optionally redirect the user back to Sentry as we do below
   console.info(`Installed ${verifyResponse.data.app.slug} on '${orgSlug}'`);
   res.redirect(
     `${process.env.SENTRY_URL}/settings/${orgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`

@@ -9,7 +9,7 @@
     "lint:dev": "nodemon -e 'ts' -x 'npm run lint'",
     "test": "NODE_ENV=test jest src/**/*.spec.ts",
     "test:ci": "npm run test -- --exit",
-    "test:dev": "npm run test -- --watch --watch-files src/**/*.spec.ts"
+    "test:dev": "npm run test -- --watch"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +25,7 @@
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
+    "@faker-js/faker": "^6.0.0-beta.0",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.19",

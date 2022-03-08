@@ -1,7 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import {createHmac} from 'crypto';
 import {getRefreshedInstallation} from '../../util/tokens';
-import setupRoutes from './setup';
+import setupRoutes from 'src/setup';
 import webhookRoutes from './webhook';
 import axios from 'axios';
 
@@ -11,9 +11,13 @@ const router = express.Router();
 // Now, we can be confident in our nested routes that the data is legit, without having to repeat this check.
 // See more: https://docs.sentry.io/product/integrations/integration-platform/webhooks/
 function verifySentrySignature(req: Request, res: Response, next: NextFunction) {
+  if (process.env.NODE_ENV == 'test') {
+    return next();
+  }
   const hmac = createHmac('sha256', process.env.SENTRY_CLIENT_SECRET);
   hmac.update(JSON.stringify(req.body), 'utf8');
   const digest = hmac.digest('hex');
+  console.log(digest);
   if (digest === req.headers['sentry-hook-signature']) {
     console.info('Verified: Request came from Sentry');
     return next();

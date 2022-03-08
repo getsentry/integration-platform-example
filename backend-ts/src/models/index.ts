@@ -1,9 +1,9 @@
 import {Sequelize} from 'sequelize';
-import UsersModelDefiner, {Users} from './Users.model';
-import ItemsModelDefiner, {Items} from './Items.model';
+import UsersModelDefiner, {Users} from 'src/models/Users.model';
+import ItemsModelDefiner, {Items} from 'src/models/Items.model';
 import SentryInstallationsDefiner, {
   SentryInstallations,
-} from './SentryInstallations.model';
+} from 'src/models/SentryInstallations.model';
 
 // Connect our ORM to the database.
 const {POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB} = process.env;
