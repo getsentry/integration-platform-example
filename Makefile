@@ -15,8 +15,8 @@ build-python:
 build-typescript:
 	docker-compose build frontend-ts backend-ts
 
-python:
+serve-python:
 	docker-compose up frontend-ts backend-py
 
-typescript:
+serve-typescript:
 	docker-compose up frontend-ts backend-ts
