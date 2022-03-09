@@ -8,7 +8,7 @@
     "lint:ci": "npm run lint",
     "lint:dev": "nodemon -e 'ts' -x 'npm run lint'",
     "test": "NODE_ENV=test jest -i .spec.ts",
-    "test:ci": "npm run test -- --exit",
+    "test:ci": "npm run test",
     "test:dev": "npm run test -- --watch"
   },
   "keywords": [],
