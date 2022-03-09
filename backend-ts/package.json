@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .ts && prettier -c src",
     "lint:ci": "npm run lint",
     "lint:dev": "nodemon -e 'ts' -x 'npm run lint'",
-    "test": "NODE_ENV=test jest .spec.ts",
+    "test": "NODE_ENV=test jest -i .spec.ts",
     "test:ci": "npm run test -- --exit",
     "test:dev": "npm run test -- --watch"
   },
