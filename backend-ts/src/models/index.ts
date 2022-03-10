@@ -10,6 +10,7 @@ const sequelizeConfig = {
   port: 5432,
 };
 
+// We modify the Sequelize config to point to our test-database
 if (process.env.NODE_ENV === 'test') {
   config({path: path.resolve(__dirname, '../../../.env')});
   sequelizeConfig.host = '127.0.0.1';

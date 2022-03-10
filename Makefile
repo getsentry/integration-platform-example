@@ -6,17 +6,24 @@ help:
 	@echo "For a typescript server, build with 'make build-typescript' and server it with 'make serve-typescript'"
 	@echo "To seed your database, ensure you've served your application, and run 'make seed-db' in another prompt"
 
+setup-tests:
+	docker compose build test-database
+	docker compose up test-database --detach
+
 seed-db:
 	docker exec database node scripts/seeder
 
 build-python:
-	docker-compose build frontend-ts backend-py
+	docker compose build frontend-ts backend-py
 
 build-typescript:
-	docker-compose build frontend-ts backend-ts
+	docker compose build frontend-ts backend-ts
 
 serve-python:
-	docker-compose up frontend-ts backend-py
+	docker compose up frontend-ts backend-py
 
 serve-typescript:
-	docker-compose up frontend-ts backend-ts
+	docker compose up frontend-ts backend-ts
+
+teardown:
+	docker compose down
