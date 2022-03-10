@@ -4,11 +4,14 @@ description: "Build and serve a local testing database"
 runs:
   using: "composite"
   steps:
+    - name: Use Sample ENV File
+      run: mv .env.sample .env
+      shell: bash
 
     - name: Build Test Database
-      run: docker-compose --env-file .env.sample build test-database
+      run: docker compose build test-database
       shell: bash
 
     - name: Serve Test Database
-      run: docker-compose --env-file .env.sample up test-database
+      run: docker compose up test-database --detach
       shell: bash
