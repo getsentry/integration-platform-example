@@ -1,9 +1,10 @@
-import {SentryInstallations} from './../../../models/SentryInstallations';
 import assert from 'assert';
-import request from 'supertest';
 import {Express} from 'express';
-import {createTestServer, closeTestServer} from '../../testutils';
+import request from 'supertest';
+
 import createSentryInstallations from '../../factories/SentryInstallations.test';
+import {closeTestServer, createTestServer} from '../../testutils';
+import {SentryInstallations} from './../../../models/SentryInstallations';
 
 const path = '/api/sentry/webhook/';
 

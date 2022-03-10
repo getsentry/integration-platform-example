@@ -1,4 +1,4 @@
-import sequelize from './models';
+import {sequelize} from './models';
 import createServer from './server';
 
 sequelize

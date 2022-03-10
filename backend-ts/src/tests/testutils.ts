@@ -1,5 +1,5 @@
+import {sequelize} from '../models';
 import createServer from '../server';
-import sequelize from '../models';
 
 export const createTestServer = async () => {
   await sequelize.authenticate();

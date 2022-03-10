@@ -1,8 +1,9 @@
 import assert from 'assert';
-import request, {Response} from 'supertest';
 import axios from 'axios';
 import {Express} from 'express';
-import {createTestServer, closeTestServer} from '../../testutils';
+import request, {Response} from 'supertest';
+
+import {closeTestServer, createTestServer} from '../../testutils';
 
 const path = '/api/sentry/setup/';
 

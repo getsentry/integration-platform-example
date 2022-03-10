@@ -1,9 +1,8 @@
-import express, {Request, Response, NextFunction} from 'express';
 import {createHmac} from 'crypto';
-import {getRefreshedInstallation} from '../../util/tokens';
+import express, {NextFunction, Request, Response} from 'express';
+
 import setupRoutes from './setup';
 import webhookRoutes from './webhook';
-import axios from 'axios';
 
 const router = express.Router();
 

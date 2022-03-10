@@ -1,5 +1,6 @@
-import express from 'express';
 import axios from 'axios';
+import express from 'express';
+
 import {SentryInstallations} from '../../models';
 
 export type TokenResponseData = {

@@ -1,4 +1,5 @@
 import express from 'express';
+
 import sentryRoutes from './sentry';
 
 const router = express.Router();

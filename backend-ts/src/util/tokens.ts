@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import {TokenResponseData} from '../api/sentry/setup';
 import {SentryInstallations} from '../models';
 
