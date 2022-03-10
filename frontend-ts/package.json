@@ -23,7 +23,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint . --ext .ts,.tsx && prettier -c src"
+    "lint": "eslint . --ext .ts,.tsx && prettier -c src",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix && prettier -c src --write"
   },
   "eslintConfig": {
     "extends": [
