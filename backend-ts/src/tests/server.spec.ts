@@ -1,6 +1,7 @@
-import createServer from '../server';
-import request from 'supertest';
 import assert from 'assert';
+import request from 'supertest';
+
+import createServer from '../server';
 
 describe('GET /', () => {
   it('responds with a 200', async () => {
