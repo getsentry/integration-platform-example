@@ -28,18 +28,4 @@ function verifySentrySignature(req: Request, res: Response, next: NextFunction) 
 router.use('/setup', setupRoutes);
 router.use('/webhook', verifySentrySignature, webhookRoutes);
 
-// XXX(Leander): Dummy route used for testing installations talking to sentry
-router.get('/:installationId', async (req, res) => {
-  const {installationId} = req.params;
-  // Make an API call with an associated token to test it's working
-  const installation = await getRefreshedInstallation(installationId);
-  // Then manually expire the token in Sentry and test that the refresh is issued
-  const resp = await axios.get(`${process.env.SENTRY_URL}/api/0/issues/554/`, {
-    headers: {
-      Authorization: `Bearer ${installation.token}`,
-    },
-  });
-  return res.send(resp.data);
-});
-
 export default router;
