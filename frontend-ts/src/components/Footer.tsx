@@ -19,6 +19,7 @@ const StyledFooter = styled.div`
   align-items: center;
   color: ${p => p.theme.gray300};
   a {
+    color: ${p => p.theme.gray300};
     text-decoration: none;
     margin: 0 3rem;
   }
