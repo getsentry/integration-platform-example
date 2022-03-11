@@ -2,20 +2,23 @@ import styled from '@emotion/styled';
 import React from 'react';
 import Select from 'react-select';
 
-const webhookOptions = [
-  {value: 'error.created', label: 'error.created'},
-  {value: 'issue.created', label: 'issue.created'},
-  {value: 'issue.resolved', label: 'issue.resolved'},
-  {value: 'issue.assigned', label: 'issue.assigned'},
-  {value: 'issue.ignored', label: 'issue.ignored'},
-  {value: 'comment.created', label: 'comment.created'},
-  {value: 'comment.updated', label: 'comment.updated'},
-  {value: 'comment.ignored', label: 'comment.ignored'},
+const WEBHOOK_OPTIONS = [
+  'error.created',
+  // TODO(Leander): Implement the following webhook triggers
+  // 'issue.created',
+  // 'issue.resolved',
+  // 'issue.assigned',
+  // 'issue.ignored',
+  // 'comment.created',
+  // 'comment.updated',
+  // 'comment.ignored',
 ];
 
 const WebhookForm = () => (
-  <Form>
-    <StyledSelect options={webhookOptions} />
+  <Form onSubmit={e => e.preventDefault()}>
+    <StyledSelect
+      options={WEBHOOK_OPTIONS.map(webhook => ({value: webhook, label: webhook}))}
+    />
     <button type="submit" className="primary">
       Trigger Webhook
     </button>

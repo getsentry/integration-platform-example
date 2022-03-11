@@ -22,7 +22,6 @@ const GlobalCss = (theme: Theme) => css`
   code {
     font-family: ${theme.text.familyMono};
   }
-  select,
   button {
     outline: 0;
     padding: 0.5rem 1rem;
@@ -30,6 +29,7 @@ const GlobalCss = (theme: Theme) => css`
     border-radius: 1000px;
     margin: 0 0.5rem;
     background: ${theme.gray200};
+    cursor: pointer;
     &.primary {
       background: ${theme.purple300};
       font-weight: bold;
