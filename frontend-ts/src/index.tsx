@@ -1,16 +1,14 @@
-import './index.css';
-
 import {ThemeProvider} from '@emotion/react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
 import GlobalStyles from './styles/GlobalStyles';
-import {darkTheme} from './styles/theme';
+import {lightTheme} from './styles/theme';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
       <App />
     </ThemeProvider>

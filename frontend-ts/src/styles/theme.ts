@@ -4,6 +4,7 @@ const baseTheme = {
     familyMono: '"Roboto Mono", Monaco, Consolas, "Courier New", monospace',
     lineHeightHeading: 1.2,
     lineHeightBody: 1.4,
+    baseSize: '14px',
   },
 };
 
