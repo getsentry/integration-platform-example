@@ -1,3 +1,4 @@
+import {ThemeProvider} from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
@@ -5,6 +6,8 @@ import Column from './components/Column';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import {ItemType} from './components/Item';
+import GlobalStyles from './styles/GlobalStyles';
+import {lightTheme} from './styles/theme';
 
 function App() {
   const columnTypes = Object.values(ColumnType);
@@ -13,15 +16,18 @@ function App() {
   );
 
   return (
-    <AppWrapper>
-      <Header />
-      <Layout>
-        {columnTypes.map(type => (
-          <Column key={type} title={type} items={itemsMap[type]} />
-        ))}
-      </Layout>
-      <Footer />
-    </AppWrapper>
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyles />
+      <AppWrapper>
+        <Header />
+        <Layout>
+          {columnTypes.map(type => (
+            <Column key={type} title={type} items={itemsMap[type]} />
+          ))}
+        </Layout>
+        <Footer />
+      </AppWrapper>
+    </ThemeProvider>
   );
 }
 
