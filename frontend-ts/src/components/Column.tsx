@@ -1,18 +1,18 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import Item from './Item';
+import Item, {ItemType} from './Item';
 
 type ColumnProps = {
   title: string;
-  items?: Record<string, any>;
+  items?: ItemType[];
 };
 
 const Column = ({title, items = []}: ColumnProps) => (
   <StyledColumn>
     <Title>{title}</Title>
-    {items.map((item: any, index: number) => (
-      <Item key={index} {...item} />
+    {items.map((item, index) => (
+      <Item key={index} item={item} />
     ))}
   </StyledColumn>
 );

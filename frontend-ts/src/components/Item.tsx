@@ -1,13 +1,18 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-type ItemProps = {
+// TODO(Leander): Share types with backend-ts
+export type ItemType = {
   title: string;
   description?: string;
   complexity?: number;
 };
 
-const Item = ({title, description, complexity}: ItemProps) => (
+type ItemProps = {
+  item: ItemType;
+};
+
+const Item = ({item: {title, description, complexity}}: ItemProps) => (
   <Card>
     <Title>{title}</Title>
     {description && <Description>{description}</Description>}
