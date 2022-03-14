@@ -16,7 +16,6 @@ function verifySentrySignature(req: Request, res: Response, next: NextFunction) 
   const hmac = createHmac('sha256', process.env.SENTRY_CLIENT_SECRET);
   hmac.update(JSON.stringify(req.body), 'utf8');
   const digest = hmac.digest('hex');
-  console.log(digest);
   if (digest === req.headers['sentry-hook-signature']) {
     console.info('Verified: Request came from Sentry');
     return next();

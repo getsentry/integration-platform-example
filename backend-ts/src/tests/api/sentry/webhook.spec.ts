@@ -19,8 +19,8 @@ describe(`GET ${path}`, () => {
   afterAll(async () => await closeTestServer());
 
   it('responds with a 200', async () => {
-    const res = await request(server).post(path).send(sentryMocks.uninstallWebhook);
-    assert.equal(res.statusCode, 200);
+    const response = await request(server).post(path).send(sentryMocks.uninstallWebhook);
+    assert.equal(response.statusCode, 200);
   });
 
   it('handles uninstallations gracefully', async () => {

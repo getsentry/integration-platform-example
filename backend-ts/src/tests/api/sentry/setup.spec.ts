@@ -9,7 +9,7 @@ const path = '/api/sentry/setup/';
 
 describe(`GET ${path}`, () => {
   let server: Express;
-  let res: Response;
+  let response: Response;
   const mockPost = jest.spyOn(axios, 'post');
   const mockPut = jest.spyOn(axios, 'put');
 
@@ -19,13 +19,13 @@ describe(`GET ${path}`, () => {
     const {newToken, installation, queryInstall} = sentryMocks;
     mockPost.mockResolvedValue(newToken);
     mockPut.mockResolvedValue(installation);
-    res = await request(server).get(path).query(queryInstall);
+    response = await request(server).get(path).query(queryInstall);
   });
 
   afterAll(async () => await closeTestServer());
 
   it('responds with a 302', async () => {
-    assert.equal(res.statusCode, 302);
+    assert.equal(response.statusCode, 302);
   });
 
   it('properly requests a token', async () => {
