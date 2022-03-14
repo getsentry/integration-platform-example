@@ -1,9 +1,9 @@
 from flask import Flask
 
 
-def create_app(config={}):
+def create_app(config=None):
     server = Flask(__name__, instance_relative_config=True)
-    server.config.from_mapping(config)
+    server.config.from_mapping(config or {})
 
     @server.route("/")
     def hello_world():
