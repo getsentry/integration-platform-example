@@ -1,6 +1,7 @@
 import axios from 'axios';
+
 import {TokenResponseData} from '../api/sentry/setup';
-import {SentryInstallations} from './../models';
+import {SentryInstallations} from '../models';
 
 export async function getRefreshedInstallation(installationId: string) {
   // In practice, this is where you'd want to fetch the installation that was previously stored.

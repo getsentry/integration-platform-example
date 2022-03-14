@@ -29,6 +29,7 @@ jobs:
       - uses: './.github/actions/setup-node'
         with:
           project_directory: backend-ts
+      - uses: './.github/actions/setup-test'
 
       - name: Run Tests
         working-directory: backend-ts

@@ -1,5 +1,6 @@
-import apiRoutes from './api';
 import express from 'express';
+
+import apiRoutes from './api';
 
 function createServer() {
   const server = express();
