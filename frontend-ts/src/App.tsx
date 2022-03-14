@@ -1,25 +1,54 @@
-import './App.css';
-
+import {ThemeProvider} from '@emotion/react';
+import styled from '@emotion/styled';
 import React from 'react';
 
+import Column from './components/Column';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import {ItemType} from './components/Item';
+import GlobalStyles from './styles/GlobalStyles';
+import {lightTheme} from './styles/theme';
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  const columnTypes = Object.values(ColumnType);
+  const itemsMap: Record<string, ItemType[]> = Object.fromEntries(
+    columnTypes.map(type => [type, []])
   );
+
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <GlobalStyles />
+      <AppWrapper>
+        <Header />
+        <Layout>
+          {columnTypes.map(type => (
+            <Column key={type} title={type} items={itemsMap[type]} />
+          ))}
+        </Layout>
+        <Footer />
+      </AppWrapper>
+    </ThemeProvider>
+  );
+}
+
+const AppWrapper = styled.div`
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+`;
+
+const Layout = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  position: relative;
+`;
+
+// TODO(Leander): Share types with backend-ts
+export enum ColumnType {
+  Todo = 'TODO',
+  Doing = 'DOING',
+  Done = 'DONE',
 }
 
 export default App;
