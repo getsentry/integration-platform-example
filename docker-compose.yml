@@ -52,7 +52,7 @@ services:
       context: frontend-ts
       target: frontend-ts
     ports:
-      - "${REACT_HOST_PORT}:3000"
+      - "${REACT_APP_FE_PORT}:${REACT_APP_FE_PORT}"
     # Watch and react to changes in local...
     volumes:
       #  frontend-ts directory
