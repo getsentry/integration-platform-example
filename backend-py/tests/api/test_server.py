@@ -3,7 +3,9 @@ from tests.api import APITestCase
 
 class ServerTest(APITestCase):
     def test_server(self):
+        response = self.client.get("/items/")
+        assert b"[]" in response.data
+
+    def test_not_found(self):
         response = self.client.get("/")
-        assert b"Hello World" in response.data
-
-
+        assert b"404" in response.data
