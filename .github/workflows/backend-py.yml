@@ -39,6 +39,8 @@ jobs:
         with:
           python-version: "3.9"
 
+      - uses: './.github/actions/setup-test'
+
       - name: Install Python Dependecies
         working-directory: backend-py
         run: pip install -r requirements.txt
