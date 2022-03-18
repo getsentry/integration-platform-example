@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {SentryInstallations} from '../../models/SentryInstallations';
+import {SentryInstallation} from '../../models';
 import {VerifyResponseData} from './setup';
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 });
 
 async function handleUninstall(data: VerifyResponseData) {
-  const installation = await SentryInstallations.findByPk(data.uuid);
+  const installation = await SentryInstallation.findByPk(data.uuid);
   if (installation) {
     // This is where you could destroy any associated data you've created alongside the installation
     await installation.destroy();

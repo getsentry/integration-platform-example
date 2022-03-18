@@ -1,7 +1,7 @@
 import axios from 'axios';
 import express from 'express';
 
-import {SentryInstallations} from '../../models';
+import {SentryInstallation} from '../../models';
 
 export type TokenResponseData = {
   expiresAt: string; // ISO date string at which token must be refreshed
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
   //    - Make sure to associate the installationId and the tokenData since it's unique to the organization
   //    - Using the wrong token for the a different installation will result 401 Unauthorized responses
   const {token, refreshToken, expiresAt} = tokenResponse.data;
-  await SentryInstallations.create({
+  await SentryInstallation.create({
     id: installationId as string,
     orgSlug: orgSlug as string,
     expiresAt: new Date(expiresAt),

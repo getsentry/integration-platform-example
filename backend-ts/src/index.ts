@@ -3,7 +3,7 @@ import createServer from './server';
 
 sequelize
   .authenticate()
-  .then(() => sequelize.sync())
+  .then(() => sequelize.sync({force: true}))
   .then(async () => {
     const server = createServer();
     server.listen(process.env.EXPRESS_LISTEN_PORT, async () => {

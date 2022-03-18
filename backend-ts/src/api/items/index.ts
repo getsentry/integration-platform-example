@@ -1,16 +1,16 @@
 import express from 'express';
 
-import {Items} from '../../models';
+import {Item} from '../../models';
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const data = await Items.findAll();
+  const data = await Item.findAll();
   return res.send(data);
 });
 
 router.get('/:', async (req, res) => {
-  const data = await Items.findAll();
+  const data = await Item.findAll();
   return res.send(data);
 });
 

@@ -2,9 +2,9 @@ import assert from 'assert';
 import {Express} from 'express';
 import request from 'supertest';
 
-import createSentryInstallations from '../../factories/SentryInstallations.test';
+import createSentryInstallation from '../../factories/SentryInstallation.factory';
 import {closeTestServer, createTestServer} from '../../testutils';
-import {SentryInstallations} from './../../../models/SentryInstallations';
+import {SentryInstallation} from './../../../models';
 
 const path = '/api/sentry/webhook/';
 
@@ -25,11 +25,11 @@ describe(`GET ${path}`, () => {
 
   it('handles uninstallations gracefully', async () => {
     const sentryInstallationId = sentryMocks.uninstallWebhook.data.installation.uuid;
-    await createSentryInstallations({id: sentryInstallationId});
-    const newInstall = await SentryInstallations.findByPk(sentryInstallationId);
+    await createSentryInstallation({id: sentryInstallationId});
+    const newInstall = await SentryInstallation.findByPk(sentryInstallationId);
     expect(newInstall).not.toBeNull();
     await request(server).post(path).send(sentryMocks.uninstallWebhook);
-    const oldInstall = await SentryInstallations.findByPk(sentryInstallationId);
+    const oldInstall = await SentryInstallation.findByPk(sentryInstallationId);
     expect(oldInstall).toBeNull();
   });
 });
