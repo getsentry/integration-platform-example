@@ -34,6 +34,7 @@ SentryInstallationsDefiner(sequelize);
 
 // Describe their relationships
 Users.hasMany(Items);
+SentryInstallations.hasMany(Items);
 
 // Export the sequelize instance and models
 export {Items, SentryInstallations, sequelize, Users};
