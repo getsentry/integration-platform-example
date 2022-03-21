@@ -11,22 +11,25 @@ class SentryInstallation(database.Base):
     __tablename__ = "SentryInstallations"
 
     id = Column(Integer, primary_key=True)
-    orgSlug = Column(String)
+    uuid = Column(String)
+    org_slug = Column(String)
     token = Column(String)
-    refreshToken = Column(String)
-    expiresAt = Column(DateTime)
+    refresh_token = Column(String)
+    expires_at = Column(DateTime)
 
     def __init__(
         self,
-        orgSlug: str | None = None,
-        token: str | None = None,
-        refreshToken: str | None = None,
-        expiresAt: datetime | None = None,
+        uuid: str,
+        org_slug: str,
+        token: str,
+        refresh_token: str,
+        expires_at: datetime | None = None,
     ):
-        self.orgSlug = orgSlug
+        self.uuid = uuid
+        self.org_slug = org_slug
         self.token = token
-        self.refreshToken = refreshToken
-        self.expiresAt = expiresAt
+        self.refresh_token = refresh_token
+        self.expires_at = expires_at
 
     def __repr__(self):
-        return f"<SentryInstallation #{self.id}: {self.orgSlug}>"
+        return f"<SentryInstallation #{self.id}: {self.org_slug}>"
