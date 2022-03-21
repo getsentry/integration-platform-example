@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {SentryInstallation} from '../../models';
+import SentryInstallation from '../../models/SentryInstallation.model';
 import {VerifyResponseData} from './setup';
 
 const router = express.Router();

@@ -1,6 +1,6 @@
 import {Column, DataType, ForeignKey, Model, Table} from 'sequelize-typescript';
 
-import SentryInstallation from './SentryInstallation.model';
+import Organization from './Organization.model';
 import User from './User.model';
 
 export enum ItemColumn {
@@ -9,7 +9,7 @@ export enum ItemColumn {
   Done = 'DONE',
 }
 
-@Table({tableName: 'item'})
+@Table({tableName: 'item', underscored: true})
 export default class Item extends Model {
   @Column
   title: string;
@@ -27,7 +27,7 @@ export default class Item extends Model {
   @Column
   assigneeId: number;
 
-  @ForeignKey(() => SentryInstallation)
+  @ForeignKey(() => Organization)
   @Column
-  installationId: string;
+  organizationId: string;
 }

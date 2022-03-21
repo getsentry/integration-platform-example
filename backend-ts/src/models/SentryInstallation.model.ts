@@ -1,12 +1,11 @@
-import {Column, HasMany, Model, PrimaryKey, Table} from 'sequelize-typescript';
+import {Column, ForeignKey, Model, Table} from 'sequelize-typescript';
 
-import Item from './Item.model';
+import Organization from './Organization.model';
 
-@Table({tableName: 'sentry_installation'})
+@Table({tableName: 'sentry_installation', underscored: true})
 export default class SentryInstallation extends Model {
-  @PrimaryKey
   @Column
-  id: string;
+  uuid: string;
 
   @Column
   orgSlug: string;
@@ -20,6 +19,7 @@ export default class SentryInstallation extends Model {
   @Column
   expiresAt: Date;
 
-  @HasMany(() => Item)
-  items: Item[];
+  @ForeignKey(() => Organization)
+  @Column
+  organizationId: string;
 }

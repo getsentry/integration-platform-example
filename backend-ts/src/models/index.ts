@@ -2,10 +2,6 @@ import {config} from 'dotenv';
 import path from 'path';
 import {Sequelize} from 'sequelize-typescript';
 
-import Item from './Item.model';
-import SentryInstallation from './SentryInstallation.model';
-import User from './User.model';
-
 const sequelizeConfig = {
   host: 'database', // Note: This must match the container name for the Docker bridge network to connect properly
   port: 5432,
@@ -28,4 +24,4 @@ const sequelize = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, {
   ...sequelizeConfig,
 });
 
-export {Item, SentryInstallation, sequelize, User};
+export {sequelize};

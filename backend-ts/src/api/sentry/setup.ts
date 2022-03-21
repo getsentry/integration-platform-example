@@ -1,7 +1,8 @@
 import axios from 'axios';
 import express from 'express';
 
-import {SentryInstallation} from '../../models';
+import Organization from '../../models/Organization.model';
+import SentryInstallation from '../../models/SentryInstallation.model';
 
 export type TokenResponseData = {
   expiresAt: string; // ISO date string at which token must be refreshed
@@ -23,8 +24,14 @@ export type VerifyResponseData = {
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  // Destructure the all the query params we receive from the installation prompt
-  const {code, installationId, orgSlug} = req.query;
+  // Destructure the all the body params we receive from the installation prompt
+  const {
+    code,
+    installationId,
+    sentryOrgSlug,
+    // Our frontend application tells us which organization to associate the install with
+    organizationId,
+  } = req.body;
 
   // Construct a payload to ask Sentry for a token on the basis that a user is installing
   const payload = {
@@ -46,10 +53,10 @@ router.get('/', async (req, res) => {
   const {token, refreshToken, expiresAt} = tokenResponse.data;
   await SentryInstallation.create({
     id: installationId as string,
-    orgSlug: orgSlug as string,
     expiresAt: new Date(expiresAt),
     token,
     refreshToken,
+    organizationId,
   });
 
   // Verify the installation to inform Sentry of the success
@@ -68,9 +75,10 @@ router.get('/', async (req, res) => {
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
   //    - Once you're done, you can optionally redirect the user back to Sentry as we do below
-  console.info(`Installed ${verifyResponse.data.app.slug} on '${orgSlug}'`);
+  const organization = await Organization.findByPk(organizationId);
+  console.info(`Installed ${verifyResponse.data.app.slug} on '${organization.name}'`);
   res.redirect(
-    `${process.env.SENTRY_URL}/settings/${orgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`
+    `${process.env.SENTRY_URL}/settings/${sentryOrgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`
   );
 });
 
