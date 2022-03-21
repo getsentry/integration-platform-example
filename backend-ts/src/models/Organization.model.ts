@@ -1,8 +1,8 @@
 import {Column, HasMany, Model, Table} from 'sequelize-typescript';
 
-import User from './User.model';
-import SentryInstallation from './SentryInstallation.model';
 import Item from './Item.model';
+import SentryInstallation from './SentryInstallation.model';
+import User from './User.model';
 
 @Table({tableName: 'organization', underscored: true})
 export default class Organization extends Model {

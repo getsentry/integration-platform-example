@@ -23,7 +23,7 @@ export type VerifyResponseData = {
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
   // Destructure the all the body params we receive from the installation prompt
   const {
     code,
@@ -52,7 +52,7 @@ router.get('/', async (req, res) => {
   //    - Using the wrong token for the a different installation will result 401 Unauthorized responses
   const {token, refreshToken, expiresAt} = tokenResponse.data;
   await SentryInstallation.create({
-    id: installationId as string,
+    uuid: installationId as string,
     expiresAt: new Date(expiresAt),
     token,
     refreshToken,

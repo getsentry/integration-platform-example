@@ -21,5 +21,5 @@ export default class SentryInstallation extends Model {
 
   @ForeignKey(() => Organization)
   @Column
-  organizationId: string;
+  organizationId: number;
 }

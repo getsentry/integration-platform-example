@@ -1,11 +1,11 @@
 import express from 'express';
 
-import itemsRoutes from './items';
+import organizationRoutes from './organization';
 import sentryRoutes from './sentry';
 
 const router = express.Router();
 
 router.use('/sentry', sentryRoutes);
-router.use('/items', itemsRoutes);
+router.use('/organization', organizationRoutes);
 
 export default router;

@@ -19,5 +19,5 @@ export default class User extends Model {
 
   @ForeignKey(() => Organization)
   @Column
-  organizationId: string;
+  organizationId: number;
 }
