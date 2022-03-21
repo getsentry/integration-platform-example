@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, {useEffect, useState} from 'react';
 
 import Footer from '../components/Footer';
+import SentryLogo from '../components/SentryLogo';
 import ThemedSelect from '../components/ThemedSelect';
 
 function SetupPage() {
@@ -16,7 +17,8 @@ function SetupPage() {
     <SetupWrapper>
       <Layout>
         <Form>
-          <h2>Complete your integration of YOUR_APP with Sentry!</h2>
+          <SentryLogo size={60} className="logo" />
+          <h2>Complete your integration of Sentry with YOUR_APP!</h2>
           <p>
             By completing this installation, you&apos;ll gain access to the following
             features:
@@ -60,6 +62,15 @@ const SetupWrapper = styled.div`
   display: flex;
   flex-flow: column;
   height: 100%;
+  .logo {
+    color: ${p => p.theme.surface100};
+    margin: 0 auto;
+    display: block;
+    background: ${p => p.theme.gray300};
+    box-sizing: content-box;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
 `;
 
 const Layout = styled.div`
