@@ -30,7 +30,7 @@ def handle_uninstall(installation: Mapping[str, Any]) -> None:
     organization_slug = installation["organization"]["slug"]
 
     installation_option = SentryInstallation.query.filter(
-        SentryInstallation.uuid == uuid
+        SentryInstallation.id == uuid
     ).first()
     if not installation_option:
         return None

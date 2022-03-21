@@ -51,7 +51,7 @@ def setup_index():
     # - Using the wrong token for the a different installation will result 401
     #   Unauthorized responses.
     installation = SentryInstallation(
-        sentryId=uuid,
+        uuid=uuid,
         orgSlug=organization_slug,
         expiresAt=expires_at,
         token=token,
