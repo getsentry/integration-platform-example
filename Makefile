@@ -26,4 +26,4 @@ serve-typescript:
 	docker compose up frontend-ts backend-ts
 
 teardown:
-	docker compose down
+	docker compose down -v
