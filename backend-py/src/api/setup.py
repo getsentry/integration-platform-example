@@ -52,10 +52,10 @@ def setup_index():
     #   Unauthorized responses.
     installation = SentryInstallation(
         uuid=uuid,
-        orgSlug=organization_slug,
-        expiresAt=expires_at,
+        org_slug=organization_slug,
         token=token,
-        refreshToken=refresh_token,
+        refresh_token=refresh_token,
+        expires_at=expires_at,
     )
     db_session.add(installation)
     db_session.commit()

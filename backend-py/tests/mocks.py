@@ -1,3 +1,5 @@
+UUID = "7a485448-a9e2-4c85-8a3c-4f44175783c9"
+
 INSTALLATION = {
     "app": {
         "uuid": "64bf2cf4-37ca-4365-8dd3-6b6e56d741b8",
@@ -6,7 +8,7 @@ INSTALLATION = {
     "organization": {
         "slug": "example",
     },
-    "uuid": "7a485448-a9e2-4c85-8a3c-4f44175783c9",
+    "uuid": UUID,
 }
 
 MOCK_WEBHOOK = {
@@ -21,7 +23,7 @@ MOCK_WEBHOOK = {
 MOCK_SETUP = {
     "queryInstall": {
         "code": "installCode",
-        "installationId": "abc123",
+        "installationId": UUID,
         "orgSlug": "example",
     },
     "newToken": {

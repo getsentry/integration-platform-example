@@ -14,9 +14,9 @@ class SentryInstallation(database.Base):
     # id = Column(Integer, primary_key=True)
     # uuid = Column(String)
     id = Column(String, primary_key=True)
-    org_slug = Column(String)
-    token = Column(String)
-    refresh_token = Column(String)
+    org_slug = Column(String, nullable=False)
+    token = Column(String, nullable=False)
+    refresh_token = Column(String, nullable=False)
     expires_at = Column(DateTime)
 
     def __init__(

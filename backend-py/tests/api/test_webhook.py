@@ -14,15 +14,14 @@ class WebhookTest(APITestCase):
         uuid = MOCK_WEBHOOK["uninstallWebhook"]["data"]["installation"]["uuid"]
         installation = SentryInstallation(
             uuid=uuid,
-            org_slug="",
-            token="",
-            refresh_token="",
-            expires_at="",
+            org_slug="marcos",
+            token="1",
+            refresh_token="2",
         )
         db_session.add(installation)
         db_session.commit()
 
-        response = self.client.post("/api/sentry/webhook/", json=MOCK_WEBHOOK)
+        response = self.client.post("/api/sentry/webhook/", json=MOCK_WEBHOOK["uninstallWebhook"])
 
         assert response.status_code == 200
         assert SentryInstallation.query.count() == 0
