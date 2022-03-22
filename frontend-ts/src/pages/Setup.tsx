@@ -4,15 +4,19 @@ import {useSearchParams} from 'react-router-dom';
 
 import Footer from '../components/Footer';
 import SentryLogo from '../components/SentryLogo';
-import ThemedSelect from '../components/ThemedSelect';
+import ThemedSelect, {OptionType} from '../components/ThemedSelect';
+import {makeBackendRequest, Organization} from '../util';
 
 function SetupPage() {
-  // TODO(Leander): Setup types
-  const [organizations, setOrganizations] = useState<any[]>([]);
+  const [organizationId, setOrganizationId] = useState(null);
+  const [organizationOptions, setOrganizationOptions] = useState<OptionType[]>([]);
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
-    // TODO(Leander): Import the appropriate Types
-    setOrganizations(['asdf', 'def']);
+    async function fetchData() {
+      const data: Organization[] = await makeBackendRequest('/api/organization/');
+      setOrganizationOptions(data.map(({id, name}) => ({value: id, label: name})));
+    }
+    fetchData();
   }, []);
   const [searchParams] = useSearchParams();
 
@@ -22,17 +26,11 @@ function SetupPage() {
       code: searchParams.get('code'),
       installationId: searchParams.get('installationId'),
       sentryOrgSlug: searchParams.get('orgSlug'),
-      organizationId: 1,
+      organizationId,
     };
-    const endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/sentry/setup/`;
-    console.log(endpoint);
-    const res = await fetch(endpoint, {
+    const {redirectUrl} = await makeBackendRequest('/api/sentry/setup/', payload, {
       method: 'POST',
-      mode: 'cors',
-      headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
-      body: JSON.stringify(payload),
     });
-    const {redirectUrl} = await res.json();
     setRedirect(redirectUrl);
     setTimeout(() => (window.location = redirectUrl), 3000);
   }
@@ -55,9 +53,15 @@ function SetupPage() {
               <p>
                 Please choose an organization to associate your Sentry installation with:
               </p>
-              <StyledSelect
-                options={organizations.map(org => ({value: org, label: org}))}
-              />
+              <MapBlock>
+                <SentryLogo size={20} />
+                <h4>{searchParams.get('orgSlug')}</h4>
+                <span>&gt;</span>
+                <StyledSelect
+                  options={organizationOptions}
+                  onChange={({value}) => setOrganizationId(value)}
+                />
+              </MapBlock>
               <button type="submit" className="primary">
                 Submit
               </button>
@@ -93,7 +97,7 @@ const Layout = styled.div`
 const Form = styled.form`
   background: ${p => p.theme.gray100};
   margin: 3rem auto;
-  width: 400px;
+  max-width: 500px;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 2px 2px 8px ${p => p.theme.purple200};
@@ -112,10 +116,23 @@ const Form = styled.form`
   }
 `;
 
+const MapBlock = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  h4 {
+    margin: 2rem;
+    text-align: right;
+  }
+  span {
+    flex: 0;
+  }
+`;
+
 const StyledSelect = styled(ThemedSelect)`
+  flex: 1;
   margin: 2rem;
   font-size: ${p => p.theme.text.baseSize};
-  color: ;
 `;
 
 const Description = () => (

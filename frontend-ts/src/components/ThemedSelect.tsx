@@ -2,7 +2,7 @@ import {useTheme} from '@emotion/react';
 import React from 'react';
 import Select, {Props} from 'react-select';
 
-const ThemedSelect = (props: Props) => {
+const ThemedSelect = (props: Props<any>) => {
   const theme = useTheme();
   return (
     <Select
@@ -22,3 +22,4 @@ const ThemedSelect = (props: Props) => {
 };
 
 export default ThemedSelect;
+export type OptionType = {value: string; label: string};
