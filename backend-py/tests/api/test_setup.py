@@ -1,3 +1,4 @@
+import json
 import os
 import responses
 
@@ -18,18 +19,14 @@ class SetupTest(APITestCase):
         responses.add(
             responses.POST,
             f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/authorizations/",
-            content_type="json",
-            match_querystring=False,
-            json=MOCK_SETUP["newToken"]
+            body=json.dumps(MOCK_SETUP["newToken"]),
         )
 
         # Simulate updating an installation.
         responses.add(
             responses.PUT,
             f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/",
-            content_type="json",
-            match_querystring=False,
-            json=MOCK_SETUP["installation"],
+            body=json.dumps(MOCK_SETUP["installation"]),
         )
 
         response = self.client.get(

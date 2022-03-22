@@ -12,11 +12,9 @@ INSTALLATION = {
 }
 
 MOCK_WEBHOOK = {
-    "uninstallWebhook": {
-        "action": "deleted",
-        "data": {
-            "installation": INSTALLATION,
-        }
+    "action": "deleted",
+    "data": {
+        "installation": INSTALLATION,
     },
 }
 
@@ -27,13 +25,9 @@ MOCK_SETUP = {
         "orgSlug": "example",
     },
     "newToken": {
-        "data": {
-            "token": "abc123",
-            "refreshToken": "def456",
-            "expiresAt": "2022-01-01T08:00:00.000Z",
-        },
+        "token": "abc123",
+        "refreshToken": "def456",
+        "expiresAt": "2022-01-01T08:00:00.000Z",
     },
-    "installation": {
-        "data": INSTALLATION
-    },
+    "installation": INSTALLATION,
 }

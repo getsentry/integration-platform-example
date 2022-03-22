@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime
 
 from .. import database
 
@@ -10,10 +10,8 @@ from .. import database
 class SentryInstallation(database.Base):
     __tablename__ = "SentryInstallations"
 
-    # TODO(mgaeta): HACK for tests until we migrate the table.
-    # id = Column(Integer, primary_key=True)
-    # uuid = Column(String)
-    id = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
+    uuid = Column(String, nullable=False)
     org_slug = Column(String, nullable=False)
     token = Column(String, nullable=False)
     refresh_token = Column(String, nullable=False)
@@ -27,7 +25,7 @@ class SentryInstallation(database.Base):
         refresh_token: str,
         expires_at: datetime | None = None,
     ):
-        self.id = uuid
+        self.uuid = uuid
         self.org_slug = org_slug
         self.token = token
         self.refresh_token = refresh_token
