@@ -1,7 +1,6 @@
 import {Attributes} from 'sequelize';
 
-import {Item} from '../../models';
-import {ItemColumn} from '../../models/Item.model';
+import Item, {ItemColumn} from '../../src/models/Item.model';
 
 export default async (fields: Partial<Attributes<Item>>) =>
   Item.create({
@@ -11,3 +10,5 @@ export default async (fields: Partial<Attributes<Item>>) =>
     column: ItemColumn.Todo,
     ...fields,
   });
+
+export {Item, ItemColumn};

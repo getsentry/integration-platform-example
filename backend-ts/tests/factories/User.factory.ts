@@ -1,6 +1,6 @@
 import {Attributes} from 'sequelize';
 
-import {User} from '../../models';
+import User from '../../src/models/User.model';
 
 export default async function createUser(fields: Partial<Attributes<User>>) {
   User.create({
@@ -10,3 +10,4 @@ export default async function createUser(fields: Partial<Attributes<User>>) {
     ...fields,
   });
 }
+export {User};

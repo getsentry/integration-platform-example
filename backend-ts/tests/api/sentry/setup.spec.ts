@@ -3,11 +3,12 @@ import axios from 'axios';
 import {Express} from 'express';
 import request, {Response} from 'supertest';
 
+import createOrganization from '../../factories/Organization.factory';
 import {closeTestServer, createTestServer} from '../../testutils';
 
 const path = '/api/sentry/setup/';
 
-describe(`GET ${path}`, () => {
+describe(`POST ${path}`, () => {
   let server: Express;
   let response: Response;
   const mockPost = jest.spyOn(axios, 'post');
@@ -16,10 +17,11 @@ describe(`GET ${path}`, () => {
   beforeEach(async () => {
     server = await createTestServer();
     jest.resetAllMocks();
-    const {newToken, installation, queryInstall} = sentryMocks;
+    const {newToken, installation, installBody} = sentryMocks;
+    await createOrganization({id: installBody.organizationId});
     mockPost.mockResolvedValue(newToken);
     mockPut.mockResolvedValue(installation);
-    response = await request(server).get(path).query(queryInstall);
+    response = await request(server).post(path).send(installBody);
   });
 
   afterAll(async () => await closeTestServer());
@@ -45,10 +47,11 @@ describe(`GET ${path}`, () => {
 });
 
 const sentryMocks = {
-  queryInstall: {
+  installBody: {
     code: 'installCode',
     installationId: 'abc123',
-    orgSlug: 'example',
+    organizationId: '1',
+    sentryOrgSlug: 'example',
   },
   newToken: {
     data: {
