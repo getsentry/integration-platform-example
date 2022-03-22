@@ -15,7 +15,9 @@ def webhook_index():
     action = request.json.get("action")
     data = request.json.get("data")
 
-    if action == "deleted":
+    resource = request.headers.get('sentry-hook-resource')
+
+    if resource == 'installation' and action == 'deleted':
         handle_uninstall(data["installation"])
 
     return '', 200
