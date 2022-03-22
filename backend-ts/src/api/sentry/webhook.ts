@@ -1,27 +1,32 @@
 import express from 'express';
 
 import SentryInstallation from '../../models/SentryInstallation.model';
-import {VerifyResponseData} from './setup';
+import {InstallResponseData} from './setup';
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
   const {action, data} = req.body;
+  const resource = req.header('sentry-hook-resource');
 
   // Handle Uninstallation webhook...
-  if (action === 'deleted' && !!data.installation) {
+  if (resource === 'installation' && action === 'deleted') {
     await handleUninstall(data.installation);
   }
 
   res.sendStatus(200);
 });
 
-async function handleUninstall(data: VerifyResponseData) {
-  const installation = await SentryInstallation.findByPk(data.uuid);
+async function handleUninstall(installData: InstallResponseData) {
+  const installation = await SentryInstallation.findOne({
+    where: {uuid: installData.uuid},
+  });
   if (installation) {
     // This is where you could destroy any associated data you've created alongside the installation
     await installation.destroy();
-    console.info(`Uninstalled ${data.app.slug} from '${data.organization.slug}'`);
+    console.info(
+      `Uninstalled ${installData.app.slug} from '${installData.organization.slug}'`
+    );
   }
 }
 

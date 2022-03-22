@@ -10,7 +10,7 @@ export type TokenResponseData = {
   refreshToken: string; // Refresh token required to get a new Bearer token after expiration
 };
 
-export type VerifyResponseData = {
+export type InstallResponseData = {
   app: {
     uuid: string; // UUID for your application (shared across installations)
     slug: string; // URL slug for your application (shared across installations)
@@ -61,7 +61,7 @@ router.post('/', async (req, res) => {
 
   // Verify the installation to inform Sentry of the success
   //    - This step is only required if you have enabled 'Verify Installation' on your integration
-  const verifyResponse: {data: VerifyResponseData} = await axios.put(
+  const verifyResponse: {data: InstallResponseData} = await axios.put(
     `${process.env.SENTRY_URL}/api/0/sentry-app-installations/${installationId}/`,
     {status: 'installed'},
     {
