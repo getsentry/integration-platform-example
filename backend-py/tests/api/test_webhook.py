@@ -21,7 +21,9 @@ class WebhookTest(APITestCase):
         db_session.add(installation)
         db_session.commit()
 
+        before = SentryInstallation.query.count()
+
         response = self.client.post("/api/sentry/webhook/", json=MOCK_WEBHOOK)
 
         assert response.status_code == 200
-        assert SentryInstallation.query.count() == 0
+        assert SentryInstallation.query.count() == before - 1
