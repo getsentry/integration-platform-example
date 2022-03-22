@@ -77,9 +77,9 @@ router.post('/', async (req, res) => {
   //    - Once you're done, you can optionally redirect the user back to Sentry as we do below
   const organization = await Organization.findByPk(organizationId);
   console.info(`Installed ${verifyResponse.data.app.slug} on '${organization.name}'`);
-  res.redirect(
-    `${process.env.SENTRY_URL}/settings/${sentryOrgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`
-  );
+  res.status(201).send({
+    redirectUrl: `${process.env.SENTRY_URL}/settings/${sentryOrgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`,
+  });
 });
 
 export default router;
