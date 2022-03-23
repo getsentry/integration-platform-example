@@ -1,54 +1,26 @@
 import {ThemeProvider} from '@emotion/react';
-import styled from '@emotion/styled';
 import React from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import Column from './components/Column';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import {ItemType} from './components/Item';
+import KanbanPage from './pages/KanbanPage';
+import SetupPage from './pages/SetupPage';
 import GlobalStyles from './styles/GlobalStyles';
 import {lightTheme} from './styles/theme';
 
 function App() {
-  const columnTypes = Object.values(ColumnType);
-  const itemsMap: Record<string, ItemType[]> = Object.fromEntries(
-    columnTypes.map(type => [type, []])
-  );
-
+  const lightThemeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
   return (
-    <ThemeProvider theme={lightTheme}>
+    // TODO(Leander): Allow dark theme once finalized
+    <ThemeProvider theme={lightThemeMediaQuery?.matches ? lightTheme : lightTheme}>
       <GlobalStyles />
-      <AppWrapper>
-        <Header />
-        <Layout>
-          {columnTypes.map(type => (
-            <Column key={type} title={type} items={itemsMap[type]} />
-          ))}
-        </Layout>
-        <Footer />
-      </AppWrapper>
+      <Router>
+        <Routes>
+          <Route path="/" element={<KanbanPage />} />
+          <Route path="/sentry/setup" element={<SetupPage />} />
+        </Routes>
+      </Router>
     </ThemeProvider>
   );
-}
-
-const AppWrapper = styled.div`
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-`;
-
-const Layout = styled.div`
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: center;
-  position: relative;
-`;
-
-// TODO(Leander): Share types with backend-ts
-export enum ColumnType {
-  Todo = 'TODO',
-  Doing = 'DOING',
-  Done = 'DONE',
 }
 
 export default App;

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, {SyntheticEvent} from 'react';
-import Select from 'react-select';
+
+import ThemedSelect from './ThemedSelect';
 
 const WEBHOOK_OPTIONS = [
   'error.created',
@@ -37,9 +38,8 @@ const Form = styled.form`
   flex: 1;
   display: flex;
 `;
-const StyledSelect = styled(Select)`
-  border-radius: 1000px;
-  display: inline-block;
+
+const StyledSelect = styled(ThemedSelect)`
   min-width: 300px;
   font-size: ${p => p.theme.text.baseSize};
 `;
