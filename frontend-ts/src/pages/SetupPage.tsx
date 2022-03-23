@@ -13,7 +13,7 @@ function SetupPage() {
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
     async function fetchData() {
-      const data: Organization[] = await makeBackendRequest('/api/organization/');
+      const data: Organization[] = (await makeBackendRequest('/api/organization/')) || [];
       setOrganizationOptions(data.map(({id, name}) => ({value: id, label: name})));
     }
     fetchData();
@@ -44,7 +44,9 @@ function SetupPage() {
               <SentryLogo size={30} className="logo" />
               <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
               <p>You should be redirected in a few seconds</p>
-              <a href={redirect}>Take me back to Sentry</a>
+              <a href={redirect} data-testid="direct-link">
+                Take me back to Sentry
+              </a>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -60,6 +62,7 @@ function SetupPage() {
                 <StyledSelect
                   options={organizationOptions}
                   onChange={({value}) => setOrganizationId(value)}
+                  placeholder="Select an Organization..."
                 />
               </MapBlock>
               <button type="submit" className="primary">

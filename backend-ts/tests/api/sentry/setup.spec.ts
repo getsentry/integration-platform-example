@@ -26,8 +26,9 @@ describe(`POST ${path}`, () => {
 
   afterAll(async () => await closeTestServer());
 
-  it('responds with a 302', async () => {
-    assert.equal(response.statusCode, 302);
+  it('responds with a 201, and a redirect URL', async () => {
+    assert.equal(response.statusCode, 201);
+    assert(response.body.redirectUrl);
   });
 
   it('properly requests a token', async () => {
