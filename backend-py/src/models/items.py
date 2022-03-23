@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
 
 from .. import database
 
@@ -13,6 +13,7 @@ class Item(database.Base):
     description = Column(String)
     complexity = Column(Integer)
     column = Column(String)
+    organization_id = Column(Integer, ForeignKey('organization.id'))
 
     def __init__(
         self,

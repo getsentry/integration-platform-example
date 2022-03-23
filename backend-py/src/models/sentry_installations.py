@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, ForeignKey, String, DateTime
 
 from .. import database
 
@@ -15,6 +15,7 @@ class SentryInstallation(database.Base):
     org_slug = Column(String, nullable=False)
     token = Column(String, nullable=False)
     refresh_token = Column(String, nullable=False)
+    organization_id = Column(Integer, ForeignKey('organization.id'))
     expires_at = Column(DateTime)
 
     def __init__(

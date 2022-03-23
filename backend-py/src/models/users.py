@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, DateTime, Integer, ForeignKey, String
 from .. import database
 
 
@@ -11,6 +11,7 @@ class User(database.Base):
     name = Column(String)
     username = Column(String)
     avatar = Column(Integer)
+    organization_id = Column(Integer, ForeignKey('organization.id'))
 
     def __init__(
         self,
