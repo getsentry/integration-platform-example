@@ -27,3 +27,6 @@ serve-typescript:
 
 teardown:
 	docker compose down -v
+
+dump-db:
+	docker exec database bash -c 'pg_dump $$POSTGRES_DB -U $$POSTGRES_USER > scripts/dump.sql' 
