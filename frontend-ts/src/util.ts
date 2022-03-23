@@ -3,7 +3,7 @@ export async function makeBackendRequest(
   data?: Record<string, any>,
   options?: RequestInit
 ) {
-  const baseEndpoint = process.env.REACT_APP_BACKEND_URL;
+  const baseEndpoint = process.env.REACT_APP_BACKEND_HOST;
   const res = await fetch(`${baseEndpoint}${path}`, {
     mode: 'cors',
     headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
