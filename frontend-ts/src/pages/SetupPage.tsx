@@ -7,6 +7,8 @@ import SentryLogo from '../components/SentryLogo';
 import ThemedSelect, {OptionType} from '../components/ThemedSelect';
 import {makeBackendRequest, Organization} from '../util';
 
+const REDIRECT_TIMEOUT = 3 * 1000;
+
 function SetupPage() {
   const [organizationId, setOrganizationId] = useState(null);
   const [organizationOptions, setOrganizationOptions] = useState<OptionType[]>([]);
@@ -32,7 +34,7 @@ function SetupPage() {
       method: 'POST',
     });
     setRedirect(redirectUrl);
-    setTimeout(() => (window.location = redirectUrl), 3000);
+    setTimeout(() => (window.location = redirectUrl), REDIRECT_TIMEOUT);
   }
 
   return (
