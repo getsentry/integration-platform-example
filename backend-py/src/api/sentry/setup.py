@@ -23,8 +23,7 @@ def setup_index():
     uuid = request.args.get("installationId")
     organization_slug = request.args.get("orgSlug")
 
-    # Construct a payload to ask Sentry for a token on the basis that a user is
-    # installing.
+    # Construct a payload to ask Sentry for a token on the basis that a user is installing.
     payload = {
         "grant_type": "authorization_code",
         "code": code,
@@ -44,12 +43,10 @@ def setup_index():
     refresh_token = token_data.get("refreshToken")
     expires_at = token_data.get("expiresAt")
 
-    # Store the token data (i.e. token, refreshToken, expiresAt) for future
-    #   requests.
+    # Store the token data (i.e. token, refreshToken, expiresAt) for future requests.
     # - Make sure to associate the installationId and the tokenData since it's
     #   unique to the organization.
-    # - Using the wrong token for the a different installation will result 401
-    #   Unauthorized responses.
+    # - Using the wrong token for a different installation will result 401 Unauthorized responses.
     installation = SentryInstallation(
         uuid=uuid,
         org_slug=organization_slug,
@@ -61,8 +58,7 @@ def setup_index():
     db_session.commit()
 
     # Verify the installation to inform Sentry of the success.
-    # - This step is only required if you have enabled 'Verify Installation' on
-    #   your integration.
+    # - This step is only required if you have enabled 'Verify Installation' on your integration.
     verify_response = requests.put(
         f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/",
         json={"status": "installed"},
