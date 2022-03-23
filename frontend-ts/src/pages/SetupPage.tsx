@@ -45,7 +45,7 @@ function SetupPage() {
             <React.Fragment>
               <SentryLogo size={30} className="logo" />
               <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
-              <p>You should be redirected in a few seconds</p>
+              <p>You should be redirected in a few seconds.</p>
               <a href={redirect} data-testid="direct-link">
                 Take me back to Sentry
               </a>
