@@ -6,14 +6,17 @@ from .. import database
 
 
 class Item(database.Base):
-    __tablename__ = "Items"
+    __tablename__ = "item"
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
     description = Column(String)
     complexity = Column(Integer)
-    column = Column(String)
+    column = Column(String, nullable=False)
+    assignee_id = Column(Integer, ForeignKey('parent.id'))
     organization_id = Column(Integer, ForeignKey('organization.id'))
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
 
     def __init__(
         self,
