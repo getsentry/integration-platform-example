@@ -13,7 +13,7 @@ class Item(database.Base):
     description = Column(String)
     complexity = Column(Integer)
     column = Column(String, nullable=False)
-    assignee_id = Column(Integer, ForeignKey('parent.id'))
+    assignee_id = Column(Integer, ForeignKey('user.id'))
     organization_id = Column(Integer, ForeignKey('organization.id'))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
