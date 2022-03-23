@@ -4,12 +4,14 @@ from typing import Any, Mapping
 
 from src import app
 from src.database import db_session
+from src.middleware.auth import verify_sentry_signature
 from src.models import SentryInstallation
 
 from flask import request
 
 
 @app.route("/api/sentry/webhook/", methods=["POST"])
+@verify_sentry_signature()
 def webhook_index():
     # Get the JSON parameters.
     action = request.json.get("action")

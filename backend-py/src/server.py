@@ -6,9 +6,9 @@ load_dotenv()
 USER = os.getenv("POSTGRES_USER")
 PASSWORD = os.getenv("POSTGRES_PASSWORD")
 DB = os.getenv("POSTGRES_DB")
-PYTHON_ENV = os.getenv("PYTHON_ENV")
+FLASK_ENV = os.getenv("FLASK_ENV")
 
-if PYTHON_ENV == "test":
+if FLASK_ENV == "test":
     HOST = "localhost"
     PORT = 6001
 else:
