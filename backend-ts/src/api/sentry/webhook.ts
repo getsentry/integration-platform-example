@@ -13,7 +13,6 @@ router.post('/', async (req, res) => {
   if (resource === 'installation' && action === 'deleted') {
     await handleUninstall(data.installation);
   }
-
   res.sendStatus(200);
 });
 
