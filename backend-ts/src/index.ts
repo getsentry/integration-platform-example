@@ -4,9 +4,9 @@ import createServer from './server';
 sequelize
   .authenticate()
   .then(() => sequelize.sync())
-  .then(async () => {
+  .then(() => {
     const server = createServer();
-    server.listen(process.env.EXPRESS_LISTEN_PORT, async () => {
+    server.listen(process.env.EXPRESS_LISTEN_PORT, () => {
       console.info(
         `Server started at http://localhost:${process.env.EXPRESS_LISTEN_PORT}`
       );

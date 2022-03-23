@@ -2,9 +2,10 @@ import assert from 'assert';
 import {Express} from 'express';
 import request from 'supertest';
 
-import createSentryInstallations from '../../factories/SentryInstallations.test';
+import createSentryInstallation, {
+  SentryInstallation,
+} from '../../factories/SentryInstallation.factory';
 import {closeTestServer, createTestServer} from '../../testutils';
-import {SentryInstallations} from './../../../models/SentryInstallations';
 
 const path = '/api/sentry/webhook/';
 
@@ -19,22 +20,24 @@ describe(`GET ${path}`, () => {
   afterAll(async () => await closeTestServer());
 
   it('responds with a 200', async () => {
-    const response = await request(server).post(path).send(sentryMocks.uninstallWebhook);
+    const response = await request(server).post(path);
     assert.equal(response.statusCode, 200);
   });
 
   it('handles uninstallations gracefully', async () => {
-    const sentryInstallationId = sentryMocks.uninstallWebhook.data.installation.uuid;
-    await createSentryInstallations({id: sentryInstallationId});
-    const newInstall = await SentryInstallations.findByPk(sentryInstallationId);
+    const {uninstallWebhook, uninstallHeader} = sentryMocks;
+    const {uuid} = uninstallWebhook.data.installation;
+    await createSentryInstallation({uuid});
+    const newInstall = await SentryInstallation.findOne({where: {uuid: uuid}});
     expect(newInstall).not.toBeNull();
-    await request(server).post(path).send(sentryMocks.uninstallWebhook);
-    const oldInstall = await SentryInstallations.findByPk(sentryInstallationId);
+    await request(server).post(path).send(uninstallWebhook).set(uninstallHeader);
+    const oldInstall = await SentryInstallation.findOne({where: {uuid: uuid}});
     expect(oldInstall).toBeNull();
   });
 });
 
 const sentryMocks = {
+  uninstallHeader: {'sentry-hook-resource': 'installation'},
   uninstallWebhook: {
     action: 'deleted',
     data: {

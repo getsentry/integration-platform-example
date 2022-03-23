@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, {SyntheticEvent} from 'react';
 import Select from 'react-select';
 
 const WEBHOOK_OPTIONS = [
@@ -14,16 +14,23 @@ const WEBHOOK_OPTIONS = [
   // 'comment.ignored',
 ];
 
-const WebhookForm = () => (
-  <Form onSubmit={e => e.preventDefault()}>
-    <StyledSelect
-      options={WEBHOOK_OPTIONS.map(webhook => ({value: webhook, label: webhook}))}
-    />
-    <button type="submit" className="primary">
-      Trigger Webhook
-    </button>
-  </Form>
-);
+function WebhookForm() {
+  function handleSubmit(e: SyntheticEvent) {
+    e.preventDefault();
+    console.log(process.env);
+  }
+
+  return (
+    <Form onSubmit={handleSubmit}>
+      <StyledSelect
+        options={WEBHOOK_OPTIONS.map(webhook => ({value: webhook, label: webhook}))}
+      />
+      <button type="submit" className="primary">
+        Trigger Webhook
+      </button>
+    </Form>
+  );
+}
 
 const Form = styled.form`
   margin: 1rem 2rem;

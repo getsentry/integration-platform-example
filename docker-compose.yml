@@ -13,10 +13,10 @@ services:
       - "${FLASK_RUN_PORT}:${FLASK_RUN_PORT}"
     # Watch and react to changes in local...
     volumes:
-      #  backend-py directory
+      #  backend-py/src directory
       - type: bind
-        source: ./backend-py
-        target: /backend-py
+        source: ./backend-py/src
+        target: /backend-py/src
       #  data directory
       - type: bind
         source: ./data
@@ -35,10 +35,10 @@ services:
       - "${EXPRESS_LISTEN_PORT}:${EXPRESS_LISTEN_PORT}"
     # Watch and react to changes in local...
     volumes:
-      #  backend-ts directory
+      #  backend-ts/src directory
       - type: bind
-        source: ./backend-ts
-        target: /backend-ts
+        source: ./backend-ts/src
+        target: /backend-ts/src
       #  data directory
       - type: bind
         source: ./data
@@ -52,13 +52,13 @@ services:
       context: frontend-ts
       target: frontend-ts
     ports:
-      - "${REACT_HOST_PORT}:3000"
+      - "${REACT_APP_FE_PORT}:3000"
     # Watch and react to changes in local...
     volumes:
-      #  frontend-ts directory
+      #  frontend-ts/src directory
       - type: bind
-        source: ./frontend-ts
-        target: /frontend-ts
+        source: ./frontend-ts/src
+        target: /frontend-ts/src
       #  data directory
       - type: bind
         source: ./data
