@@ -1,4 +1,5 @@
 from . import error  # NOQA
 from . import items  # NOQA
-from . import setup  # NOQA
-from . import webhook  # NOQA
+from . import organizations  # NOQA
+from .sentry import setup  # NOQA
+from .sentry import webhook  # NOQA
