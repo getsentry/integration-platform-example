@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const { faker } = require("@faker-js/faker");
 
-// TODO(Leander): This script script should be revisited once the tables across the two backends have been finalized.
+// TODO(Leander): This script should be revisited once the tables across the two backends have been finalized.
 
 const sequelize = new Sequelize(
   `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@localhost:5432/${process.env.POSTGRES_DB}`,
