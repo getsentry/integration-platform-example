@@ -6,9 +6,6 @@ import Item, {ItemColumn} from '../models/Item.model';
 import Organization from '../models/Organization.model';
 import User from '../models/User.model';
 
-// TODO(Leander): This script should be revisited once the tables across the two backends have been finalized.
-console.log('Starting???');
-
 async function createSeedData(
   organizationCount: number,
   userCount: number,
@@ -34,9 +31,11 @@ async function createSeedData(
   const futureUsers = [];
   for (let i = 0; i < userCount; i++) {
     const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
     futureUsers.push({
-      name: firstName,
-      username: faker.internet.userName(firstName),
+      name: firstName + ' ' + lastName,
+      email: faker.internet.email(firstName, lastName),
+      username: faker.internet.userName(firstName, lastName).toLowerCase(),
       avatar: faker.image.avatar(),
     });
   }
