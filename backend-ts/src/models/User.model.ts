@@ -12,7 +12,7 @@ export default class User extends Model {
   username: string;
 
   @Column
-  avatar: number;
+  avatar: string;
 
   @HasMany(() => Item)
   items: Item[];
