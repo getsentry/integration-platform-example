@@ -7,6 +7,8 @@ import SentryLogo from '../components/SentryLogo';
 import ThemedSelect, {OptionType} from '../components/ThemedSelect';
 import {makeBackendRequest, Organization} from '../util';
 
+const REDIRECT_TIMEOUT = 3 * 1000;
+
 function SetupPage() {
   const [organizationId, setOrganizationId] = useState(null);
   const [organizationOptions, setOrganizationOptions] = useState<OptionType[]>([]);
@@ -32,7 +34,7 @@ function SetupPage() {
       method: 'POST',
     });
     setRedirect(redirectUrl);
-    setTimeout(() => (window.location = redirectUrl), 3000);
+    setTimeout(() => (window.location = redirectUrl), REDIRECT_TIMEOUT);
   }
 
   return (
@@ -43,7 +45,7 @@ function SetupPage() {
             <React.Fragment>
               <SentryLogo size={30} className="logo" />
               <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
-              <p>You should be redirected in a few seconds</p>
+              <p>You should be redirected in a few seconds.</p>
               <a href={redirect} data-testid="direct-link">
                 Take me back to Sentry
               </a>
