@@ -10,7 +10,8 @@
     "lint:fix": "eslint . --ext .ts --fix && prettier -c src --write",
     "test": "NODE_ENV=test jest -i .spec.ts",
     "test:ci": "npm run test",
-    "test:dev": "npm run test -- --watch"
+    "test:dev": "npm run test -- --watch",
+    "seed": "ts-node src/bin/seeder"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +30,7 @@
     "@babel/core": "^7.17.5",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
+    "@faker-js/faker": "^6.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",

@@ -10,9 +10,6 @@ setup-tests:
 	docker compose build test-database
 	docker compose up test-database --detach
 
-seed-db:
-	docker exec database node scripts/seeder
-
 build-python:
 	docker compose build frontend-ts backend-py
 
@@ -27,3 +24,14 @@ serve-typescript:
 
 teardown:
 	docker compose down -v
+
+seed-db:
+	docker exec backend-ts npm run seed
+
+dump-db:
+	docker exec database bash -c 'pg_dump $$POSTGRES_DB -U $$POSTGRES_USER > scripts/schema.sql' 
+
+reset-db:
+	make teardown
+	docker compose build database
+	docker compose up database -d 

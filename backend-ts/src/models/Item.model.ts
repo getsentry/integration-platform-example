@@ -20,7 +20,7 @@ export default class Item extends Model {
   @Column
   complexity: number;
 
-  @Column({type: DataType.ENUM({values: Object.keys(ItemColumn)})})
+  @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
   column: ItemColumn;
 
   @ForeignKey(() => User)
