@@ -1,8 +1,9 @@
 from .server import app
 from . import database # NOQA
 
-# Register routes.
+# Register routes and serializers.
 with app.app_context():
-    from . import api  # NOQA
+    from .api import endpoints  # NOQA
+    from .api import serializers  # NOQA
 
 __all__ = ("app",)
