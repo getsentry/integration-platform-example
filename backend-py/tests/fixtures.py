@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import re
+
 from src.models import Item, Organization, User
 
 
@@ -23,10 +25,12 @@ def create_organization(
     db_session,
     name: str = "Organization",
 ) -> Organization:
+    slug = re.sub(r"\s+", "-", name.lower().strip())
+
     organization = Organization(
         name=name,
-        slug=name.lower(),
-        external_slug=name.lower(),
+        slug=slug,
+        external_slug=slug,
     )
     db_session.add(organization)
     db_session.commit()
