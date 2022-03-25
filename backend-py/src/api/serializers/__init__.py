@@ -8,3 +8,5 @@ __all__ = (
 
 # Register the serializers.
 from . import item  # NOQA
+from . import organization  # NOQA
+from . import user  # NOQA

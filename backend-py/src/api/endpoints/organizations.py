@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from flask import json, request
+from flask import jsonify, request, Response
 from flask.views import MethodView
-from werkzeug.exceptions import NotFound
+from sqlalchemy.exc import IntegrityError
+from werkzeug.exceptions import BadRequest, NotFound
 
-from src.database import db_session
-from src.models import Organization
 from src.api.endpoints.base import register_api
+from src.api.serializers import serialize
+from src.api.validators import validate_new_organization, validate_organization_update
+from src.database import db_session
+from src.models import Organization, Organization
 
 
 class OrganizationAPI(MethodView):
@@ -16,55 +19,47 @@ class OrganizationAPI(MethodView):
             raise NotFound
         return organization
 
-    def index(self):
-        return json.dumps([organization for organization in Organization.query.all()])
+    def index(self) -> Response:
+        return jsonify(serialize(Organization.query.all()))
 
-    def get(self, organization_slug: str):
+    def get(self, organization_slug: str) -> Response:
         if organization_slug is None:
             return self.index()
 
         organization = self._get_organization_or_404(organization_slug)
-        return json.dumps(organization)
+        return serialize(organization)
 
-    def post(self):
-        # Get the JSON parameters.
-        name = request.json.get("name")
-        slug = request.json.get("slug")
-        external_slug = request.json.get("external_slug")
-
-        organization = Organization(
-            name=name,
-            slug=slug,
-            external_slug=external_slug,
-        )
+    def post(self) -> Response:
+        organization = Organization(**validate_new_organization(request.json))
         db_session.add(organization)
-        db_session.commit()
 
-        return json.dumps(organization), 201
+        try:
+            db_session.commit()
+        except IntegrityError:
+            raise BadRequest(f"Invalid: property 'slug' must be unique")
 
-    def delete(self, organization_slug: str):
+        response = jsonify(serialize(organization))
+        response.status_code = 201
+        return response
+
+    def put(self, organization_slug: str) -> Response:
         organization = self._get_organization_or_404(organization_slug)
 
-        # TODO(mgaeta): Cascade deletions.
+        for key, value in validate_organization_update(request.json).items():
+            setattr(organization, key, value)
+
+        db_session.commit()
+        response = jsonify(serialize(organization))
+        response.status_code = 204
+        return response
+
+    def delete(self, organization_slug: str) -> Response:
+        organization = self._get_organization_or_404(organization_slug)
 
         db_session.delete(organization)
         db_session.commit()
-        return "", 204
 
-    def put(self, organization_slug: str):
-        organization = self._get_organization_or_404(organization_slug)
-
-        name = request.json.get("name")
-        external_slug = request.json.get("external_slug")
-
-        if name is not None:
-            organization.name = name
-
-        if external_slug is not None:
-            organization.external_slug = external_slug
-
-        db_session.commit()
-        return json.dumps(organization)
+        return Response(status=204)
 
 
 register_api(
@@ -74,4 +69,3 @@ register_api(
     pk="organization_slug",
     pk_type="string",
 )
-
