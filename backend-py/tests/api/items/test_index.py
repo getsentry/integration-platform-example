@@ -17,9 +17,9 @@ class ItemsApiIndexTest(ItemsApiTestBase):
         response = self.get_success_response(user=self.user.id)
 
         assert len(response.json) == 1
-        assert response.json[0]["assignee_id"] == self.user.id
+        assert response.json[0]["assigneeId"] == self.user.id
 
     def test_index_organization(self):
         response = self.get_success_response(organization=self.organization.slug)
         assert len(response.json) == 1
-        assert response.json[0]["organization_id"] == self.organization.id
+        assert response.json[0]["organizationId"] == self.organization.id

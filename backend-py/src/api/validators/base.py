@@ -9,7 +9,7 @@ STR_LENGTH_MIN = 0
 def validate_id(value: int | str, name: str) -> int:
     try:
         id_value = int(value)
-    except ValueError:
+    except (TypeError, ValueError):
         raise BadRequest(f"Invalid: ID field '{name}' must be an integer")
 
     if id_value <= 0:
@@ -68,3 +68,7 @@ def validate_optional_str(value: str | None, name: str) -> str | None:
         return None
 
     return validate_str(value, name)
+
+
+def validate_organization(value: int | str | None) -> int:
+    return validate_id(value, "organizationId")

@@ -8,9 +8,9 @@ from src.types import Column
 
 from . import (
     validate_optional_id,
-    validate_id,
     validate_optional_integer,
     validate_optional_str,
+    validate_organization,
 )
 
 
@@ -19,7 +19,7 @@ COMPLEXITY_MIN = 0
 
 
 def validate_assignee(value: int | str | None) -> int | None:
-    return validate_optional_id(value, "assignee_id")
+    return validate_optional_id(value, "assigneeId")
 
 
 def validate_column(value: str | None) -> str:
@@ -39,18 +39,14 @@ def validate_complexity(value: int | str | None) -> int:
     )
 
 
-def validate_organization(value: int | str | None) -> int:
-    return validate_id(value, "organization_id")
-
-
 def validate_new_item(data: Mapping[str, Any]) -> Mapping[str, Any]:
     if not data:
         raise BadRequest(f"Invalid: POST data must not be empty")
 
-    assignee_id = validate_assignee(data.get("assignee_id"))
+    assignee_id = validate_assignee(data.get("assigneeId"))
     column = validate_column(data.get("column"))
     complexity = validate_complexity(data.get("complexity"))
-    organization_id = validate_organization(data.get("organization_id"))
+    organization_id = validate_organization(data.get("organizationId"))
 
     title = validate_optional_str(data.get("title"), "title")
     description = validate_optional_str(data.get("description"), "description")
@@ -69,8 +65,8 @@ def validate_item_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
     data = data or {}
     output = dict()
 
-    if "assignee_id" in data:
-        output["assignee_id"] = validate_assignee(data.get("assignee_id"))
+    if "assigneeId" in data:
+        output["assignee_id"] = validate_assignee(data.get("assigneeId"))
 
     if "column" in data:
         output["column"] = validate_column(data.get("column"))

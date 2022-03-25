@@ -8,12 +8,12 @@ class ItemSerializer:
     def serialize(self, obj) -> JSONData:
         return {
             "id": obj.id,
-            "assignee_id": obj.assignee_id,
+            "assigneeId": obj.assignee_id,
             "column": obj.column,
             "complexity": obj.complexity,
-            "created_at": obj.created_at,
+            "createdAt": obj.created_at,
             "description": obj.description,
-            "organization_id": obj.organization_id,
+            "organizationId": obj.organization_id,
             "title": obj.title,
-            "updated_at": obj.updated_at,
+            "updatedAt": obj.updated_at,
         }
