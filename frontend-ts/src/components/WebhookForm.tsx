@@ -1,32 +1,43 @@
 import styled from '@emotion/styled';
-import React, {SyntheticEvent} from 'react';
+import React, {SyntheticEvent, useState} from 'react';
 
+import {triggerWebhook} from '../util';
 import Button from './Button';
 import ThemedSelect from './ThemedSelect';
 
-const WEBHOOK_OPTIONS = [
-  'error.created',
+const WEBHOOK_LIST = [
+  'issue.created',
+  'issue.resolved',
+  'issue.assigned',
+  'issue.ignored',
   // TODO(Leander): Implement the following webhook triggers
-  // 'issue.created',
-  // 'issue.resolved',
-  // 'issue.assigned',
-  // 'issue.ignored',
   // 'comment.created',
   // 'comment.updated',
   // 'comment.ignored',
+  // 'error.created',
 ];
+const WEBHOOK_OPTIONS = WEBHOOK_LIST.map(webhook => ({value: webhook, label: webhook}));
 
 function WebhookForm() {
-  function handleSubmit(e: SyntheticEvent) {
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const [webhookOption, setWebhookOption] = useState(WEBHOOK_OPTIONS[0]);
+
+  async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
+    setIsFormDisabled(true);
+    await triggerWebhook(webhookOption.value);
+    setIsFormDisabled(false);
   }
 
   return (
     <Form onSubmit={handleSubmit}>
       <StyledSelect
-        options={WEBHOOK_OPTIONS.map(webhook => ({value: webhook, label: webhook}))}
+        options={WEBHOOK_OPTIONS}
+        onChange={setWebhookOption}
+        value={webhookOption}
+        isDisabled={isFormDisabled}
       />
-      <Button type="submit" className="primary">
+      <Button type="submit" className="primary" disabled={isFormDisabled}>
         Trigger Webhook
       </Button>
     </Form>

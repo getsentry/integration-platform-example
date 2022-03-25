@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 export async function makeBackendRequest(
   path: string,
   data?: Record<string, any>,
@@ -12,4 +13,8 @@ export async function makeBackendRequest(
     ...options,
   });
   return res.json();
+}
+
+export async function triggerWebhook(webhook: string) {
+  Sentry.captureMessage(webhook);
 }
