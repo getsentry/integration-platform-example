@@ -39,7 +39,8 @@ def validate_integer(
 def validate_str(value: str, name: str) -> str:
     if not (STR_LENGTH_MIN <= len(value) <= STR_LENGTH_MAX):
         raise BadRequest(
-            f"Invalid: field '{name}' must be between {STR_LENGTH_MIN} and {STR_LENGTH_MAX} characters"
+            f"Invalid: field '{name}' must be between {STR_LENGTH_MIN} and"
+            f" {STR_LENGTH_MAX} characters"
         )
     return value
 

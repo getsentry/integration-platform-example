@@ -9,7 +9,7 @@ from src.api.endpoints.base import register_api
 from src.api.serializers import serialize
 from src.api.validators import validate_new_organization, validate_organization_update
 from src.database import db_session
-from src.models import Organization, Organization
+from src.models import Organization
 
 
 class OrganizationAPI(MethodView):
@@ -36,7 +36,7 @@ class OrganizationAPI(MethodView):
         try:
             db_session.commit()
         except IntegrityError:
-            raise BadRequest(f"Invalid: property 'slug' must be unique")
+            raise BadRequest("Invalid: property 'slug' must be unique")
 
         response = jsonify(serialize(organization))
         response.status_code = 201

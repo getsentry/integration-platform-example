@@ -41,7 +41,7 @@ def validate_complexity(value: int | str | None) -> int:
 
 def validate_new_item(data: Mapping[str, Any]) -> Mapping[str, Any]:
     if not data:
-        raise BadRequest(f"Invalid: POST data must not be empty")
+        raise BadRequest("Invalid: POST data must not be empty")
 
     assignee_id = validate_assignee(data.get("assigneeId"))
     column = validate_column(data.get("column"))
@@ -81,6 +81,6 @@ def validate_item_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
         output["description"] = validate_optional_str(data.get("description"), "description")
 
     if not output:
-        raise BadRequest(f"Invalid: PUT data must not be empty")
+        raise BadRequest("Invalid: PUT data must not be empty")
 
     return output

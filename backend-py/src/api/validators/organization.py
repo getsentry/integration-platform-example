@@ -11,14 +11,14 @@ from . import validate_optional_str, validate_str
 def validate_slug(value: str | None) -> str:
     slug = re.sub(r"\s+", "-", (value or "").lower().strip())
     if not slug:
-        raise BadRequest(f"Invalid: field 'slug' must not be empty")
+        raise BadRequest("Invalid: field 'slug' must not be empty")
 
     return validate_str(slug, "slug")
 
 
 def validate_new_organization(data: Mapping[str, Any]) -> Mapping[str, Any]:
     if not data:
-        raise BadRequest(f"Invalid: POST data must not be empty")
+        raise BadRequest("Invalid: POST data must not be empty")
 
     slug = validate_slug(data.get("slug"))
     external_slug = validate_optional_str(data.get("externalSlug"), "externalSlug")
@@ -38,6 +38,6 @@ def validate_organization_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
         output["external_slug"] = validate_optional_str(data.get("externalSlug"), "externalSlug")
 
     if not output:
-        raise BadRequest(f"Invalid: PUT data must not be empty")
+        raise BadRequest("Invalid: PUT data must not be empty")
 
     return output
