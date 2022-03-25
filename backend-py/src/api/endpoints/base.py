@@ -8,7 +8,7 @@ def register_api(
     endpoint: str,
     url: str,
     pk: str = "id",
-    pk_type: type = "int",
+    pk_type: str = "int",
 ) -> None:
     """See https://flask.palletsprojects.com/en/2.0.x/views/."""
     view_func = view.as_view(endpoint)

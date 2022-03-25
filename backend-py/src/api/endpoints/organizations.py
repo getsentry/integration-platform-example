@@ -6,7 +6,7 @@ from werkzeug.exceptions import NotFound
 
 from src.database import db_session
 from src.models import Organization
-from src.api.base import register_api
+from src.api.endpoints.base import register_api
 
 
 class OrganizationAPI(MethodView):
@@ -72,6 +72,6 @@ register_api(
     "organization_api",
     "/api/organizations/",
     pk="organization_slug",
-    pk_type=str,
+    pk_type="string",
 )
 

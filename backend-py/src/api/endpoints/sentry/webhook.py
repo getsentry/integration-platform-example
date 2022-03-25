@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any, Mapping
 
 from src import app
+from src.api.middleware.auth import verify_sentry_signature
 from src.database import db_session
-from src.middleware.auth import verify_sentry_signature
 from src.models import SentryInstallation
 
 from flask import request
