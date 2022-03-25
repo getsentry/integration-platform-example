@@ -11,6 +11,8 @@ SENTRY_URL = os.getenv("SENTRY_URL")
 
 
 class SetupTest(APITestCase):
+    endpoint = "setup_index"
+
     @responses.activate
     def test_post(self):
         uuid = MOCK_SETUP["queryInstall"]["installationId"]
@@ -29,8 +31,7 @@ class SetupTest(APITestCase):
             body=json.dumps(MOCK_SETUP["installation"]),
         )
 
-        response = self.client.get(
-            "/api/sentry/setup/",
-            query_string=MOCK_SETUP["queryInstall"],
+        self.get_success_response(
+            **MOCK_SETUP["queryInstall"],
+            status_code=302
         )
-        assert response.status_code == 302
