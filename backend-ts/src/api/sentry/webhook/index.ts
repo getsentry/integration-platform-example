@@ -17,10 +17,9 @@ router.post('/', async (request, response) => {
 
   let statusCode = 200;
 
-  // Retreive the associated SentryInstallation
+  // If there is no associated installation, ignore the webhook
   const sentryInstallation = await SentryInstallation.findOne({where: {uuid}});
   if (!sentryInstallation) {
-    console.info(`No SentryInstallation found for '${uuid}'`);
     return response.sendStatus(404);
   }
 
