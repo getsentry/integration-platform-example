@@ -18,3 +18,7 @@ export async function makeBackendRequest(
 export async function triggerWebhook(webhook: string) {
   Sentry.captureMessage(webhook);
 }
+
+export async function triggerError() {
+  Sentry.captureException(new Error('This is a test error'));
+}
