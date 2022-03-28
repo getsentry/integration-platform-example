@@ -13,10 +13,16 @@ router.post('/', async (request, response) => {
     installation: {uuid},
   } = request.body;
   const resource = request.header('sentry-hook-resource');
+  console.info(`Received '${resource}.${action}' webhook from Sentry`);
+
   let statusCode = 200;
 
   // Retreive the associated SentryInstallation
   const sentryInstallation = await SentryInstallation.findOne({where: {uuid}});
+  if (!sentryInstallation) {
+    console.info(`No SentryInstallation found for '${uuid}'`);
+    return response.sendStatus(404);
+  }
 
   if (resource === 'issue') {
     statusCode = issueHandler(action, sentryInstallation, data);

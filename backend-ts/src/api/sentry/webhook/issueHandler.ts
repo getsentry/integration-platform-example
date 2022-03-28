@@ -6,56 +6,68 @@ export async function handleResolved(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
+  // Find or create an item to associate with the Sentry Issue
   const {issue: issueData} = data;
-
-  await Item.create({
-    title: issueData.title,
-    description: `${issueData.culprit} - ${issueData.permalink}`,
-    column: ItemColumn.Todo,
-    organizationId: sentryInstallation.organizationId,
+  const [item, isItemNew] = await Item.findOrCreate({
+    where: {sentryId: issueData.id},
+    defaults: getItemDefaults(sentryInstallation, issueData),
   });
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry Issue`);
+  // Update the item's column to Done
+  item.column = ItemColumn.Done;
+  await item.save();
+  console.info(`Updated item's column to '${ItemColumn.Done}'`);
 }
 
 export async function handleAssigned(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
+  // Find or create an item to associate with the Sentry Issue
   const {issue: issueData} = data;
-  console.log(issueData);
-  const item = await Item.findOne({where: {sentryId: issueData.id}});
-  const {email} = issueData.assignedTo;
-  console.log(item);
-  // await User.findOrCreate({
-  //   username: email as string,
-  //   // avatar: gravatar
-  // });
-  // const user = await User.findOne({where: {username: }});
-  // if (item) {
-  //   console.log('getting here');
-  // }
+  const [item, isItemNew] = await Item.findOrCreate({
+    where: {sentryId: issueData.id},
+    defaults: getItemDefaults(sentryInstallation, issueData),
+  });
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
+  // Find or create a user to associate with the item
+  const {email, name} = issueData.assignedTo;
+  const [user, isUserNew] = await User.findOrCreate({
+    where: {username: email},
+    defaults: {name, username: email, organizationId: sentryInstallation.organizationId},
+  });
+  await user.$add('items', item);
+  console.info(`Assigned to ${isUserNew ? 'new' : 'existing'} user:`, user.username);
 }
 
 export async function handleIgnored(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  return;
-  // Change isIgnored
+  // Find or create an item to associate with the Sentry Issue
+  const {issue: issueData} = data;
+  const [item, isItemNew] = await Item.findOrCreate({
+    where: {sentryId: issueData.id},
+    defaults: getItemDefaults(sentryInstallation, issueData),
+  });
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
+  // Mark the item as ignored
+  item.isIgnored = true;
+  await item.save();
+  console.info('Marked item as ignored');
 }
 
 export async function handleCreated(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  console.log(sentryInstallation);
+  // Find or create an item to associate with the Sentry Issue
   const {issue: issueData} = data;
-  await Item.create({
-    title: issueData.title,
-    description: `${issueData.culprit} - ${issueData.permalink}`,
-    column: ItemColumn.Todo,
-    organizationId: sentryInstallation.organizationId,
-    sentryId: issueData.id,
+  const [, isItemNew] = await Item.findOrCreate({
+    where: {sentryId: issueData.id},
+    defaults: getItemDefaults(sentryInstallation, issueData),
   });
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
 }
 
 export default function issueHandler(
@@ -82,3 +94,15 @@ export default function issueHandler(
       return 201;
   }
 }
+
+const getItemDefaults = (
+  sentryInstallation: SentryInstallation,
+  issueData: Record<string, any>
+) => ({
+  organizationId: sentryInstallation.organizationId,
+  title: issueData.title as string,
+  description: `${issueData.shortId} - ${issueData.culprit}`,
+  column: issueData.status === 'resolved' ? ItemColumn.Done : ItemColumn.Todo,
+  isIgnored: issueData.status === 'ignored',
+  sentryId: issueData.id,
+});
