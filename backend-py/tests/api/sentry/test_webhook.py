@@ -6,13 +6,11 @@ from tests.mocks import MOCK_WEBHOOK
 
 
 class WebhookTest(APITestCase):
+    endpoint = "webhook_index"
+    method = "post"
+
     def test_empty(self):
-        response = self.client.post(
-            "/api/sentry/webhook/",
-            json={},
-            headers={}
-        )
-        assert response.status_code == 200
+        self.get_success_response()
 
     def test_post(self):
         uuid = MOCK_WEBHOOK["data"]["installation"]["uuid"]
@@ -25,13 +23,9 @@ class WebhookTest(APITestCase):
         db_session.add(installation)
         db_session.commit()
 
-        before = SentryInstallation.query.count()
-
-        response = self.client.post(
-            "/api/sentry/webhook/",
-            json=MOCK_WEBHOOK,
+        self.get_success_response(
+            data=MOCK_WEBHOOK,
             headers={"sentry-hook-resource": "installation"}
         )
+        assert SentryInstallation.query.count() == 0
 
-        assert response.status_code == 200
-        assert SentryInstallation.query.count() == before - 1

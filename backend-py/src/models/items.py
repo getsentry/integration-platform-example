@@ -20,7 +20,9 @@ class Item(database.Base):
 
     def __init__(
         self,
-        title: str | None = None,
+        title: str,
+        organization_id: int,
+        assignee_id: int | None = None,
         description: str | None = None,
         complexity: int | None = None,
         column: str | None = None,
@@ -29,6 +31,8 @@ class Item(database.Base):
         self.description = description
         self.complexity = complexity
         self.column = column
+        self.organization_id = organization_id
+        self.assignee_id = assignee_id
 
     def __repr__(self):
         return f"<Item #{self.id}: {self.title}>"
