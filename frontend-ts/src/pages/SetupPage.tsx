@@ -175,6 +175,7 @@ const StyledLink = styled(Link)`
   border-radius: 0.5rem;
   display: block;
   padding: 1rem;
+  margin: 0.5rem 0;
   transition: box-shadow 0.3s ease;
   box-shadow: 0px 0px 0px ${p => p.theme.purple200};
   &:hover {

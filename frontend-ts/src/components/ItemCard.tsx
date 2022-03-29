@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import {Item as ItemType} from '../types';
+import {Item} from '../types';
 
-type ItemProps = {
-  item: ItemType;
+type ItemCardProps = {
+  item: Item;
 };
 
-const Item = ({item: {title, description, complexity}}: ItemProps) => (
+const ItemCard = ({item: {title, description, complexity}}: ItemCardProps) => (
   <Card>
     <Title>{title}</Title>
     {description && <Description>{description}</Description>}
@@ -48,4 +48,4 @@ const Complexity = styled.span`
   background: ${p => p.theme.purple200};
 `;
 
-export default Item;
+export default ItemCard;
