@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 import {TokenResponseData} from '../api/sentry/setup';
-import {SentryInstallations} from '../models';
+import SentryInstallation from '../models/SentryInstallation.model';
 
 export async function getRefreshedInstallation(installationId: string) {
   // In practice, this is where you'd want to fetch the installation that was previously stored.
   // For this example, imagine installation came from a database call
-  const installation = await SentryInstallations.findByPk(installationId);
+  const installation = await SentryInstallation.findByPk(installationId);
 
   // If the token is expired, we'll need to refresh it...
   if (installation.expiresAt.getTime() < Date.now()) {

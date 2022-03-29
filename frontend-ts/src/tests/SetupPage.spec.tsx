@@ -22,7 +22,7 @@ describe('SetupPage', () => {
       .mockReturnValue([searchParams, jest.fn()]);
     // Setup backend query for organization list
     when(backend)
-      .calledWith('/api/organization/')
+      .calledWith('/api/organizations/')
       .mockResolvedValue([{id: 1, name: 'Example Organization'}]);
   });
 
