@@ -18,7 +18,7 @@ function KanbanPage() {
   useEffect(() => {
     async function fetchData() {
       const data: Item[] =
-        (await makeBackendRequest(`/api/item/?organization=${organizationSlug}`)) || [];
+        (await makeBackendRequest(`/api/items/?organization=${organizationSlug}`)) || [];
       const newItemsMap = {...itemsMap};
       data.forEach(item => newItemsMap[item.column].push(item));
       setItemsMap(newItemsMap);

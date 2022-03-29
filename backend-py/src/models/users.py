@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from sqlalchemy import Column, DateTime, Integer, ForeignKey, String
+from sqlalchemy.orm import relationship
 from .. import database
 
 
@@ -14,6 +15,8 @@ class User(database.Base):
     organization_id = Column(Integer, ForeignKey('organization.id'))
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+
+    items = relationship("Item")
 
     def __init__(
         self,

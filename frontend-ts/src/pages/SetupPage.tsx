@@ -15,7 +15,8 @@ function SetupPage() {
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
     async function fetchData() {
-      const data: Organization[] = (await makeBackendRequest('/api/organization/')) || [];
+      const data: Organization[] =
+        (await makeBackendRequest('/api/organizations/')) || [];
       setOrganizationOptions(data.map(({id, name}) => ({value: id, label: name})));
     }
     fetchData();
