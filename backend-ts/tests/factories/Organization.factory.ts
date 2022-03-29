@@ -3,7 +3,7 @@ import {Attributes} from 'sequelize';
 import Organization from '../../src/models/Organization.model';
 
 export default async function createOrganization(
-  fields: Partial<Attributes<Organization>>
+  fields?: Partial<Attributes<Organization>>
 ) {
   return Organization.create({
     name: 'example',

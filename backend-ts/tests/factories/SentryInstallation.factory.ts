@@ -3,7 +3,7 @@ import {Attributes} from 'sequelize';
 import SentryInstallation from '../../src/models/SentryInstallation.model';
 
 export default async function createSentryInstallation(
-  fields: Partial<Attributes<SentryInstallation>>
+  fields?: Partial<Attributes<SentryInstallation>>
 ) {
   return SentryInstallation.create({
     uuid: 'abc-123-def-456',
