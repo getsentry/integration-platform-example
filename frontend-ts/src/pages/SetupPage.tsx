@@ -49,7 +49,7 @@ function SetupPage({isLanding = false}: SetupPageProps) {
       <Layout>
         {isLanding ? (
           <Main>
-            <h3>Select an organization&apos;s to get started:</h3>
+            <h3>Select an organization to get started:</h3>
             {organizations.map(({id, slug, name}) => (
               <StyledLink key={id} to={`/${slug}`}>
                 {name}
@@ -73,8 +73,8 @@ function SetupPage({isLanding = false}: SetupPageProps) {
                   <SentryLogo size={30} className="logo" />
                   <Description />
                   <p>
-                    Please choose an organization to associate your Sentry installation
-                    with:
+                    Please choose an organization with which to associate your Sentry
+                    installation:
                   </p>
                   <MapBlock>
                     <SentryLogo size={20} />
