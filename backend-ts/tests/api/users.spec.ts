@@ -2,6 +2,7 @@ import assert from 'assert';
 import {Express} from 'express';
 import request from 'supertest';
 
+import createOrganization from '../factories/Organization.factory';
 import createUser, {User} from '../factories/User.factory';
 import {closeTestServer, createTestServer} from '../testutils';
 
@@ -27,17 +28,29 @@ describe(path, () => {
   });
 
   it('handles POST', async () => {
-    const response = await request(server).post(path).send({name: 'Person 4'});
+    const organization = await createOrganization();
+    const response = await request(server)
+      .post(path)
+      .send({name: 'Person 4', organizationId: organization.id});
     assert.equal(response.statusCode, 201);
+    // Ensure relationships were properly set
+    const organizationUsers = await organization.$get('users');
+    assert.equal(organizationUsers.length, 1);
+    assert.equal(organizationUsers[0].name, 'Person 4');
   });
 
   it('handles PUT', async () => {
+    const organization = await createOrganization();
     const response = await request(server)
       .put(`${path}${users[0].id}`)
-      .send({name: 'Person 5'});
+      .send({name: 'Person 5', organizationId: organization.id});
     assert.equal(response.statusCode, 200);
     const user = await User.findByPk(users[0].id);
     assert.equal(user.name, 'Person 5');
+    // Ensure relationships were properly set
+    const organizationUsers = await organization.$get('users');
+    assert.equal(organizationUsers.length, 1);
+    assert.equal(organizationUsers[0].name, user.name);
   });
 
   it('handles DELETE', async () => {

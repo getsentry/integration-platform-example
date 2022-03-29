@@ -4,6 +4,7 @@ import request from 'supertest';
 
 import createItem, {Item} from '../factories/Item.factory';
 import createOrganization from '../factories/Organization.factory';
+import createUser from '../factories/User.factory';
 import {closeTestServer, createTestServer} from '../testutils';
 
 const path = '/api/items/';
@@ -35,17 +36,37 @@ describe(path, () => {
   });
 
   it('handles POST', async () => {
-    const response = await request(server).post(path).send({title: 'Error 4'});
+    const user = await createUser();
+    const organization = await createOrganization();
+    const response = await request(server)
+      .post(path)
+      .send({title: 'Error 4', organizationId: organization.id, assigneeId: user.id});
     assert.equal(response.statusCode, 201);
+    // Ensure relationships were properly set
+    const userItems = await user.$get('items');
+    assert.equal(userItems.length, 1);
+    assert.equal(userItems[0].title, 'Error 4');
+    const organizationItems = await organization.$get('items');
+    assert.equal(organizationItems.length, 1);
+    assert.equal(organizationItems[0].title, 'Error 4');
   });
 
   it('handles PUT', async () => {
+    const user = await createUser();
+    const organization = await createOrganization();
     const response = await request(server)
       .put(`${path}${items[0].id}`)
-      .send({title: 'Error 5'});
+      .send({title: 'Error 5', organizationId: organization.id, assigneeId: user.id});
     assert.equal(response.statusCode, 200);
     const item = await Item.findByPk(items[0].id);
     assert.equal(item.title, 'Error 5');
+    // Ensure relationships were properly set
+    const userItems = await user.$get('items');
+    assert.equal(userItems.length, 1);
+    assert.equal(userItems[0].title, 'Error 5');
+    const organizationItems = await organization.$get('items');
+    assert.equal(organizationItems.length, 1);
+    assert.equal(organizationItems[0].title, 'Error 5');
   });
 
   it('handles DELETE', async () => {

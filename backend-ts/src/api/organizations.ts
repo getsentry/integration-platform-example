@@ -15,17 +15,17 @@ router.post('/', async (request, response) => {
   return response.status(201).send(organization);
 });
 
-router.put('/:organizationId', async (request, response) => {
+router.put('/:organizationSlug', async (request, response) => {
   const {name, slug, externalSlug} = request.body;
   const organization = await Organization.update(
     {name, slug, externalSlug},
-    {where: {id: request.params.organizationId}}
+    {where: {slug: request.params.organizationSlug}}
   );
   return response.send(organization);
 });
 
-router.delete('/:organizationId', async (request, response) => {
-  await Organization.destroy({where: {id: request.params.organizationId}});
+router.delete('/:organizationSlug', async (request, response) => {
+  await Organization.destroy({where: {slug: request.params.organizationSlug}});
   return response.sendStatus(204);
 });
 

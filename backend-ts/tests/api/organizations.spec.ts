@@ -35,7 +35,7 @@ describe(path, () => {
 
   it('handles PUT', async () => {
     const response = await request(server)
-      .put(`${path}${organizations[0].id}`)
+      .put(`${path}${organizations[0].slug}`)
       .send({name: 'Example 5'});
     assert.equal(response.statusCode, 200);
     const organization = await Organization.findByPk(organizations[0].id);
@@ -43,7 +43,7 @@ describe(path, () => {
   });
 
   it('handles DELETE', async () => {
-    const response = await request(server).delete(`${path}${organizations[0].id}`);
+    const response = await request(server).delete(`${path}${organizations[0].slug}`);
     assert.equal(response.statusCode, 204);
     const organization = await Organization.findByPk(organizations[0].id);
     assert(!organization);
