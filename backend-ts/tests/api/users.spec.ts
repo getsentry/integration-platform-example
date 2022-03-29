@@ -33,6 +33,7 @@ describe(path, () => {
       .post(path)
       .send({name: 'Person 4', organizationId: organization.id});
     assert.equal(response.statusCode, 201);
+    assert(await User.findByPk(response.body.id));
     // Ensure relationships were properly set
     const organizationUsers = await organization.$get('users');
     assert.equal(organizationUsers.length, 1);

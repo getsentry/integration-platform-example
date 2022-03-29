@@ -42,6 +42,7 @@ describe(path, () => {
       .post(path)
       .send({title: 'Error 4', organizationId: organization.id, assigneeId: user.id});
     assert.equal(response.statusCode, 201);
+    assert(await Item.findByPk(response.body.id));
     // Ensure relationships were properly set
     const userItems = await user.$get('items');
     assert.equal(userItems.length, 1);

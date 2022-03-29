@@ -31,6 +31,7 @@ describe(path, () => {
   it('handles POST', async () => {
     const response = await request(server).post(path).send({name: 'Example 4'});
     assert.equal(response.statusCode, 201);
+    assert(await Organization.findByPk(response.body.id));
   });
 
   it('handles PUT', async () => {
