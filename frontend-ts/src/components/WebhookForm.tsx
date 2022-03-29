@@ -18,7 +18,6 @@ const WEBHOOK_OPTIONS = [
 function WebhookForm() {
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
-    console.log(process.env);
   }
 
   return (

@@ -13,5 +13,3 @@ export async function makeBackendRequest(
   });
   return res.json();
 }
-
-export type Organization = any;

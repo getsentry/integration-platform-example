@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import Item, {ItemType} from './Item';
+import {Item as ItemType} from '../types';
+import Item from './Item';
 
 type ColumnProps = {
   title: string;

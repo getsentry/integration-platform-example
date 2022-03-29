@@ -1,12 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-// TODO(Leander): Share types with backend-ts
-export type ItemType = {
-  title: string;
-  description?: string;
-  complexity?: number;
-};
+import {Item as ItemType} from '../types';
 
 type ItemProps = {
   item: ItemType;

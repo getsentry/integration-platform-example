@@ -5,7 +5,8 @@ import {useSearchParams} from 'react-router-dom';
 import Footer from '../components/Footer';
 import SentryLogo from '../components/SentryLogo';
 import ThemedSelect, {OptionType} from '../components/ThemedSelect';
-import {makeBackendRequest, Organization} from '../util';
+import {Organization} from '../types';
+import {makeBackendRequest} from '../util';
 
 const REDIRECT_TIMEOUT = 3 * 1000;
 
@@ -15,8 +16,9 @@ function SetupPage() {
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
     async function fetchData() {
-      const data: Organization[] = (await makeBackendRequest('/api/organization/')) || [];
-      setOrganizationOptions(data.map(({id, name}) => ({value: id, label: name})));
+      const data: Organization[] =
+        (await makeBackendRequest('/api/organizations/')) || [];
+      setOrganizationOptions(data.map(({id, name}) => ({value: `${id}`, label: name})));
     }
     fetchData();
   }, []);

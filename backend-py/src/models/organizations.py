@@ -13,12 +13,12 @@ class Organization(database.Base):
     name = Column(String, nullable=False)
     slug = Column(String, nullable=False)
     external_slug = Column(String, nullable=False)
-    SentryInstallation = Column(DateTime)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
 
     items = relationship("Item")
     users = relationship("User")
+    sentry_installations = relationship("SentryInstallation")
 
     def __init__(self, name: str, slug: str, external_slug: str) -> None:
         self.name = name

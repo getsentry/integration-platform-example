@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Boolean
 
 from .. import database
 
@@ -13,6 +13,8 @@ class Item(database.Base):
     description = Column(String)
     complexity = Column(Integer)
     column = Column(String, nullable=False)
+    is_ignored = Column(Boolean, default=False)
+    sentry_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))
     organization_id = Column(Integer, ForeignKey('organization.id'))
     created_at = Column(DateTime)

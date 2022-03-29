@@ -12,9 +12,6 @@ export default class User extends Model {
   username: string;
 
   @Column
-  email: string;
-
-  @Column
   avatar: string;
 
   @HasMany(() => Item)

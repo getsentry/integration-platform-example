@@ -2,7 +2,7 @@ import {Attributes} from 'sequelize';
 
 import User from '../../src/models/User.model';
 
-export default async function createUser(fields: Partial<Attributes<User>>) {
+export default async function createUser(fields?: Partial<Attributes<User>>) {
   return User.create({
     name: 'Leander',
     username: 'leeandher',
