@@ -1,16 +1,30 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
 
 import Column from '../components/Column';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {ItemType} from '../components/Item';
+import {Item, makeBackendRequest} from '../util';
 
 function KanbanPage() {
   const columnTypes = Object.values(ColumnType);
-  const itemsMap: Record<string, ItemType[]> = Object.fromEntries(
-    columnTypes.map(type => [type, []])
+  const initialItemsMap = Object.fromEntries(
+    columnTypes.map(type => [type, [] as Item[]])
   );
+  const [itemsMap, setItemsMap] = useState(initialItemsMap);
+
+  const {organizationSlug} = useParams();
+  useEffect(() => {
+    async function fetchData() {
+      const data: Item[] =
+        (await makeBackendRequest(`/api/item/?organization=${organizationSlug}`)) || [];
+      const newItemsMap = {...itemsMap};
+      data.forEach(item => newItemsMap[item.column].push(item));
+      setItemsMap(newItemsMap);
+    }
+    fetchData();
+  }, []);
 
   return (
     <KanbanWrapper>

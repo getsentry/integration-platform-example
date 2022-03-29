@@ -15,3 +15,9 @@ export async function makeBackendRequest(
 }
 
 export type Organization = any;
+export type Item = {
+  title: string;
+  description?: string;
+  complexity?: number;
+  column: any;
+};

@@ -19,7 +19,7 @@ async function createSeedData(
     const companyName = faker.company.companyName();
     futureOrganizations.push({
       name: companyName,
-      slug: faker.helpers.slugify(companyName),
+      slug: faker.helpers.slugify(companyName).toLowerCase(),
     });
   }
   const newOrganizations = await Organization.bulkCreate(futureOrganizations, {

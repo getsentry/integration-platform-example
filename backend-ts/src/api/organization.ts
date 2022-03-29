@@ -4,9 +4,9 @@ import Organization from '../models/Organization.model';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (request, response) => {
   const data = await Organization.findAll();
-  return res.send(data);
+  return response.send(data);
 });
 
 export default router;

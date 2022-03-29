@@ -15,7 +15,7 @@ function App() {
       <GlobalStyles />
       <Router>
         <Routes>
-          <Route path="/" element={<KanbanPage />} />
+          <Route path="/:organizationSlug" element={<KanbanPage />} />
           <Route path="/sentry/setup" element={<SetupPage />} />
         </Routes>
       </Router>
