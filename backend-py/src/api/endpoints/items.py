@@ -24,7 +24,6 @@ class ItemAPI(MethodView):
 
         query = Item.query
 
-        print(query, "query")
         if organization_slug is not None:
             organization_option = Organization.query.filter(
                 Organization.slug == organization_slug

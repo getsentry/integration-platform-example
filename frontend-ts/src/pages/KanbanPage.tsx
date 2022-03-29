@@ -5,7 +5,8 @@ import {useParams} from 'react-router-dom';
 import Column from '../components/Column';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {Item, makeBackendRequest} from '../util';
+import {ColumnType, Item} from '../types';
+import {makeBackendRequest} from '../util';
 
 function KanbanPage() {
   const columnTypes = Object.values(ColumnType);
@@ -51,12 +52,5 @@ const Layout = styled.div`
   justify-content: center;
   position: relative;
 `;
-
-// TODO(Leander): Share types with backend-ts
-export enum ColumnType {
-  Todo = 'TODO',
-  Doing = 'DOING',
-  Done = 'DONE',
-}
 
 export default KanbanPage;

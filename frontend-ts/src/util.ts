@@ -13,11 +13,3 @@ export async function makeBackendRequest(
   });
   return res.json();
 }
-
-export type Organization = any;
-export type Item = {
-  title: string;
-  description?: string;
-  complexity?: number;
-  column: any;
-};
