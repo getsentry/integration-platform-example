@@ -1,24 +1,29 @@
 import styled from '@emotion/styled';
 import React, {useEffect, useState} from 'react';
-import {useSearchParams} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 
 import Footer from '../components/Footer';
 import SentryLogo from '../components/SentryLogo';
-import ThemedSelect, {OptionType} from '../components/ThemedSelect';
+import ThemedSelect from '../components/ThemedSelect';
 import {Organization} from '../types';
 import {makeBackendRequest} from '../util';
 
 const REDIRECT_TIMEOUT = 3 * 1000;
 
-function SetupPage() {
+type SetupPageProps = {
+  isLanding?: boolean;
+};
+
+function SetupPage({isLanding = false}: SetupPageProps) {
   const [organizationId, setOrganizationId] = useState(null);
-  const [organizationOptions, setOrganizationOptions] = useState<OptionType[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
     async function fetchData() {
       const data: Organization[] =
         (await makeBackendRequest('/api/organizations/')) || [];
-      setOrganizationOptions(data.map(({id, name}) => ({value: `${id}`, label: name})));
+      setOrganizations(data);
     }
     fetchData();
   }, []);
@@ -42,45 +47,62 @@ function SetupPage() {
   return (
     <SetupWrapper>
       <Layout>
-        <Form onSubmit={handleSubmit}>
-          {redirect ? (
-            <React.Fragment>
-              <SentryLogo size={30} className="logo" />
-              <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
-              <p>You should be redirected in a few seconds.</p>
-              <a href={redirect} data-testid="direct-link">
-                Take me back to Sentry
-              </a>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <SentryLogo size={30} className="logo" />
-              <Description />
-              <p>
-                Please choose an organization to associate your Sentry installation with:
-              </p>
-              <MapBlock>
-                <SentryLogo size={20} />
-                <h4>{searchParams.get('orgSlug')}</h4>
-                <span>&gt;</span>
-                <StyledSelect
-                  options={organizationOptions}
-                  onChange={({value}) => setOrganizationId(value)}
-                  placeholder="Select an Organization..."
-                />
-              </MapBlock>
-              <button type="submit" className="primary">
-                Submit
-              </button>
-            </React.Fragment>
-          )}
-        </Form>
+        {isLanding ? (
+          <Main>
+            <h3>Select an organization&apos;s to get started:</h3>
+            {organizations.map(({id, slug, name}) => (
+              <StyledLink key={id} to={`/${slug}`}>
+                {name}
+              </StyledLink>
+            ))}
+          </Main>
+        ) : (
+          <Main>
+            <form onSubmit={handleSubmit}>
+              {redirect ? (
+                <React.Fragment>
+                  <SentryLogo size={30} className="logo" />
+                  <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
+                  <p>You should be redirected in a few seconds.</p>
+                  <a href={redirect} data-testid="direct-link">
+                    Take me back to Sentry
+                  </a>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <SentryLogo size={30} className="logo" />
+                  <Description />
+                  <p>
+                    Please choose an organization to associate your Sentry installation
+                    with:
+                  </p>
+                  <MapBlock>
+                    <SentryLogo size={20} />
+                    <h4>{searchParams.get('orgSlug')}</h4>
+                    <span>&gt;</span>
+                    <StyledSelect
+                      options={organizations.map(({id, name}) => ({
+                        value: `${id}`,
+                        label: name,
+                      }))}
+                      onChange={({value}) => setOrganizationId(value)}
+                      placeholder="Select an Organization..."
+                    />
+                  </MapBlock>
+                  <button type="submit" className="primary">
+                    Submit
+                  </button>
+                </React.Fragment>
+              )}
+            </form>
+          </Main>
+        )}
       </Layout>
       <Footer />
     </SetupWrapper>
   );
 }
-const SetupWrapper = styled.div`
+export const SetupWrapper = styled.div`
   background: ${p => p.theme.gray100};
   display: flex;
   flex-flow: column;
@@ -101,7 +123,7 @@ const Layout = styled.div`
   flex: 1;
 `;
 
-const Form = styled.form`
+const Main = styled.main`
   background: ${p => p.theme.gray100};
   margin: 3rem auto;
   max-width: 500px;
@@ -116,6 +138,9 @@ const Form = styled.form`
   }
   hr {
     color: ${p => p.theme.purple200};
+  }
+  h3 {
+    margin-top: 0;
   }
   button {
     display: block;
@@ -140,6 +165,21 @@ const StyledSelect = styled(ThemedSelect)`
   flex: 1;
   margin: 2rem;
   font-size: ${p => p.theme.text.baseSize};
+`;
+
+const StyledLink = styled(Link)`
+  color: ${p => p.theme.purple300};
+  font-weight: 600;
+  text-decoration: none;
+  background: ${p => p.theme.surface100};
+  border-radius: 0.5rem;
+  display: block;
+  padding: 1rem;
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0px 0px 0px ${p => p.theme.purple200};
+  &:hover {
+    box-shadow: 2px 2px 8px ${p => p.theme.purple200};
+  }
 `;
 
 const Description = () => (

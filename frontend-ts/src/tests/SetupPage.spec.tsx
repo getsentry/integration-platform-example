@@ -26,6 +26,12 @@ describe('SetupPage', () => {
       .mockResolvedValue([{id: 1, name: 'Example Organization'}]);
   });
 
+  test('renders landing page', async () => {
+    renderWrapped(<SetupPage isLanding />);
+    expect(await screen.findByText(/select an organization/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Example Organization/i)).toBeInTheDocument();
+  });
+
   test('renders key elements', async () => {
     renderWrapped(<SetupPage />);
     // Header
