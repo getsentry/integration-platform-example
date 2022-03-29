@@ -20,4 +20,40 @@ router.get('/', async (request, response) => {
   return response.send(data);
 });
 
+router.post('/', async (request, response) => {
+  const {title, description, complexity, column, assigneeId, organizationId} =
+    request.body;
+  const item = await Item.create({
+    title,
+    description,
+    complexity,
+    column,
+    assigneeId,
+    organizationId,
+  });
+  return response.status(201).send(item);
+});
+
+router.put('/:itemId', async (request, response) => {
+  const {title, description, complexity, column, assigneeId, organizationId} =
+    request.body;
+  const item = await Item.update(
+    {
+      title,
+      description,
+      complexity,
+      column,
+      assigneeId,
+      organizationId,
+    },
+    {where: {id: request.params.itemId}}
+  );
+  return response.send(item);
+});
+
+router.delete('/:itemId', async (request, response) => {
+  await Item.destroy({where: {id: request.params.itemId}});
+  return response.sendStatus(204);
+});
+
 export default router;
