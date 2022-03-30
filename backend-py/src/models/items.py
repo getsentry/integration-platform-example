@@ -1,8 +1,15 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Boolean
+from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Boolean, Enum
 
 from .. import database
+import enum
+
+
+class ItemColumn(enum.Enum):
+    Todo = 'TODO'
+    Doing = 'DOING'
+    Done = 'DONE'
 
 
 class Item(database.Base):
@@ -12,7 +19,7 @@ class Item(database.Base):
     title = Column(String)
     description = Column(String)
     complexity = Column(Integer)
-    column = Column(String, nullable=False)
+    column = Column(Enum(ItemColumn))
     is_ignored = Column(Boolean, default=False)
     sentry_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))

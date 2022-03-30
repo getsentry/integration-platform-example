@@ -4,12 +4,11 @@ import User from '../../../models/User.model';
 
 async function handleAssigned(
   sentryInstallation: SentryInstallation,
-  data: Record<string, any>
+  issueData: Record<string, any>
 ) {
   // Find or create an item to associate with the Sentry Issue
-  const {issue: issueData} = data;
   const [item, isItemNew] = await Item.findOrCreate({
-    where: {sentryId: issueData.id},
+    where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: getItemDefaults(sentryInstallation, issueData),
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
@@ -25,25 +24,20 @@ async function handleAssigned(
 
 async function handleCreated(
   sentryInstallation: SentryInstallation,
-  data: Record<string, any>
+  issueData: Record<string, any>
 ) {
-  // Find or create an item to associate with the Sentry Issue
-  const {issue: issueData} = data;
-  const [, isItemNew] = await Item.findOrCreate({
-    where: {sentryId: issueData.id},
-    defaults: getItemDefaults(sentryInstallation, issueData),
-  });
-  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
+  // Create an item to associate with the Sentry Issue
+  await Item.create({...getItemDefaults(sentryInstallation, issueData)});
+  console.info('Created linked Sentry issue');
 }
 
 async function handleIgnored(
   sentryInstallation: SentryInstallation,
-  data: Record<string, any>
+  issueData: Record<string, any>
 ) {
   // Find or create an item to associate with the Sentry Issue
-  const {issue: issueData} = data;
   const [item, isItemNew] = await Item.findOrCreate({
-    where: {sentryId: issueData.id},
+    where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: getItemDefaults(sentryInstallation, issueData),
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
@@ -55,12 +49,11 @@ async function handleIgnored(
 
 async function handleResolved(
   sentryInstallation: SentryInstallation,
-  data: Record<string, any>
+  issueData: Record<string, any>
 ) {
   // Find or create an item to associate with the Sentry Issue
-  const {issue: issueData} = data;
   const [item, isItemNew] = await Item.findOrCreate({
-    where: {sentryId: issueData.id},
+    where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: getItemDefaults(sentryInstallation, issueData),
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry Issue`);
@@ -75,21 +68,22 @@ export default function issueHandler(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ): number {
+  const {issue: issueData} = data;
   switch (action) {
     case 'assigned':
-      handleAssigned(sentryInstallation, data);
+      handleAssigned(sentryInstallation, issueData);
       return 202;
 
     case 'created':
-      handleCreated(sentryInstallation, data);
+      handleCreated(sentryInstallation, issueData);
       return 201;
 
     case 'ignored':
-      handleIgnored(sentryInstallation, data);
+      handleIgnored(sentryInstallation, issueData);
       return 202;
 
     case 'resolved':
-      handleResolved(sentryInstallation, data);
+      handleResolved(sentryInstallation, issueData);
       return 202;
 
     default:
