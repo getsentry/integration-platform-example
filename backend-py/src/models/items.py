@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, DateTime, Integer, String, ForeignKey, Boolean, Enum
+from sqlalchemy import Column,  Integer, String, ForeignKey, Boolean, Enum
 
 from .. import database
 import enum
@@ -24,8 +24,6 @@ class Item(database.Base):
     sentry_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))
     organization_id = Column(Integer, ForeignKey('organization.id'))
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
 
     def __init__(
         self,

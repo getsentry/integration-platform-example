@@ -12,6 +12,4 @@ class UserSerializer:
             "username": obj.username,
             "avatar": obj.avatar,
             "organizationId": obj.organization_id,
-            "createdAt": obj.created_at,
-            "updatedAt": obj.updated_at,
         }

@@ -17,8 +17,6 @@ class SentryInstallation(database.Base):
     refresh_token = Column(String, nullable=False)
     organization_id = Column(Integer, ForeignKey('organization.id'))
     expires_at = Column(DateTime)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
 
     def __init__(
         self,

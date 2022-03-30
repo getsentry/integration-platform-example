@@ -11,9 +11,7 @@ class ItemSerializer:
             "assigneeId": obj.assignee_id,
             "column": obj.column,
             "complexity": obj.complexity,
-            "createdAt": obj.created_at,
             "description": obj.description,
             "organizationId": obj.organization_id,
             "title": obj.title,
-            "updatedAt": obj.updated_at,
         }
