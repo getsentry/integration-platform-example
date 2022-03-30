@@ -5,35 +5,45 @@ import {useParams} from 'react-router-dom';
 import Column from '../components/Column';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import {ColumnType, Item} from '../types';
+import {ColumnType, Item, User} from '../types';
 import {makeBackendRequest} from '../util';
 
 function KanbanPage() {
   const columnTypes = Object.values(ColumnType);
-  const initialItemsMap = Object.fromEntries(
-    columnTypes.map(type => [type, [] as Item[]])
-  );
-  const [itemsMap, setItemsMap] = useState(initialItemsMap);
-
+  const [items, setItems] = useState<Item[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const {organizationSlug} = useParams();
+
   useEffect(() => {
     async function fetchData() {
-      const data: Item[] =
-        (await makeBackendRequest(`/api/items/?organization=${organizationSlug}`)) || [];
-      const newItemsMap = {...itemsMap};
-      data.forEach(item => newItemsMap[item.column].push(item));
-      setItemsMap(newItemsMap);
+      const [itemsData, usersData] = await Promise.all([
+        makeBackendRequest(`/api/items/?organization=${organizationSlug}`),
+        makeBackendRequest(`/api/users/?organization=${organizationSlug}`),
+      ]);
+      setItems(itemsData);
+      setUsers(usersData);
     }
     fetchData();
   }, []);
+
+  const usersMap = users.reduce((map, user) => {
+    map[user.id] = user;
+    return map;
+  }, {} as {[key: string]: User});
+  const itemsMap = Object.fromEntries(columnTypes.map(type => [type, [] as Item[]])) as {
+    [key in ColumnType]: Item[];
+  };
+  items.forEach(item => {
+    itemsMap[item.column].push({...item, assignee: usersMap[item.assigneeId]});
+  });
 
   return (
     <KanbanWrapper>
       <Header />
       <Layout>
-        {columnTypes.map(type => (
-          <Column key={type} title={type} items={itemsMap[type]} />
-        ))}
+        {columnTypes.map(type => {
+          return <Column key={type} title={type} items={itemsMap[type]} />;
+        })}
       </Layout>
       <Footer />
     </KanbanWrapper>

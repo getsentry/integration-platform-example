@@ -18,6 +18,8 @@ export type Item = {
   description?: string;
   complexity?: number;
   column: ColumnType;
+  assigneeId: number;
+  assignee: User;
 };
 
 export enum ColumnType {
