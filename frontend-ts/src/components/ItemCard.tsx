@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Item} from '../types';
 import SentryLogo from './SentryLogo';
@@ -8,12 +8,43 @@ type ItemCardProps = {
   item: Item;
 };
 
-const ItemCard = ({item: {title, description, complexity, assignee}}: ItemCardProps) => {
+const ItemCard = ({
+  item: {id, title, description, complexity, assignee},
+}: ItemCardProps) => {
   const sentryId = undefined;
+  const [isHovering, setIsHovering] = useState(false);
   return (
-    <Card isIgnored={false}>
+    <Card
+      isIgnored={false}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       <Title>{title}</Title>
       {description && <Description>{description}</Description>}
+      <DeleteButton
+        title="Delete"
+        isVisible={isHovering}
+        disabled={!isHovering}
+        onClick={() => console.log(`Delete Item #${id}`)}
+      />
+      <EditButton
+        title="Edit"
+        isVisible={isHovering}
+        disabled={!isHovering}
+        onClick={() => console.log(`Update Item #${id}`)}
+      />
+      <LeftColumnButton
+        title="Transition Left"
+        isVisible={isHovering}
+        disabled={!isHovering}
+        onClick={() => console.log(`Move Item #${id} to the left`)}
+      />
+      <RightColumnButton
+        title="Transition Right"
+        isVisible={isHovering}
+        disabled={!isHovering}
+        onClick={() => console.log(`Move Item #${id} to the right`)}
+      />
       <BottomBar>
         <UserDisplay>
           {assignee && (
@@ -39,6 +70,68 @@ const Card = styled.div<{isIgnored: boolean}>`
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
   opacity: ${p => (p.isIgnored ? 0.5 : 1)};
+
+  position: relative;
+`;
+
+const HoverButton = styled.button<{isVisible: boolean}>`
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: -10px;
+
+  padding: 10px;
+  color: ${p => p.theme.surface100};
+  &:after {
+    line-height: 100%;
+    font-size: 1.1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  transition: opacity 0.2s ease;
+  opacity: ${p => (p.isVisible ? 1 : 0)};
+`;
+
+const DeleteButton = styled(HoverButton)`
+  right: -10px;
+  border: 1px solid ${p => p.theme.red300};
+  background: ${p => p.theme.red200};
+  &:after {
+    content: '🔥';
+    transform: translate(-50%, -55%);
+  }
+`;
+
+const EditButton = styled(HoverButton)`
+  right: 15px;
+  border: 1px solid ${p => p.theme.yellow300};
+  background: ${p => p.theme.yellow200};
+  &:after {
+    content: '✏️';
+    transform: translate(-50%, -55%);
+  }
+`;
+
+const RightColumnButton = styled(HoverButton)`
+  right: 40px;
+  border: 1px solid ${p => p.theme.green300};
+  background: ${p => p.theme.green200};
+  &:after {
+    content: '▶';
+    transform: translate(-50%, -55%);
+  }
+`;
+
+const LeftColumnButton = styled(HoverButton)`
+  right: 65px;
+  border: 1px solid ${p => p.theme.blue300};
+  background: ${p => p.theme.blue200};
+  &:after {
+    content: '◀';
+    transform: translate(-50%, -55%);
+  }
 `;
 
 const Title = styled.h3`
