@@ -23,7 +23,7 @@ def webhook_index():
     # Identify the resource triggering the webhook in Sentry
     resource = request.headers.get("sentry-hook-resource")
 
-    print(f"Received '{resource}.{action}' webhook from Sentry")
+    app.logger.info(f"Received '{resource}.{action}' webhook from Sentry")
 
     if resource == 'issue':
         status_code = 200
@@ -53,4 +53,4 @@ def handle_uninstall(installation: Mapping[str, Any]) -> None:
     db_session.delete(installation_option)
     db_session.commit()
 
-    print(f"Uninstalled {installation_slug} from '{organization_slug}'")
+    app.logger.info(f"Uninstalled {installation_slug} from '{organization_slug}'")

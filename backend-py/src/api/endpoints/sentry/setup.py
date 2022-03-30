@@ -74,7 +74,7 @@ def setup_index():
     # - The token/refreshToken can be used to make requests to Sentry's API
     #   (See https://docs.sentry.io/api/.)
     # - You can optionally redirect the user back to Sentry as we do below.
-    print(f"Installed {app_slug} on '{organization_slug}'")
+    app.logger.info(f"Installed {app_slug} on '{organization_slug}'")
     return redirect(
         f"{SENTRY_URL}/settings/{organization_slug}/sentry-apps/{app_slug}/",
         code=302
