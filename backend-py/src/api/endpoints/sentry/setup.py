@@ -4,11 +4,11 @@ import os
 
 import requests
 from dotenv import load_dotenv
-from flask import redirect, request
+from flask import request
 
 from src import app
 from src.database import db_session
-from src.models import SentryInstallation
+from src.models import SentryInstallation, Organization
 
 load_dotenv()
 SENTRY_CLIENT_ID = os.getenv("SENTRY_CLIENT_ID")
@@ -16,12 +16,13 @@ SENTRY_CLIENT_SECRET = os.getenv("SENTRY_CLIENT_SECRET")
 SENTRY_URL = os.getenv("SENTRY_URL")
 
 
-@app.route("/api/sentry/setup/", methods=["GET"])
+@app.route("/api/sentry/setup/", methods=["POST"])
 def setup_index():
     # Get the query params from the installation prompt.
-    code = request.args.get("code")
-    uuid = request.args.get("installationId")
-    organization_slug = request.args.get("orgSlug")
+    code = request.json.get("code")
+    uuid = request.json.get("installationId")
+    sentry_org_slug = request.json.get("sentryOrgSlug")
+    organization_id = request.json.get("organizationId")
 
     # Construct a payload to ask Sentry for a token on the basis that a user is installing.
     payload = {
@@ -30,7 +31,6 @@ def setup_index():
         "client_id": SENTRY_CLIENT_ID,
         "client_secret": SENTRY_CLIENT_SECRET,
     }
-
     # Send that payload to Sentry and parse its response.
     token_response = requests.post(
         f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/authorizations/",
@@ -49,7 +49,7 @@ def setup_index():
     # - Using the wrong token for a different installation will result 401 Unauthorized responses.
     installation = SentryInstallation(
         uuid=uuid,
-        org_slug=organization_slug,
+        org_slug=sentry_org_slug,
         token=token,
         refresh_token=refresh_token,
         expires_at=expires_at,
@@ -69,13 +69,15 @@ def setup_index():
     verify_data = verify_response.json()
     app_slug = verify_data.get("app")["slug"]
 
+    # Update the associated organization to connect it to Sentry's organization
+    organization = Organization.query.filter(Organization.id == organization_id).first()
+    organization.external_slug = sentry_org_slug
+    db_session.commit()
+
     # Continue the installation process.
     # - If your app requires additional configuration, do it here.
     # - The token/refreshToken can be used to make requests to Sentry's API
     #   (See https://docs.sentry.io/api/.)
     # - You can optionally redirect the user back to Sentry as we do below.
-    app.logger.info(f"Installed {app_slug} on '{organization_slug}'")
-    return redirect(
-        f"{SENTRY_URL}/settings/{organization_slug}/sentry-apps/{app_slug}/",
-        code=302
-    )
+    app.logger.info(f"Installed {app_slug} on '{organization.name}'")
+    return {"redirectUrl": f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"}, 201

@@ -71,11 +71,15 @@ router.post('/', async (req, res) => {
     }
   );
 
+  // Update the associated organization to connect it to Sentry's organization
+  const organization = await Organization.findByPk(organizationId);
+  organization.externalSlug = sentryOrgSlug;
+  await organization.save();
+
   // Continue the installation process
   //    - If your app requires additional configuration, this is where you can do it
   //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
   //    - Once you're done, you can optionally redirect the user back to Sentry as we do below
-  const organization = await Organization.findByPk(organizationId);
   console.info(`Installed ${verifyResponse.data.app.slug} on '${organization.name}'`);
   res.status(201).send({
     redirectUrl: `${process.env.SENTRY_URL}/settings/${sentryOrgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`,
