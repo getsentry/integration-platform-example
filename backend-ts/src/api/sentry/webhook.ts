@@ -1,8 +1,8 @@
 import express from 'express';
 
-import SentryInstallation from '../../../models/SentryInstallation.model';
-import {InstallResponseData} from '../setup';
-import issueHandler from './issueHandler';
+import SentryInstallation from '../../models/SentryInstallation.model';
+import issueHandler from './handlers/issueHandler';
+import {InstallResponseData} from './setup';
 
 const router = express.Router();
 
@@ -23,6 +23,7 @@ router.post('/', async (request, response) => {
     return response.sendStatus(404);
   }
 
+  // Handle webhooks related to issues
   if (resource === 'issue') {
     statusCode = issueHandler(action, sentryInstallation, data);
   }

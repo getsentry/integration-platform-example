@@ -24,6 +24,7 @@ function verifySentrySignature(req: Request, res: Response, next: NextFunction) 
 }
 
 router.use('/setup', setupRoutes);
+// We need to verify that the request came from Sentry before we can trust the webhook data.
 router.use('/webhook', verifySentrySignature, webhookRoutes);
 
 export default router;

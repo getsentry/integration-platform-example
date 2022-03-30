@@ -30,12 +30,6 @@ export default class Item extends Model {
   @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
   column: ItemColumn;
 
-  @Column
-  isIgnored: boolean;
-
-  @Column
-  sentryId: string;
-
   @ForeignKey(() => User)
   @Column
   assigneeId: number;
