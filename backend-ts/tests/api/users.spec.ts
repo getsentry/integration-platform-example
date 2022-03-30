@@ -27,6 +27,13 @@ describe(path, () => {
     assert.equal(response.statusCode, 200);
   });
 
+  it('handles GET by organization', async () => {
+    const organization = await createOrganization({slug: 'example'});
+    await createUser({name: 'Person 3', organizationId: organization.id});
+    const response = await request(server).get(path).query({organization: 'example'});
+    assert.equal(response.body.length, 1);
+  });
+
   it('handles POST', async () => {
     const organization = await createOrganization();
     const response = await request(server)

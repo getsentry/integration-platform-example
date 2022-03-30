@@ -67,6 +67,6 @@ async function createSeedData(
   });
 }
 
-createSeedData(5, 10, 200)
+createSeedData(1, 4, 20)
   .then(() => console.info('Finished seeding data -- Exiting.'))
   .catch(e => console.error(`[🌱 Seeding Error]: ${e.message}`));
