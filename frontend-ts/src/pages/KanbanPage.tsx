@@ -33,7 +33,7 @@ function KanbanPage() {
   const itemsMap = Object.fromEntries(columnTypes.map(type => [type, [] as Item[]])) as {
     [key in ColumnType]: Item[];
   };
-  items.forEach(item => {
+  items?.forEach(item => {
     itemsMap[item.column].push({...item, assignee: usersMap[item.assigneeId]});
   });
 

@@ -11,6 +11,12 @@ const mockItem = {
   description: 'IPE-E - brokenfile.js',
   complexity: 5,
   column: 'TODO',
+  assigneeId: '1',
+};
+const mockUser = {
+  id: '1',
+  name: 'Jane Doe',
+  avatar: 'https://example.com/avatar.png',
 };
 
 jest.mock('react-router-dom', () => ({
@@ -24,6 +30,9 @@ describe('KanbanPage', () => {
     when(backend)
       .calledWith('/api/items/?organization=example')
       .mockResolvedValue([mockItem]);
+    when(backend)
+      .calledWith('/api/users/?organization=example')
+      .mockResolvedValue([mockUser]);
   });
   test('renders key elements', async () => {
     renderWrapped(<KanbanPage />);
@@ -33,7 +42,9 @@ describe('KanbanPage', () => {
     expect(await screen.findByText(/done/i)).toBeInTheDocument();
     // Webhooks
     expect(await screen.findByText(/trigger webhook/i)).toBeInTheDocument();
+    // Item Cards
     expect(await screen.findByText(mockItem.title)).toBeInTheDocument();
+    expect(await screen.findByAltText(mockUser.name)).toBeInTheDocument();
     // Footer
     expect(await screen.findByText(/docs/i)).toBeInTheDocument();
     expect(await screen.findByText(/source code/i)).toBeInTheDocument();
