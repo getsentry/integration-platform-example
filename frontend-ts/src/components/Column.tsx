@@ -25,6 +25,7 @@ const StyledColumn = styled.div`
   margin: 2rem 1rem;
   border-radius: 5px;
   flex: 1;
+  min-width: min(400px, calc(33% - 2rem));
 `;
 
 const Title = styled.h2`
