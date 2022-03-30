@@ -2,24 +2,43 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import {Item} from '../types';
+import SentryLogo from './SentryLogo';
 
 type ItemCardProps = {
   item: Item;
 };
 
-const ItemCard = ({item: {title, description, complexity}}: ItemCardProps) => (
-  <Card>
-    <Title>{title}</Title>
-    {description && <Description>{description}</Description>}
-    <BadgeDisplay>{complexity && <Complexity>{complexity}</Complexity>}</BadgeDisplay>
-  </Card>
-);
+const ItemCard = ({item: {title, description, complexity, assignee}}: ItemCardProps) => {
+  const sentryId = undefined;
+  return (
+    <Card isIgnored={false}>
+      <Title>{title}</Title>
+      {description && <Description>{description}</Description>}
+      <BottomBar>
+        <UserDisplay>
+          {assignee && (
+            <img src={assignee.avatar} alt={assignee.name} title={assignee.name} />
+          )}
+        </UserDisplay>
+        <BadgeDisplay>
+          {sentryId && (
+            <SentryIssue>
+              <SentryLogo size={15} /> {sentryId}
+            </SentryIssue>
+          )}
+          {complexity && <Complexity>{complexity}</Complexity>}
+        </BadgeDisplay>
+      </BottomBar>
+    </Card>
+  );
+};
 
-const Card = styled.div`
+const Card = styled.div<{isIgnored: boolean}>`
   background: ${p => p.theme.surface100};
   margin: 10px;
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
+  opacity: ${p => (p.isIgnored ? 0.5 : 1)};
 `;
 
 const Title = styled.h3`
@@ -34,11 +53,35 @@ const Description = styled.p`
   margin: 0.5rem 0;
 `;
 
-const BadgeDisplay = styled.div`
+const BottomBar = styled.div`
   display: flex;
-  justify-content: flex-end;
   border-top: 0.5px solid ${p => p.theme.gray200};
   padding-top: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const UserDisplay = styled.div`
+  flex: 1;
+  display: grid;
+  grid-template-columns: 35px 1fr;
+  align-items: center;
+  img {
+    grid-column: 1;
+    max-width: 100%;
+    border-radius: 1000px;
+    border: 2px solid ${p => p.theme.purple100};
+    filter: sepia(100%) hue-rotate(200deg);
+  }
+`;
+
+const BadgeDisplay = styled.div`
+  flex: 10;
+  text-align: right;
+  span {
+    display: inline-block;
+    margin: 0.2rem;
+  }
 `;
 
 const Complexity = styled.span`
@@ -46,6 +89,19 @@ const Complexity = styled.span`
   padding: 0.25rem 0.75rem;
   border-radius: 1000px;
   background: ${p => p.theme.purple200};
+`;
+
+const SentryIssue = styled.span`
+  display: flex;
+  align-items: center;
+  color: ${p => p.theme.surface100};
+  border: 1px solid ${p => p.theme.purple200};
+  padding: 0.25rem 0.75rem;
+  border-radius: 1000px;
+  color: ${p => p.theme.purple200};
+  svg {
+    margin-right: 0.25rem;
+  }
 `;
 
 export default ItemCard;
