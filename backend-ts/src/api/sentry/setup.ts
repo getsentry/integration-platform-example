@@ -51,12 +51,14 @@ router.post('/', async (req, res) => {
   //    - Make sure to associate the installationId and the tokenData since it's unique to the organization
   //    - Using the wrong token for the a different installation will result 401 Unauthorized responses
   const {token, refreshToken, expiresAt} = tokenResponse.data;
+  const organization = await Organization.findByPk(organizationId);
   await SentryInstallation.create({
     uuid: installationId as string,
+    orgSlug: sentryOrgSlug as string,
     expiresAt: new Date(expiresAt),
     token,
     refreshToken,
-    organizationId,
+    organizationId: organization.id,
   });
 
   // Verify the installation to inform Sentry of the success
@@ -72,7 +74,6 @@ router.post('/', async (req, res) => {
   );
 
   // Update the associated organization to connect it to Sentry's organization
-  const organization = await Organization.findByPk(organizationId);
   organization.externalSlug = sentryOrgSlug;
   await organization.save();
 

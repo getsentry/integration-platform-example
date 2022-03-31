@@ -12,6 +12,8 @@ def handle_assigned(sentry_installation: SentryInstallation, issue_data: Mapping
     app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
     # Find or create a user to associate with the item
     user, user_created = get_or_create_user(sentry_installation, issue_data)
+    item.assignee_id = user.id
+    db_session.commit()
     app.logger.info(f"Assigned to {'new' if user_created else 'existing'} user: {user.username}")
 
 
@@ -38,9 +40,9 @@ def handle_resolved(sentry_installation: SentryInstallation, issue_data: Mapping
     item, item_created = get_or_create_item(sentry_installation, issue_data)
     app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
     # Update the item's column to DONE
-    item.column = ItemColumn.Done
+    item.column = ItemColumn.Done.value
     db_session.commit()
-    app.logger.info(f"Updated item's column to {ItemColumn.Done}")
+    app.logger.info(f"Updated item's column to {ItemColumn.Done.value}")
 
 
 def issue_handler(action: str, sentry_installation: SentryInstallation, data: Mapping[str, Any]):
@@ -65,7 +67,7 @@ def get_item_defaults(sentry_installation: SentryInstallation, issue_data: Mappi
         "organization_id": sentry_installation.organization_id,
         "title": issue_data.get('title'),
         "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done if issue_data.get('status') == "resolved" else ItemColumn.Todo,
+        "column": ItemColumn.Done.value if issue_data.get('status') == "resolved" else ItemColumn.Todo.value,
         "is_ignored": issue_data.get('status') == "ignored",
         "sentry_id": issue_data.get('id'),
     }
@@ -86,7 +88,7 @@ def get_or_create_item(sentry_installation: SentryInstallation, issue_data: Mapp
 
 
 def get_or_create_user(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
-    assignee_data = issue_data.get('assignee', {})
+    assignee_data = issue_data.get('assignedTo', {})
     user = User.query.filter(
         User.username == assignee_data.get('email'),
     ).first()
@@ -97,6 +99,7 @@ def get_or_create_user(sentry_installation: SentryInstallation, issue_data: Mapp
             name=assignee_data.get('name'),
             username=assignee_data.get('email'),
             organization_id=sentry_installation.organization_id,
+            avatar=f"https://ui-avatars.com/api/?name={assignee_data.get('name')}&background=random"
         )
         db_session.add(user)
         db_session.commit()

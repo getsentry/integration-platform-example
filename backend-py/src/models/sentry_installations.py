@@ -25,12 +25,14 @@ class SentryInstallation(database.Base):
         token: str,
         refresh_token: str,
         expires_at: datetime | None = None,
+        organization_id: int | None = None,
     ):
         self.uuid = uuid
         self.org_slug = org_slug
         self.token = token
         self.refresh_token = refresh_token
         self.expires_at = expires_at
+        self.organization_id = organization_id
 
     def __repr__(self):
         return f"<SentryInstallation #{self.id}: {self.org_slug}>"

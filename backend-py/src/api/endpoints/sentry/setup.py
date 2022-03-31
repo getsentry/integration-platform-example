@@ -47,12 +47,14 @@ def setup_index():
     # - Make sure to associate the installationId and the tokenData since it's
     #   unique to the organization.
     # - Using the wrong token for a different installation will result 401 Unauthorized responses.
+    organization = Organization.query.filter(Organization.id == organization_id).first()
     installation = SentryInstallation(
         uuid=uuid,
         org_slug=sentry_org_slug,
         token=token,
         refresh_token=refresh_token,
         expires_at=expires_at,
+        organization_id=organization.id,
     )
     db_session.add(installation)
     db_session.commit()
@@ -70,7 +72,6 @@ def setup_index():
     app_slug = verify_data.get("app")["slug"]
 
     # Update the associated organization to connect it to Sentry's organization
-    organization = Organization.query.filter(Organization.id == organization_id).first()
     organization.external_slug = sentry_org_slug
     db_session.commit()
 

@@ -19,7 +19,7 @@ class Item(database.Base):
     title = Column(String)
     description = Column(String)
     complexity = Column(Integer)
-    column = Column(Enum(ItemColumn))
+    column = Column(Enum(ItemColumn, values_callable=lambda x: [e.value for e in x]))
     is_ignored = Column(Boolean, default=False)
     sentry_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))
@@ -33,6 +33,8 @@ class Item(database.Base):
         description: str | None = None,
         complexity: int | None = None,
         column: str | None = None,
+        sentry_id: str | None = None,
+        is_ignored: bool | None = False,
     ):
         self.title = title
         self.description = description
@@ -40,6 +42,8 @@ class Item(database.Base):
         self.column = column
         self.organization_id = organization_id
         self.assignee_id = assignee_id
+        self.is_ignored = is_ignored
+        self.sentry_id = sentry_id
 
     def __repr__(self):
         return f"<Item #{self.id}: {self.title}>"
