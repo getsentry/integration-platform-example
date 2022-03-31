@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 
+import BasePage from '../components/BasePage';
 import Button from '../components/Button';
 import Main from '../components/Main';
 import SentryLogo from '../components/SentryLogo';
@@ -42,40 +43,42 @@ function SetupPage() {
   }
 
   return (
-    <Main>
-      <form onSubmit={handleSubmit}>
-        <SentryApplicationLogo size={30} />
-        {redirect ? (
-          <React.Fragment>
-            <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
-            <p>You should be redirected in a few seconds.</p>
-            <a href={redirect} data-testid="direct-link">
-              Take me back to Sentry
-            </a>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <PreInstallTextBlock />
-            <OrganizationSelectFieldWrapper>
-              <SentryLogo size={20} />
-              <h4>{searchParams.get('orgSlug')}</h4>
-              <span>&gt;</span>
-              <StyledSelect
-                options={organizations.map(({id, name}) => ({
-                  value: `${id}`,
-                  label: name,
-                }))}
-                onChange={({value}) => setOrganizationId(value)}
-                placeholder="Select an Organization..."
-              />
-            </OrganizationSelectFieldWrapper>
-            <Button type="submit" className="primary" disabled={!organizationId}>
-              Submit
-            </Button>
-          </React.Fragment>
-        )}
-      </form>
-    </Main>
+    <BasePage>
+      <Main>
+        <form onSubmit={handleSubmit}>
+          <SentryApplicationLogo size={30} />
+          {redirect ? (
+            <React.Fragment>
+              <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
+              <p>You should be redirected in a few seconds.</p>
+              <a href={redirect} data-testid="direct-link">
+                Take me back to Sentry
+              </a>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <PreInstallTextBlock />
+              <OrganizationSelectFieldWrapper>
+                <SentryLogo size={20} />
+                <h4>{searchParams.get('orgSlug')}</h4>
+                <span>&gt;</span>
+                <StyledSelect
+                  options={organizations.map(({id, name}) => ({
+                    value: `${id}`,
+                    label: name,
+                  }))}
+                  onChange={({value}) => setOrganizationId(value)}
+                  placeholder="Select an Organization..."
+                />
+              </OrganizationSelectFieldWrapper>
+              <Button type="submit" className="primary" disabled={!organizationId}>
+                Submit
+              </Button>
+            </React.Fragment>
+          )}
+        </form>
+      </Main>
+    </BasePage>
   );
 }
 export const SentryApplicationLogo = styled(SentryLogo)`
