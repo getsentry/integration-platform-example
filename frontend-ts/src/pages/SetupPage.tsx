@@ -89,7 +89,7 @@ function SetupPage({isLanding = false}: SetupPageProps) {
                       placeholder="Select an Organization..."
                     />
                   </MapBlock>
-                  <button type="submit" className="primary">
+                  <button type="submit" className="primary" disabled={!organizationId}>
                     Submit
                   </button>
                 </React.Fragment>
@@ -152,8 +152,11 @@ const MapBlock = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  svg {
+    min-width: 20px;
+  }
   h4 {
-    margin: 2rem;
+    margin: 1rem;
     text-align: right;
   }
   span {
@@ -163,8 +166,11 @@ const MapBlock = styled.div`
 
 const StyledSelect = styled(ThemedSelect)`
   flex: 1;
-  margin: 2rem;
+  margin: 1rem;
   font-size: ${p => p.theme.text.baseSize};
+  * {
+    white-space: normal !important;
+  }
 `;
 
 const StyledLink = styled(Link)`

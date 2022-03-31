@@ -35,6 +35,10 @@ const GlobalCss = (theme: Theme) => css`
       font-weight: bold;
       color: ${theme.surface100};
     }
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
   }
   option {
     outline: 0;
