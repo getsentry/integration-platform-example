@@ -19,21 +19,12 @@ const GlobalCss = (theme: Theme) => css`
   #root {
     height: 100%;
   }
-  code {
-    font-family: ${theme.text.familyMono};
-  }
   button {
     outline: 0;
-    padding: 0.5rem 1rem;
     border: 0;
-    border-radius: 1000px;
-    margin: 0 0.5rem;
-    background: ${theme.gray200};
     cursor: pointer;
-    &.primary {
-      background: ${theme.purple300};
-      font-weight: bold;
-      color: ${theme.surface100};
+    &:disabled {
+      cursor: default;
     }
   }
   option {

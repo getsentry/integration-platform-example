@@ -1,4 +1,4 @@
-import {Column, DataType, ForeignKey, Model, Table} from 'sequelize-typescript';
+import {Column, DataType, Default, ForeignKey, Model, Table} from 'sequelize-typescript';
 
 import Organization from './Organization.model';
 import User from './User.model';
@@ -19,6 +19,13 @@ export default class Item extends Model {
 
   @Column
   complexity: number;
+
+  @Default(false)
+  @Column
+  isIgnored: boolean;
+
+  @Column
+  sentryId: string;
 
   @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
   column: ItemColumn;

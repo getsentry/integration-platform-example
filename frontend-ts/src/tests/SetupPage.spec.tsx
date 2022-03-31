@@ -30,9 +30,8 @@ describe('SetupPage', () => {
     renderWrapped(<SetupPage />);
     // Header
     expect(await screen.findByText(/complete your integration/i)).toBeInTheDocument();
-    expect(await screen.findByText(/choose an organization/i)).toBeInTheDocument();
     // Form Fields
-    expect(await screen.findByText(/select an organization/i)).toBeInTheDocument();
+    expect(await screen.findByText(/select an organization.../i)).toBeInTheDocument();
     expect(await screen.findByText(/submit/i)).toBeInTheDocument();
     // Footer
     expect(await screen.findByText(/docs/i)).toBeInTheDocument();

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, {SyntheticEvent} from 'react';
 
+import Button from './Button';
 import ThemedSelect from './ThemedSelect';
 
 const WEBHOOK_OPTIONS = [
@@ -25,9 +26,9 @@ function WebhookForm() {
       <StyledSelect
         options={WEBHOOK_OPTIONS.map(webhook => ({value: webhook, label: webhook}))}
       />
-      <button type="submit" className="primary">
+      <Button type="submit" className="primary">
         Trigger Webhook
-      </button>
+      </Button>
     </Form>
   );
 }

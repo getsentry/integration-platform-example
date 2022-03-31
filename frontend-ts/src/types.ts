@@ -14,10 +14,13 @@ export type User = {
 };
 
 export type Item = {
+  id: number;
   title: string;
   description?: string;
   complexity?: number;
   column: ColumnType;
+  assigneeId: number;
+  assignee: User;
 };
 
 export enum ColumnType {

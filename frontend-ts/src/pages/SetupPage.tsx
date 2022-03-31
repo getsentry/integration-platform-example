@@ -2,9 +2,11 @@ import styled from '@emotion/styled';
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 
-import Footer from '../components/Footer';
+import BasePage from '../components/BasePage';
+import Button from '../components/Button';
+import Main from '../components/Main';
 import SentryLogo from '../components/SentryLogo';
-import ThemedSelect, {OptionType} from '../components/ThemedSelect';
+import ThemedSelect from '../components/ThemedSelect';
 import {Organization} from '../types';
 import {makeBackendRequest} from '../util';
 
@@ -12,13 +14,14 @@ const REDIRECT_TIMEOUT = 3 * 1000;
 
 function SetupPage() {
   const [organizationId, setOrganizationId] = useState(null);
-  const [organizationOptions, setOrganizationOptions] = useState<OptionType[]>([]);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+
   const [redirect, setRedirect] = useState('');
   useEffect(() => {
     async function fetchData() {
       const data: Organization[] =
         (await makeBackendRequest('/api/organizations/')) || [];
-      setOrganizationOptions(data.map(({id, name}) => ({value: `${id}`, label: name})));
+      setOrganizations(data);
     }
     fetchData();
   }, []);
@@ -40,12 +43,12 @@ function SetupPage() {
   }
 
   return (
-    <SetupWrapper>
-      <Layout>
-        <Form onSubmit={handleSubmit}>
+    <BasePage>
+      <Main>
+        <form onSubmit={handleSubmit}>
+          <SentryApplicationLogo size={30} />
           {redirect ? (
             <React.Fragment>
-              <SentryLogo size={30} className="logo" />
               <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
               <p>You should be redirected in a few seconds.</p>
               <a href={redirect} data-testid="direct-link">
@@ -54,96 +57,68 @@ function SetupPage() {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <SentryLogo size={30} className="logo" />
-              <Description />
-              <p>
-                Please choose an organization to associate your Sentry installation with:
-              </p>
-              <MapBlock>
+              <PreInstallTextBlock />
+              <OrganizationSelectFieldWrapper>
                 <SentryLogo size={20} />
                 <h4>{searchParams.get('orgSlug')}</h4>
                 <span>&gt;</span>
                 <StyledSelect
-                  options={organizationOptions}
+                  options={organizations.map(({id, name}) => ({
+                    value: `${id}`,
+                    label: name,
+                  }))}
                   onChange={({value}) => setOrganizationId(value)}
                   placeholder="Select an Organization..."
                 />
-              </MapBlock>
-              <button type="submit" className="primary">
+              </OrganizationSelectFieldWrapper>
+              <Button type="submit" className="primary" disabled={!organizationId}>
                 Submit
-              </button>
+              </Button>
             </React.Fragment>
           )}
-        </Form>
-      </Layout>
-      <Footer />
-    </SetupWrapper>
+        </form>
+      </Main>
+    </BasePage>
   );
 }
-const SetupWrapper = styled.div`
-  background: ${p => p.theme.gray100};
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-  .logo {
-    color: ${p => p.theme.surface100};
-    margin: 0 auto;
-    display: block;
-    background: ${p => p.theme.gray300};
-    box-sizing: content-box;
-    padding: 1rem;
-    border-radius: 1rem;
-  }
-`;
-
-const Layout = styled.div`
-  background: ${p => p.theme.surface100};
-  flex: 1;
-`;
-
-const Form = styled.form`
-  background: ${p => p.theme.gray100};
-  margin: 3rem auto;
-  max-width: 500px;
-  padding: 2rem;
+export const SentryApplicationLogo = styled(SentryLogo)`
+  color: ${p => p.theme.surface100};
+  margin: 0 auto;
+  display: block;
+  background: ${p => p.theme.gray300};
+  box-sizing: content-box;
+  padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 2px 2px 8px ${p => p.theme.purple200};
-  ul {
-    padding-left: 2rem;
-    li {
-      margin: 0.5rem 0;
-    }
-  }
-  hr {
-    color: ${p => p.theme.purple200};
-  }
-  button {
-    display: block;
-    margin: 0 auto;
-  }
 `;
 
-const MapBlock = styled.div`
+const OrganizationSelectFieldWrapper = styled.div`
   display: flex;
   justify-content: start;
   align-items: center;
+  margin-bottom: 1rem;
+  svg {
+    min-width: 20px;
+  }
   h4 {
-    margin: 2rem;
+    margin: 1rem;
     text-align: right;
   }
-  span {
+  & span {
     flex: 0;
   }
 `;
 
 const StyledSelect = styled(ThemedSelect)`
   flex: 1;
-  margin: 2rem;
+  margin: 1rem;
   font-size: ${p => p.theme.text.baseSize};
+  * {
+    white-space: normal !important;
+  }
 `;
 
-const Description = () => (
-  <>
+const PreInstallTextBlock = () => (
+  <React.Fragment>
     <h2>Complete your integration of Sentry with YOUR_APP!</h2>
     <p>
       By completing this installation, you&apos;ll gain access to the following features:
@@ -170,7 +145,8 @@ const Description = () => (
       </li>
     </ul>
     <hr />
-  </>
+    <p>Please choose an organization with which to associate your Sentry installation:</p>
+  </React.Fragment>
 );
 
 export default SetupPage;

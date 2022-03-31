@@ -1,12 +1,23 @@
 import express from 'express';
 
+import Organization from '../models/Organization.model';
 import User from '../models/User.model';
 
 const router = express.Router();
 
 router.get('/', async (request, response) => {
-  const data = await User.findAll();
-  return response.send(data);
+  const {organization: slug} = request.query;
+  if (slug) {
+    const organization = await Organization.findOne({
+      include: User,
+      where: {slug},
+    });
+    if (organization) {
+      return response.send(organization.users);
+    }
+  }
+  const users = await User.findAll();
+  return response.send(users);
 });
 
 router.post('/', async (request, response) => {

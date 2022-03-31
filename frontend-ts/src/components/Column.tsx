@@ -1,19 +1,19 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import {Item as ItemType} from '../types';
-import Item from './Item';
+import {Item} from '../types';
+import ItemCard from './ItemCard';
 
 type ColumnProps = {
   title: string;
-  items?: ItemType[];
+  items?: Item[];
 };
 
 const Column = ({title, items = []}: ColumnProps) => (
   <StyledColumn>
     <Title>{title}</Title>
     {items.map((item, index) => (
-      <Item key={index} item={item} />
+      <ItemCard key={index} item={item} />
     ))}
   </StyledColumn>
 );
@@ -25,6 +25,7 @@ const StyledColumn = styled.div`
   margin: 2rem 1rem;
   border-radius: 5px;
   flex: 1;
+  min-width: min(400px, calc(33% - 2rem));
 `;
 
 const Title = styled.h2`
