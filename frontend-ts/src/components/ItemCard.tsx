@@ -70,7 +70,6 @@ const Card = styled.div<{isIgnored: boolean}>`
   padding: 0.25rem 0.5rem;
   border-radius: 5px;
   opacity: ${p => (p.isIgnored ? 0.5 : 1)};
-
   position: relative;
 `;
 
@@ -79,9 +78,9 @@ const HoverButton = styled.button<{isVisible: boolean}>`
   padding: 0;
   margin: 0;
   top: -10px;
-
   padding: 10px;
   color: ${p => p.theme.surface100};
+  border-radius: 100px;
   &:after {
     line-height: 100%;
     font-size: 1.1rem;
