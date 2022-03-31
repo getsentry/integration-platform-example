@@ -6,11 +6,11 @@ import User from '../models/User.model';
 const router = express.Router();
 
 router.get('/', async (request, response) => {
-  const organizationSlug = request.query.organization;
-  if (organizationSlug) {
+  const {organization: slug} = request.query;
+  if (slug) {
     const organization = await Organization.findOne({
       include: User,
-      where: {slug: organizationSlug},
+      where: {slug},
     });
     if (organization) {
       return response.send(organization.users);
