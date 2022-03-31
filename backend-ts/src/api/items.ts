@@ -6,18 +6,18 @@ import Organization from '../models/Organization.model';
 const router = express.Router();
 
 router.get('/', async (request, response) => {
-  const data = await Item.findAll();
   const organizationSlug = request.query.organization;
   if (organizationSlug) {
     const organization = await Organization.findOne({
+      include: Item,
       where: {slug: organizationSlug},
     });
     if (organization) {
-      const filteredData = data.filter(item => item.organizationId === organization.id);
-      return response.send(filteredData);
+      return response.send(organization.items);
     }
   }
-  return response.send(data);
+  const items = await Item.findAll();
+  return response.send(items);
 });
 
 router.post('/', async (request, response) => {
