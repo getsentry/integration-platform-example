@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
 
+import BasePage from '../components/BasePage';
 import Column from '../components/Column';
-import Footer from '../components/Footer';
 import Header from '../components/Header';
 import {ColumnType, Item, User} from '../types';
 import {makeBackendRequest} from '../util';
@@ -38,25 +38,18 @@ function KanbanPage() {
   });
 
   return (
-    <KanbanWrapper>
+    <BasePage>
       <Header />
-      <Layout>
+      <ColumnLayout>
         {columnTypes.map(type => {
           return <Column key={type} title={type} items={itemsMap[type]} />;
         })}
-      </Layout>
-      <Footer />
-    </KanbanWrapper>
+      </ColumnLayout>
+    </BasePage>
   );
 }
 
-const KanbanWrapper = styled.div`
-  display: flex;
-  flex-flow: column;
-  height: 100%;
-`;
-
-const Layout = styled.div`
+const ColumnLayout = styled.div`
   display: flex;
   flex: 1 1 auto;
   justify-content: center;
