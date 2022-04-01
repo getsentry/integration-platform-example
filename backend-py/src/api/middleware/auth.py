@@ -31,9 +31,10 @@ def is_correct_sentry_signature(
     ).hexdigest()
 
     if digest != expected:
+        app.logger.info("Unauthorized: Could not verify request came from Sentry")
         return False
 
-    app.logger.info("Verified: Request came from Sentry")
+    app.logger.info("Authorized: Verified request came from Sentry")
     return True
 
 

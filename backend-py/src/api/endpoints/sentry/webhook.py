@@ -8,14 +8,13 @@ from src.database import db_session
 from src.models import SentryInstallation, Organization
 from src.api.endpoints.sentry.handlers import issue_handler
 
-
-from flask import request
+from flask import request, Response
 
 
 @app.route("/api/sentry/webhook/", methods=["POST"])
 @verify_sentry_signature()
 def webhook_index():
-    status_code = 200
+    default_response = Response('', 200)
     # Parse the JSON body fields off of the request
     action = request.json.get("action")
     data = request.json.get("data")
@@ -34,20 +33,24 @@ def webhook_index():
         SentryInstallation.uuid == uuid
     ).first()
     if not sentry_installation:
-        return "", 404
+        return Response('', 404)
 
     # Handle webhooks related to issues
     if resource == 'issue':
-        status_code = issue_handler(action, sentry_installation, data)
+        return issue_handler(action, sentry_installation, data)
 
     # Handle uninstallation webhooks
     if resource == "installation" and action == "deleted":
-        status_code = handle_uninstall(data["installation"])
+        return handle_uninstall(data["installation"])
 
-    return "", status_code
+    # We can monitor what status codes we're sending from the integration dashboard
+    return default_response
 
 
 def handle_uninstall(install_data: Mapping[str, Any]) -> int:
+    if not install_data:
+        return Response('', 400)
+
     uuid = install_data["uuid"]
     installation_slug = install_data["app"]["slug"]
 
@@ -55,7 +58,7 @@ def handle_uninstall(install_data: Mapping[str, Any]) -> int:
         SentryInstallation.uuid == uuid
     ).first()
     if not sentry_installation:
-        return 404
+        return Response('', 404)
 
     # This is where you could destroy any associated data you've created
     # alongside the installation.
@@ -67,4 +70,4 @@ def handle_uninstall(install_data: Mapping[str, Any]) -> int:
     db_session.commit()
     app.logger.info(
         f"Uninstalled {installation_slug} from '{organization.name}'")
-    return 204
+    return Response('', 204)

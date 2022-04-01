@@ -1,3 +1,5 @@
+import {Response} from 'express';
+
 import Item, {ItemColumn} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
 import User from '../../../models/User.model';
@@ -13,13 +15,20 @@ async function handleAssigned(
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
   // Find or create a user to associate with the item
-  const {email, name} = issueData.assignedTo;
-  const [user, isUserNew] = await User.findOrCreate({
-    where: {username: email},
-    defaults: {name, username: email, organizationId: sentryInstallation.organizationId},
-  });
-  await user.$add('items', item);
-  console.info(`Assigned to ${isUserNew ? 'new' : 'existing'} user:`, user.username);
+  // Note: The assignee in Sentry might be a team, which you could handle here as well
+  const {type, email, name} = issueData.assignedTo;
+  if (type === 'user') {
+    const [user, isUserNew] = await User.findOrCreate({
+      where: {username: email},
+      defaults: {
+        name,
+        username: email,
+        organizationId: sentryInstallation.organizationId,
+      },
+    });
+    await user.$add('items', item);
+    console.info(`Assigned to ${isUserNew ? 'new' : 'existing'} user:`, user.username);
+  }
 }
 
 async function handleCreated(
@@ -64,31 +73,32 @@ async function handleResolved(
 }
 
 export default function issueHandler(
+  response: Response,
   action: string,
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
-): number {
+): void {
   const {issue: issueData} = data;
   switch (action) {
     case 'assigned':
       handleAssigned(sentryInstallation, issueData);
-      return 202;
-
+      response.status(202);
+      break;
     case 'created':
       handleCreated(sentryInstallation, issueData);
-      return 201;
-
+      response.status(201);
+      break;
     case 'ignored':
       handleIgnored(sentryInstallation, issueData);
-      return 202;
-
+      response.status(202);
+      break;
     case 'resolved':
       handleResolved(sentryInstallation, issueData);
-      return 202;
-
+      response.status(202);
+      break;
     default:
       console.info(`Unhandled Sentry Issue action: ${action}`);
-      return 200;
+      response.status(400);
   }
 }
 

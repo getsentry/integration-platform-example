@@ -1,4 +1,4 @@
-import express from 'express';
+import express, {Response} from 'express';
 
 import Organization from '../../models/Organization.model';
 import SentryInstallation from '../../models/SentryInstallation.model';
@@ -8,7 +8,7 @@ import {InstallResponseData} from './setup';
 const router = express.Router();
 
 router.post('/', async (request, response) => {
-  let statusCode = 200;
+  response.status(200);
   // Parse the JSON body fields off of the request
   const {
     action,
@@ -32,24 +32,30 @@ router.post('/', async (request, response) => {
 
   // Handle webhooks related to issues
   if (resource === 'issue') {
-    statusCode = issueHandler(action, sentryInstallation, data);
+    issueHandler(response, action, sentryInstallation, data);
   }
 
   // Handle uninstallation webhook
   if (resource === 'installation' && action === 'deleted') {
-    statusCode = await handleUninstall(data.installation);
+    await handleUninstall(response, data.installation);
   }
 
-  // We can monitor these status codes on our integration dashboard
-  response.sendStatus(statusCode);
+  // We can monitor what status codes we're sending from the integration dashboard
+  response.send();
 });
 
-async function handleUninstall(installData: InstallResponseData): Promise<number> {
+async function handleUninstall(
+  response: Response,
+  installData: InstallResponseData
+): Promise<Response> {
+  if (!installData) {
+    return response.status(400);
+  }
   const installation = await SentryInstallation.findOne({
     where: {uuid: installData.uuid},
   });
   if (!installation) {
-    return 404;
+    return response.status(404);
   }
   // This is where you could destroy any associated data you've created alongside the installation
   const organization = await Organization.findByPk(installation.organizationId);
@@ -59,8 +65,7 @@ async function handleUninstall(installData: InstallResponseData): Promise<number
   console.info(
     `Uninstalled ${installData.app.slug} from '${installData.organization.slug}'`
   );
-
-  return 204;
+  return response.status(204);
 }
 
 export default router;
