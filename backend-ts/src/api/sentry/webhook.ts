@@ -10,13 +10,14 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   response.status(200);
   // Parse the JSON body fields off of the request
-  const {
-    action,
-    data,
-    installation: {uuid},
-  } = request.body;
+  const {action, data, installation} = request.body;
+  const {uuid} = installation || {};
+
   // Identify the resource triggering the webhook in Sentry
   const resource = request.header('sentry-hook-resource');
+  if (!action || !data || !uuid || !resource) {
+    return response.sendStatus(400);
+  }
   console.info(`Received '${resource}.${action}' webhook from Sentry`);
 
   // If there is no associated installation, ignore the webhook
@@ -48,9 +49,6 @@ async function handleUninstall(
   response: Response,
   installData: InstallResponseData
 ): Promise<Response> {
-  if (!installData) {
-    return response.status(400);
-  }
   const installation = await SentryInstallation.findOne({
     where: {uuid: installData.uuid},
   });

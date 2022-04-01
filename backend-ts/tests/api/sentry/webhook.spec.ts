@@ -6,6 +6,7 @@ import createSentryInstallation, {
   SentryInstallation,
 } from '../../factories/SentryInstallation.factory';
 import {closeTestServer, createTestServer} from '../../testutils';
+import {MOCK_WEBHOOK, UUID} from './../../mocks';
 
 const path = '/api/sentry/webhook/';
 
@@ -19,36 +20,32 @@ describe(`GET ${path}`, () => {
 
   afterAll(async () => await closeTestServer());
 
-  it('responds with a 200', async () => {
-    const response = await request(server).post(path);
-    assert.equal(response.statusCode, 200);
+  it('responds with a 400 to bad requests', async () => {
+    let response = await request(server).post(path);
+    assert.equal(response.statusCode, 400);
+    response = await request(server).post(path).send('malformed');
+    assert.equal(response.statusCode, 400);
+    await request(server).post(path).send(MOCK_WEBHOOK['installation.deleted']); // missing headers
+    assert.equal(response.statusCode, 400);
   });
 
-  it('handles uninstallations gracefully', async () => {
-    const {uninstallWebhook, uninstallHeader} = sentryMocks;
-    const {uuid} = uninstallWebhook.data.installation;
-    await createSentryInstallation({uuid});
-    const newInstall = await SentryInstallation.findOne({where: {uuid: uuid}});
+  it('responds with a 400 to unknown installations', async () => {
+    const response = await request(server)
+      .post(path)
+      .send(MOCK_WEBHOOK['installation.deleted'])
+      .set({'sentry-hook-resource': 'installation'});
+    assert.equal(response.statusCode, 404);
+  });
+
+  it('handles installation.deleted', async () => {
+    await createSentryInstallation({uuid: UUID});
+    const newInstall = await SentryInstallation.findOne({where: {uuid: UUID}});
     expect(newInstall).not.toBeNull();
-    await request(server).post(path).send(uninstallWebhook).set(uninstallHeader);
-    const oldInstall = await SentryInstallation.findOne({where: {uuid: uuid}});
+    await request(server)
+      .post(path)
+      .send(MOCK_WEBHOOK['installation.deleted'])
+      .set({'sentry-hook-resource': 'installation'});
+    const oldInstall = await SentryInstallation.findOne({where: {uuid: UUID}});
     expect(oldInstall).toBeNull();
   });
 });
-
-const sentryMocks = {
-  uninstallHeader: {'sentry-hook-resource': 'installation'},
-  uninstallWebhook: {
-    action: 'deleted',
-    data: {
-      installation: {
-        app: {
-          uuid: '64bf2cf4-37ca-4365-8dd3-6b6e56d741b8',
-          slug: 'app',
-        },
-        organization: {slug: 'example'},
-        uuid: '7a485448-a9e2-4c85-8a3c-4f44175783c9',
-      },
-    },
-  },
-};

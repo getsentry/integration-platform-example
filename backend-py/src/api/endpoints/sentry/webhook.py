@@ -21,6 +21,8 @@ def webhook_index():
     uuid = request.json.get("installation", {}).get("uuid")
     # Identify the resource triggering the webhook in Sentry
     resource = request.headers.get("sentry-hook-resource")
+    if not action or not data or not uuid or not resource:
+        return Response('', 400)
     app.logger.info(f"Received '{resource}.{action}' webhook from Sentry")
 
     # If there is no associated installation, ignore the webhook
@@ -42,16 +44,13 @@ def webhook_index():
 
     # Handle uninstallation webhooks
     if resource == "installation" and action == "deleted":
-        return handle_uninstall(data["installation"])
+        return handle_uninstall(data.get("installation"))
 
     # We can monitor what status codes we're sending from the integration dashboard
     return default_response
 
 
 def handle_uninstall(install_data: Mapping[str, Any]) -> int:
-    if not install_data:
-        return Response('', 400)
-
     uuid = install_data["uuid"]
     installation_slug = install_data["app"]["slug"]
 

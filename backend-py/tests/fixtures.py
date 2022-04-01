@@ -4,7 +4,7 @@ from datetime import datetime
 import re
 
 from src.models import Item, Organization, User, SentryInstallation
-from .mocks import INSTALLATION
+from .mocks import INSTALLATION, MOCK_SETUP
 
 
 def create_user(
@@ -68,9 +68,9 @@ def create_sentry_installation(
     sentry_installation = SentryInstallation(
         uuid=INSTALLATION["uuid"],
         org_slug=INSTALLATION["organization"]["slug"],
-        token="def456",
-        refresh_token="ghi789",
-        expires_at=datetime.now(),
+        token=MOCK_SETUP["newToken"]["token"],
+        refresh_token=MOCK_SETUP["newToken"]["refreshToken"],
+        expires_at=MOCK_SETUP["newToken"]["expiresAt"],
         organization_id=organization.id,
     )
 

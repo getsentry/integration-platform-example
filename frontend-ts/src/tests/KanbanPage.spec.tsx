@@ -41,7 +41,7 @@ describe('KanbanPage', () => {
     expect(await screen.findByText(/doing/i)).toBeInTheDocument();
     expect(await screen.findByText(/done/i)).toBeInTheDocument();
     // Webhooks
-    expect(await screen.findByText(/trigger webhook/i)).toBeInTheDocument();
+    expect(await screen.findByText(/trigger error/i)).toBeInTheDocument();
     // Item Cards
     expect(await screen.findByText(mockItem.title)).toBeInTheDocument();
     expect(await screen.findByAltText(mockUser.name)).toBeInTheDocument();
