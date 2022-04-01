@@ -9,7 +9,7 @@ class ItemSerializer:
         return {
             "id": obj.id,
             "assigneeId": obj.assignee_id,
-            "column": obj.column,
+            "column": obj.column.value,
             "complexity": obj.complexity,
             "description": obj.description,
             "organizationId": obj.organization_id,
