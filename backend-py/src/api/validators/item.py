@@ -4,7 +4,7 @@ from typing import Any, Mapping
 
 from werkzeug.exceptions import BadRequest
 
-from src.types import Column
+from src.types import ItemColumn
 
 from . import (
     validate_optional_id,
@@ -24,12 +24,12 @@ def validate_assignee(value: int | str | None) -> int | None:
 
 def validate_column(value: str | None) -> str:
     if value is None:
-        return Column.TODO.value
+        return ItemColumn.TODO.value
 
     try:
-        return Column(value.upper()).value
+        return ItemColumn(value.upper()).value
     except ValueError:
-        raise BadRequest(f"Invalid: field 'column' must be one of {[e.value for e in Column]}")
+        raise BadRequest(f"Invalid: field 'column' must be one of {[e.value for e in ItemColumn]}")
 
 
 def validate_complexity(value: int | str | None) -> int:

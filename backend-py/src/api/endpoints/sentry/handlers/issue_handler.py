@@ -51,7 +51,11 @@ def handle_resolved(sentry_installation: SentryInstallation, issue_data: Mapping
     app.logger.info(f"Updated item's column to {ItemColumn.Done.value}")
 
 
-def issue_handler(action: str, sentry_installation: SentryInstallation, data: Mapping[str, Any]) -> Response:
+def issue_handler(
+    action: str,
+    sentry_installation: SentryInstallation,
+    data: Mapping[str, Any]
+) -> Response:
     issue_data = data.get('issue')
     if action == "assigned":
         handle_assigned(sentry_installation, issue_data)
@@ -75,7 +79,9 @@ def get_item_defaults(sentry_installation: SentryInstallation, issue_data: Mappi
         "organization_id": sentry_installation.organization_id,
         "title": issue_data.get('title'),
         "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done.value if issue_data.get('status') == "resolved" else ItemColumn.Todo.value,
+        "column": ItemColumn.Done.value
+        if issue_data.get('status') == "resolved"
+        else ItemColumn.Todo.value,
         "is_ignored": issue_data.get('status') == "ignored",
         "sentry_id": issue_data.get('id'),
     }

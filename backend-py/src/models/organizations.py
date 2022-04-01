@@ -12,7 +12,7 @@ class Organization(database.Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     slug = Column(String, nullable=False)
-    external_slug = Column(String, nullable=False)
+    external_slug = Column(String)
 
     items = relationship("Item")
     users = relationship("User")

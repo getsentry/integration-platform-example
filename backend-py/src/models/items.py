@@ -3,13 +3,7 @@ from __future__ import annotations
 from sqlalchemy import Column,  Integer, String, ForeignKey, Boolean, Enum
 
 from .. import database
-import enum
-
-
-class ItemColumn(enum.Enum):
-    Todo = 'TODO'
-    Doing = 'DOING'
-    Done = 'DONE'
+from ..types import ItemColumn
 
 
 class Item(database.Base):
@@ -19,7 +13,10 @@ class Item(database.Base):
     title = Column(String)
     description = Column(String)
     complexity = Column(Integer)
-    column = Column(Enum(ItemColumn, values_callable=lambda x: [e.value for e in x]))
+    column = Column(
+        Enum(ItemColumn, values_callable=lambda x: [e.value for e in x]),
+        nullable=False
+    )
     is_ignored = Column(Boolean, default=False)
     sentry_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))

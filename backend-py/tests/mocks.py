@@ -11,18 +11,11 @@ INSTALLATION = {
     "uuid": UUID,
 }
 
-MOCK_WEBHOOK = {
-    "action": "deleted",
-    "data": {
-        "installation": INSTALLATION,
-    },
-}
-
 MOCK_SETUP = {
-    "queryInstall": {
+    "postInstall": {
         "code": "installCode",
         "installationId": UUID,
-        "orgSlug": "example",
+        "sentryOrgSlug": "example",
     },
     "newToken": {
         "token": "abc123",
@@ -30,4 +23,22 @@ MOCK_SETUP = {
         "expiresAt": "2022-01-01T08:00:00.000Z",
     },
     "installation": INSTALLATION,
+}
+
+
+MOCK_INSTALLATION_CREATED_WEBHOOK = {
+    "action": "created",
+    "data": {"installation": INSTALLATION},
+    "installation": INSTALLATION,
+}
+
+MOCK_INSTALLATION_DELETED_WEBHOOK = {
+    "action": "deleted",
+    "data": {"installation": INSTALLATION},
+    "installation": INSTALLATION,
+}
+
+MOCK_WEBHOOK = {
+    "installation.deleted": MOCK_INSTALLATION_DELETED_WEBHOOK,
+    "installation.created": MOCK_INSTALLATION_CREATED_WEBHOOK
 }

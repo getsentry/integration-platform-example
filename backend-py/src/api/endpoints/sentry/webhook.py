@@ -28,7 +28,8 @@ def webhook_index():
     #       Redirect URL on our Sentry Integration, so setup.py handles it.
     #       If we didn't set the Redirect URL we'd have to handle it here by
     #       creating an installation for 'installation.created' webhoooks.
-    #       e.g. if resource == 'installation' and action == 'created') { create_sentry_installation(...); }
+    #       e.g. if resource == 'installation' and action == 'created':
+    #               create_sentry_installation(...); }
     sentry_installation = SentryInstallation.query.filter(
         SentryInstallation.uuid == uuid
     ).first()

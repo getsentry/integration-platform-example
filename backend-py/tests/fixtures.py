@@ -1,8 +1,10 @@
 from __future__ import annotations
+from datetime import datetime
 
 import re
 
-from src.models import Item, Organization, User
+from src.models import Item, Organization, User, SentryInstallation
+from .mocks import INSTALLATION
 
 
 def create_user(
@@ -48,7 +50,7 @@ def create_item(
         title=title,
         description="computers",
         complexity=1,
-        column="Todo",
+        column="TODO",
         assignee_id=getattr(user, "id", None),
         organization_id=organization.id,
     )
@@ -57,3 +59,22 @@ def create_item(
     db_session.commit()
 
     return item
+
+
+def create_sentry_installation(
+    db_session,
+    organization: Organization,
+) -> SentryInstallation:
+    sentry_installation = SentryInstallation(
+        uuid=INSTALLATION["uuid"],
+        org_slug=INSTALLATION["organization"]["slug"],
+        token="def456",
+        refresh_token="ghi789",
+        expires_at=datetime.now(),
+        organization_id=organization.id,
+    )
+
+    db_session.add(sentry_installation)
+    db_session.commit()
+
+    return sentry_installation
