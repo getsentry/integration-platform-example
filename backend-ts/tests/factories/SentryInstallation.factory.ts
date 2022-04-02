@@ -4,9 +4,9 @@ import SentryInstallation from '../../src/models/SentryInstallation.model';
 import createOrganization from './Organization.factory';
 
 export default async function createSentryInstallation(
-  fields?: Partial<Attributes<SentryInstallation>>
+  fields: Partial<Attributes<SentryInstallation>> = {}
 ) {
-  if (!fields.organization_id) {
+  if (!fields.organizationId) {
     const organization = await createOrganization();
     fields.organizationId = organization.id;
   }

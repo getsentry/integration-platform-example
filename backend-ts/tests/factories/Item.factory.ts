@@ -4,13 +4,13 @@ import Item, {ItemColumn} from '../../src/models/Item.model';
 import createOrganization from './Organization.factory';
 import createUser from './User.factory';
 
-export default async function createItem(fields?: Partial<Attributes<Item>>) {
-  if (!fields.organization_id) {
+export default async function createItem(fields: Partial<Attributes<Item>> = {}) {
+  if (!fields.organizationId) {
     const organization = await createOrganization();
     fields.organizationId = organization.id;
   }
-  if (!fields.assignee_id) {
-    const user = await createUser({organization_id: fields.organization_id});
+  if (!fields.assigneeId) {
+    const user = await createUser({organizationId: fields.organizationId});
     fields.assigneeId = user.id;
   }
   return Item.create({
