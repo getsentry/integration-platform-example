@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react';
+
 export async function makeBackendRequest(
   path: string,
   data?: Record<string, any>,
@@ -15,10 +16,15 @@ export async function makeBackendRequest(
   return res.json();
 }
 
-export async function triggerWebhook(webhook: string) {
-  Sentry.captureMessage(webhook);
-}
-
-export async function triggerError() {
-  Sentry.captureException(new Error('This is a test error'));
+export async function triggerError(message: string) {
+  class SentryCustomError extends Error {
+    constructor() {
+      super();
+      // Here, we're setting a unique name so that Sentry
+      // doesn't combine the events into a single issue
+      this.name = message;
+      this.message = message;
+    }
+  }
+  Sentry.captureException(new SentryCustomError());
 }

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import React from 'react';
 
-import WebhookForm from './WebhookForm';
+import ErrorForm from './ErrorForm';
 
 const Header = () => (
   <StyledHeader>
-    <WebhookForm />
+    <ErrorForm />
   </StyledHeader>
 );
 

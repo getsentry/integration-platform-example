@@ -20,9 +20,12 @@ const GlobalCss = (theme: Theme) => css`
     height: 100%;
   }
   button {
+    cursor: pointer;
+  }
+  input,
+  button {
     outline: 0;
     border: 0;
-    cursor: pointer;
     &:disabled {
       cursor: default;
     }

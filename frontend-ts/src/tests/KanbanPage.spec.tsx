@@ -1,4 +1,6 @@
-import {screen} from '@testing-library/react';
+import * as Sentry from '@sentry/react';
+import {act, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import {when} from 'jest-when';
 import React from 'react';
 
@@ -24,6 +26,8 @@ jest.mock('react-router-dom', () => ({
   useParams: () => ({organizationSlug: 'example'}),
 }));
 
+jest.mock('@sentry/react');
+
 describe('KanbanPage', () => {
   beforeEach(() => {
     // Setup backend query for organization list
@@ -40,8 +44,12 @@ describe('KanbanPage', () => {
     expect(await screen.findByText(/todo/i)).toBeInTheDocument();
     expect(await screen.findByText(/doing/i)).toBeInTheDocument();
     expect(await screen.findByText(/done/i)).toBeInTheDocument();
-    // Webhooks
-    expect(await screen.findByText(/trigger error/i)).toBeInTheDocument();
+    // Error Form
+    const errorButton = await screen.findByText(/Send Error/i);
+    expect(errorButton).toBeInTheDocument();
+    await act(async () => userEvent.click(errorButton));
+    expect(Sentry.captureException).toHaveBeenCalled();
+    expect(await screen.findByText(/Sent!/i)).toBeInTheDocument();
     // Item Cards
     expect(await screen.findByText(mockItem.title)).toBeInTheDocument();
     expect(await screen.findByAltText(mockUser.name)).toBeInTheDocument();
