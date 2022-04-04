@@ -46,7 +46,7 @@ def handle_resolved(sentry_installation: SentryInstallation, issue_data: Mapping
     item, item_created = get_or_create_item(sentry_installation, issue_data)
     app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
     # Update the item's column to DONE
-    item.column = ItemColumn.Done.value
+    item.column = ItemColumn.Done
     db_session.commit()
     app.logger.info(f"Updated item's column to {ItemColumn.Done.value}")
 
@@ -79,9 +79,9 @@ def get_item_defaults(sentry_installation: SentryInstallation, issue_data: Mappi
         "organization_id": sentry_installation.organization_id,
         "title": issue_data.get('title'),
         "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done.value
+        "column": ItemColumn.Done
         if issue_data.get('status') == "resolved"
-        else ItemColumn.Todo.value,
+        else ItemColumn.Todo,
         "is_ignored": issue_data.get('status') == "ignored",
         "sentry_id": issue_data.get('id'),
     }

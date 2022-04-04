@@ -24,10 +24,9 @@ def validate_assignee(value: int | str | None) -> int | None:
 
 def validate_column(value: str | None) -> str:
     if value is None:
-        return ItemColumn.Todo.value
-
+        return ItemColumn.Todo
     try:
-        return ItemColumn(value.upper()).value
+        return ItemColumn(value.upper())
     except ValueError:
         raise BadRequest(f"Invalid: field 'column' must be one of {[e.value for e in ItemColumn]}")
 

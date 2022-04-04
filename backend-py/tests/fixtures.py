@@ -4,6 +4,7 @@ from datetime import datetime
 import re
 
 from src.models import Item, Organization, User, SentryInstallation
+from src.types import ItemColumn
 from .mocks import INSTALLATION, MOCK_SETUP
 
 
@@ -50,7 +51,7 @@ def create_item(
         title=title,
         description="computers",
         complexity=1,
-        column="TODO",
+        column=ItemColumn.Todo,
         assignee_id=getattr(user, "id", None),
         organization_id=organization.id,
     )
