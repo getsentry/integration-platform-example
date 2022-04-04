@@ -9,13 +9,12 @@ type ItemCardProps = {
 };
 
 const ItemCard = ({
-  item: {id, title, description, complexity, assignee},
+  item: {id, title, description, complexity, assignee, sentryId, isIgnored},
 }: ItemCardProps) => {
-  const sentryId = undefined;
   const [isHovering, setIsHovering] = useState(false);
   return (
     <Card
-      isIgnored={false}
+      isIgnored={!!isIgnored}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -53,11 +52,14 @@ const ItemCard = ({
         </UserDisplay>
         <BadgeDisplay>
           {sentryId && (
-            <SentryIssue>
-              <SentryLogo size={15} /> {sentryId}
+            <SentryIssue className="badge">
+              <div className="sentryContainer">
+                <SentryLogo size={20} />
+                <span>{sentryId}</span>
+              </div>
             </SentryIssue>
           )}
-          {complexity && <Complexity>{complexity}</Complexity>}
+          {complexity && <Complexity className="badge">{complexity}</Complexity>}
         </BadgeDisplay>
       </BottomBar>
     </Card>
@@ -170,13 +172,13 @@ const UserDisplay = styled.div`
 const BadgeDisplay = styled.div`
   flex: 10;
   text-align: right;
-  span {
+  .badge {
     display: inline-block;
-    margin: 0.2rem;
   }
 `;
 
 const Complexity = styled.span`
+  line-height: 1;
   color: ${p => p.theme.surface100};
   padding: 0.25rem 0.75rem;
   border-radius: 1000px;
@@ -184,15 +186,24 @@ const Complexity = styled.span`
 `;
 
 const SentryIssue = styled.span`
-  display: flex;
-  align-items: center;
   color: ${p => p.theme.surface100};
   border: 1px solid ${p => p.theme.purple200};
   padding: 0.25rem 0.75rem;
   border-radius: 1000px;
   color: ${p => p.theme.purple200};
-  svg {
-    margin-right: 0.25rem;
+  text-decoration: none;
+  .sentryContainer {
+    display: flex;
+    line-height: 0;
+    align-items: center;
+    svg {
+      margin-right: 0.25rem;
+    }
+    .sentry-id {
+      flex: 1
+      line-height: 1;
+    }
+
   }
 `;
 

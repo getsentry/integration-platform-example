@@ -12,6 +12,8 @@ class ItemSerializer:
             "column": obj.column.value,
             "complexity": obj.complexity,
             "description": obj.description,
+            "sentryId": obj.sentry_id,
+            "isIgnored": obj.is_ignored,
             "organizationId": obj.organization_id,
             "title": obj.title,
         }
