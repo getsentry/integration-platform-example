@@ -14,14 +14,13 @@ from flask import request, Response
 @app.route("/api/sentry/webhook/", methods=["POST"])
 @verify_sentry_signature()
 def webhook_index():
-    default_response = Response('', 200)
     # Parse the JSON body fields off of the request
     action = request.json.get("action")
     data = request.json.get("data")
     uuid = request.json.get("installation", {}).get("uuid")
     # Identify the resource triggering the webhook in Sentry
     resource = request.headers.get("sentry-hook-resource")
-    if not action or not data or not uuid or not resource:
+    if not (action and data and uuid and resource):
         return Response('', 400)
     app.logger.info(f"Received '{resource}.{action}' webhook from Sentry")
 
@@ -31,7 +30,7 @@ def webhook_index():
     #       If we didn't set the Redirect URL we'd have to handle it here by
     #       creating an installation for 'installation.created' webhoooks.
     #       e.g. if resource == 'installation' and action == 'created':
-    #               create_sentry_installation(...); }
+    #               create_sentry_installation(...)
     sentry_installation = SentryInstallation.query.filter(
         SentryInstallation.uuid == uuid
     ).first()
@@ -47,7 +46,7 @@ def webhook_index():
         return handle_uninstall(data.get("installation"))
 
     # We can monitor what status codes we're sending from the integration dashboard
-    return default_response
+    return Response('', 200)
 
 
 def handle_uninstall(install_data: Mapping[str, Any]) -> int:

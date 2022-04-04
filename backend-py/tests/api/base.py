@@ -6,7 +6,7 @@ from typing import Any, Mapping
 from flask import Response, url_for
 
 from src import app
-from src.database import init_db, drop_tables, clear_tables, db_session
+from src.database import clear_tables, db_session
 from src.models import Item, Organization, User, SentryInstallation
 
 from tests import fixtures
@@ -29,8 +29,6 @@ class APITestCase(unittest.TestCase):
 
     endpoint: str
     method: str = "get"
-    drop_tables()
-    init_db()
 
     def setUp(self):
         db_session.commit()

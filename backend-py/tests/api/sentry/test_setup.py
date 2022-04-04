@@ -28,7 +28,6 @@ class SetupTest(APITestCase):
             f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/authorizations/",
             body=json.dumps(MOCK_SETUP["newToken"]),
         )
-        print("TESTSETSETS", f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/authorizations/")
 
         # Simulate updating an installation.
         responses.add(
