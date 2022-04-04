@@ -72,28 +72,29 @@ async function handleResolved(
   console.info(`Updated item's column to '${ItemColumn.Done}'`);
 }
 
-export default function issueHandler(
+export default async function issueHandler(
   response: Response,
   action: string,
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
-): void {
+): Promise<void> {
   const {issue: issueData} = data;
+
   switch (action) {
     case 'assigned':
-      handleAssigned(sentryInstallation, issueData);
+      await handleAssigned(sentryInstallation, issueData);
       response.status(202);
       break;
     case 'created':
-      handleCreated(sentryInstallation, issueData);
+      await handleCreated(sentryInstallation, issueData);
       response.status(201);
       break;
     case 'ignored':
-      handleIgnored(sentryInstallation, issueData);
+      await handleIgnored(sentryInstallation, issueData);
       response.status(202);
       break;
     case 'resolved':
-      handleResolved(sentryInstallation, issueData);
+      await handleResolved(sentryInstallation, issueData);
       response.status(202);
       break;
     default:

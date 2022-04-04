@@ -23,7 +23,7 @@ export async function triggerError(message: string) {
       // Here, we're setting a unique name so that Sentry
       // doesn't combine the events into a single issue
       this.name = message;
-      this.message = message;
+      this.message = 'This is a test error!';
     }
   }
   Sentry.captureException(new SentryCustomError());

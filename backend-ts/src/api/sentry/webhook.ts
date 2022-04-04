@@ -33,7 +33,7 @@ router.post('/', async (request, response) => {
 
   // Handle webhooks related to issues
   if (resource === 'issue') {
-    issueHandler(response, action, sentryInstallation, data);
+    await issueHandler(response, action, sentryInstallation, data);
   }
 
   // Handle uninstallation webhook

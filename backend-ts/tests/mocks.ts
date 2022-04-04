@@ -11,6 +11,47 @@ export const INSTALLATION = {
   uuid: UUID,
 };
 
+export const ISSUE = {
+  id: '123',
+  shortId: 'IPE-1',
+  title: 'Error #1: This is a test error!',
+  culprit: 'SentryCustomError(frontend-ts/src/util)',
+  level: 'error',
+  status: 'unresolved',
+  statusDetails: {},
+  isPublic: false,
+  platform: 'javascript',
+  project: {
+    id: '456',
+    name: 'ipe',
+    slug: 'ipe',
+    platform: 'javascript-react',
+  },
+  type: 'error',
+  metadata: {
+    value: 'This is a test error!',
+    type: 'Another Error #1',
+    filename: '/frontend-ts/src/util.ts',
+    function: 'SentryCustomError',
+    display_title_with_tree_label: false,
+  },
+  numComments: 0,
+  assignedTo: {
+    email: 'person@example.com',
+    type: 'user',
+    id: '789',
+    name: 'Person',
+  },
+  isBookmarked: false,
+  isSubscribed: false,
+  hasSeen: false,
+  isUnhandled: false,
+  count: '1',
+  userCount: 1,
+  firstSeen: '2022-04-04T18:17:18.320000Z',
+  lastSeen: '2022-04-04T18:17:18.320000Z',
+};
+
 export const MOCK_SETUP = {
   postInstall: {
     code: 'installCode',
@@ -25,19 +66,46 @@ export const MOCK_SETUP = {
   installation: INSTALLATION,
 };
 
-export const MOCK_INSTALLATION_CREATED_WEBHOOK = {
+const MOCK_INSTALLATION_CREATED_WEBHOOK = {
   action: 'created',
   data: {installation: INSTALLATION},
   installation: INSTALLATION,
 };
 
-export const MOCK_INSTALLATION_DELETED_WEBHOOK = {
+const MOCK_INSTALLATION_DELETED_WEBHOOK = {
+  ...MOCK_INSTALLATION_CREATED_WEBHOOK,
   action: 'deleted',
-  data: {installation: INSTALLATION},
+};
+
+const MOCK_ISSUE_ASSIGNED_WEBHOOK = {
+  action: 'assigned',
+  data: {issue: ISSUE},
+  installation: INSTALLATION,
+};
+
+const MOCK_ISSUE_CREATED_WEBHOOK = {
+  action: 'created',
+  data: {issue: {...ISSUE, assignedTo: <Record<string, any>>null}},
+  installation: INSTALLATION,
+};
+
+const MOCK_ISSUE_IGNORED_WEBHOOK = {
+  action: 'ignored',
+  data: {issue: {...ISSUE, status: 'ignored'}},
+  installation: INSTALLATION,
+};
+
+const MOCK_ISSUE_RESOLVED_WEBHOOK = {
+  action: 'resolved',
+  data: {issue: {...ISSUE, status: 'resolved'}},
   installation: INSTALLATION,
 };
 
 export const MOCK_WEBHOOK = {
   'installation.deleted': MOCK_INSTALLATION_DELETED_WEBHOOK,
   'installation.created': MOCK_INSTALLATION_CREATED_WEBHOOK,
+  'issue.assigned': MOCK_ISSUE_ASSIGNED_WEBHOOK,
+  'issue.created': MOCK_ISSUE_CREATED_WEBHOOK,
+  'issue.ignored': MOCK_ISSUE_IGNORED_WEBHOOK,
+  'issue.resolved': MOCK_ISSUE_RESOLVED_WEBHOOK,
 };
