@@ -26,6 +26,7 @@ class IssueHandlerWebhookTest(APITestCase):
         user = User.query.filter(User.username == ISSUE["assignedTo"]["email"]).first()
         assert user
         assert item.assignee_id == user.id
+        assert item.column.value == ItemColumn.Doing.value
 
     def test_issue_created(self):
         self.get_success_response(

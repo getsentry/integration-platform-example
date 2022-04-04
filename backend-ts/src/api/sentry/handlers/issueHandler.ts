@@ -11,7 +11,10 @@ async function handleAssigned(
   // Find or create an item to associate with the Sentry Issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
-    defaults: getItemDefaults(sentryInstallation, issueData),
+    defaults: {
+      ...getItemDefaults(sentryInstallation, issueData),
+      column: ItemColumn.Doing,
+    },
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
   // Find or create a user to associate with the item
@@ -23,6 +26,7 @@ async function handleAssigned(
       defaults: {
         name,
         username: email,
+        avatar: `https://ui-avatars.com/api/?name=${name}&background=random`,
         organizationId: sentryInstallation.organizationId,
       },
     });
@@ -36,7 +40,7 @@ async function handleCreated(
   issueData: Record<string, any>
 ) {
   // Create an item to associate with the Sentry Issue
-  await Item.create({...getItemDefaults(sentryInstallation, issueData)});
+  await Item.create(getItemDefaults(sentryInstallation, issueData));
   console.info('Created linked Sentry issue');
 }
 

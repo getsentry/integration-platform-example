@@ -12,6 +12,7 @@ def handle_assigned(sentry_installation: SentryInstallation, issue_data: Mapping
     # Find or create an item to associate with the Sentry Issue
     item, item_created = get_or_create_item(sentry_installation, issue_data)
     app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
+    item.column = ItemColumn.Doing
     # Find or create a user to associate with the item
     # Note: The assignee in Sentry might be a team, which you could handle here as well
     assignee_data = issue_data.get('assignedTo', {})

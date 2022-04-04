@@ -34,6 +34,7 @@ describe(`issueHandler for webhooks`, () => {
     const user = await User.findOne({where: {username: ISSUE.assignedTo.email}});
     expect(user).not.toBeNull();
     expect(item.assigneeId).toEqual(user.id);
+    expect(item.column).toEqual(ItemColumn.Doing);
   });
 
   it('should handle issue.created events', async () => {
