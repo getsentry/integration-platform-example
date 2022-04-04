@@ -68,7 +68,7 @@ def issue_handler(
         return Response('', 202)
     elif action == 'resolved':
         handle_resolved(sentry_installation, issue_data)
-        return Response('', 200)
+        return Response('', 202)
     else:
         app.logger.info(f"Unhandled Sentry Issue action: {action}")
         return Response('', 400)

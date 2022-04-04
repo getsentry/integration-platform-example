@@ -3,7 +3,9 @@ import {Express} from 'express';
 import request from 'supertest';
 
 import {Item, ItemColumn} from '../../../factories/Item.factory';
-import createSentryInstallation from '../../../factories/SentryInstallation.factory';
+import createSentryInstallation, {
+  SentryInstallation,
+} from '../../../factories/SentryInstallation.factory';
 import {User} from '../../../factories/User.factory';
 import {closeTestServer, createTestServer} from '../../../testutils';
 import {ISSUE, MOCK_WEBHOOK, UUID} from './../../../mocks';
@@ -13,10 +15,11 @@ const path = '/api/sentry/webhook/';
 describe(`issueHandler for webhooks`, () => {
   let server: Express;
   let baseRequest: request.Test;
+  let sentryInstallation: SentryInstallation;
 
   beforeEach(async () => {
     server = await createTestServer();
-    await createSentryInstallation({uuid: UUID});
+    sentryInstallation = await createSentryInstallation({uuid: UUID});
     baseRequest = request(server).post(path).set({'sentry-hook-resource': 'issue'});
     jest.resetAllMocks();
   });
@@ -38,6 +41,12 @@ describe(`issueHandler for webhooks`, () => {
     assert.equal(response.statusCode, 201);
     const item = await Item.findOne({where: {sentryId: ISSUE.id}});
     expect(item).not.toBeNull();
+    assert.equal(item.title, ISSUE.title);
+    assert.equal(item.description, `${ISSUE.shortId} - ${ISSUE.culprit}`);
+    assert.equal(item.isIgnored, false);
+    assert.equal(item.column, ItemColumn.Todo);
+    assert.equal(item.sentryId, ISSUE.id);
+    assert.equal(item.organizationId, sentryInstallation.organizationId);
   });
 
   it('should handle issue.ignored events', async () => {

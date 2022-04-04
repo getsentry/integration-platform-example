@@ -5,6 +5,6 @@ JSONData = MutableMapping[str, Any]
 
 
 class ItemColumn(enum.Enum):
-    TODO = "TODO"
-    DOING = "DOING"
-    DONE = "DONE"
+    Todo = "TODO"
+    Doing = "DOING"
+    Done = "DONE"

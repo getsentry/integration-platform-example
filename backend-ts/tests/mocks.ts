@@ -73,8 +73,9 @@ const MOCK_INSTALLATION_CREATED_WEBHOOK = {
 };
 
 const MOCK_INSTALLATION_DELETED_WEBHOOK = {
-  ...MOCK_INSTALLATION_CREATED_WEBHOOK,
   action: 'deleted',
+  data: {installation: INSTALLATION},
+  installation: INSTALLATION,
 };
 
 const MOCK_ISSUE_ASSIGNED_WEBHOOK = {
@@ -85,7 +86,7 @@ const MOCK_ISSUE_ASSIGNED_WEBHOOK = {
 
 const MOCK_ISSUE_CREATED_WEBHOOK = {
   action: 'created',
-  data: {issue: {...ISSUE, assignedTo: <Record<string, any>>null}},
+  data: {issue: ISSUE},
   installation: INSTALLATION,
 };
 

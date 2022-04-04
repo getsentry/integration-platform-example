@@ -24,7 +24,7 @@ def validate_assignee(value: int | str | None) -> int | None:
 
 def validate_column(value: str | None) -> str:
     if value is None:
-        return ItemColumn.TODO.value
+        return ItemColumn.Todo.value
 
     try:
         return ItemColumn(value.upper()).value
