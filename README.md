@@ -89,3 +89,8 @@ Now that your integration has been installed, we can test out all of its feature
 ## Testing your Application
 
 <!-- TODO(Leander): Add testing here -->
+
+
+# Credits
+
+- UIAvatars.com

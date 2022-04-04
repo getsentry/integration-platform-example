@@ -11,6 +11,4 @@ class OrganizationSerializer:
             "name": obj.name,
             "slug": obj.slug,
             "externalSlug": obj.slug,
-            "createdAt": obj.created_at,
-            "updatedAt": obj.updated_at,
         }

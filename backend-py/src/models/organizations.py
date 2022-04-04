@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Column, DateTime, Integer, String
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 from .. import database
@@ -12,9 +12,7 @@ class Organization(database.Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     slug = Column(String, nullable=False)
-    external_slug = Column(String, nullable=False)
-    created_at = Column(DateTime)
-    updated_at = Column(DateTime)
+    external_slug = Column(String)
 
     items = relationship("Item")
     users = relationship("User")

@@ -19,6 +19,8 @@ export type Item = {
   description?: string;
   complexity?: number;
   column: ColumnType;
+  sentryId?: string;
+  isIgnored?: boolean;
   assigneeId: number;
   assignee: User;
 };

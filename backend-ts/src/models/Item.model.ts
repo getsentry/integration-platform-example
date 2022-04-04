@@ -9,7 +9,7 @@ export enum ItemColumn {
   Done = 'DONE',
 }
 
-@Table({tableName: 'item', underscored: true})
+@Table({tableName: 'item', underscored: true, timestamps: false})
 export default class Item extends Model {
   @Column
   title: string;

@@ -12,10 +12,15 @@ SENTRY_URL = os.getenv("SENTRY_URL")
 
 class SetupTest(APITestCase):
     endpoint = "setup_index"
+    method = "post"
+
+    def setUp(self):
+        super().setUp()
+        self.organization = self.create_organization()
 
     @responses.activate
     def test_post(self):
-        uuid = MOCK_SETUP["queryInstall"]["installationId"]
+        uuid = MOCK_SETUP["postInstall"]["installationId"]
 
         # Simulate getting a token.
         responses.add(
@@ -31,7 +36,15 @@ class SetupTest(APITestCase):
             body=json.dumps(MOCK_SETUP["installation"]),
         )
 
-        self.get_success_response(
-            **MOCK_SETUP["queryInstall"],
-            status_code=302
+        response = self.get_success_response(
+            data={
+                **MOCK_SETUP["postInstall"],
+                "organizationId": self.organization.id
+            },
+            status_code=201
         )
+        redirect_url = response.json.get('redirectUrl')
+
+        sentry_org_slug = MOCK_SETUP["postInstall"]["sentryOrgSlug"]
+        app_slug = MOCK_SETUP["installation"]["app"]["slug"]
+        assert redirect_url == f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"

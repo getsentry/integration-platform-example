@@ -10,6 +10,8 @@ from typing import Any, Mapping
 from dotenv import load_dotenv
 from flask import request
 
+from src import app
+
 load_dotenv()
 FLASK_ENV = os.getenv("FLASK_ENV")
 SENTRY_CLIENT_SECRET = os.getenv("SENTRY_CLIENT_SECRET")
@@ -29,9 +31,10 @@ def is_correct_sentry_signature(
     ).hexdigest()
 
     if digest != expected:
+        app.logger.info("Unauthorized: Could not verify request came from Sentry")
         return False
 
-    print("Verified: Request came from Sentry")
+    app.logger.info("Authorized: Verified request came from Sentry")
     return True
 
 

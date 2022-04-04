@@ -34,8 +34,7 @@ async function createSeedData(
     const lastName = faker.name.lastName();
     futureUsers.push({
       name: firstName + ' ' + lastName,
-      email: faker.internet.email(firstName, lastName),
-      username: faker.internet.userName(firstName, lastName).toLowerCase(),
+      username: faker.internet.email(firstName, lastName),
       avatar: faker.image.avatar(),
     });
   }
@@ -55,6 +54,7 @@ async function createSeedData(
       description: faker.hacker.phrase(),
       complexity: faker.helpers.randomize([1, 2, 3, 5, 8]),
       column: faker.helpers.randomize(Object.values(ItemColumn)),
+      isIgnored: false,
     });
   }
   const newItems = await Item.bulkCreate(futureItems, {returning: true});
@@ -68,5 +68,10 @@ async function createSeedData(
 }
 
 createSeedData(1, 4, 20)
-  .then(() => console.info('Finished seeding data -- Exiting.'))
+  .then(() => {
+    console.info('Finished seeding data.');
+    console.info(
+      'Note: SentryInstallations cannot be seeded, you must manually reinstall on Sentry.'
+    );
+  })
   .catch(e => console.error(`[🌱 Seeding Error]: ${e.message}`));

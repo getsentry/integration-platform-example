@@ -4,7 +4,7 @@ import Item from './Item.model';
 import SentryInstallation from './SentryInstallation.model';
 import User from './User.model';
 
-@Table({tableName: 'organization', underscored: true})
+@Table({tableName: 'organization', underscored: true, timestamps: false})
 export default class Organization extends Model {
   @Column
   name: string;

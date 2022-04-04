@@ -1,3 +1,4 @@
+import os
 import contextlib
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -10,7 +11,9 @@ db_session = scoped_session(
     sessionmaker(
         autocommit=False,
         autoflush=False,
-        bind=engine
+        bind=engine,
+        # Disable object expiration to make testing with fixtures easier
+        expire_on_commit=os.getenv("FLASK_ENV") != 'test'
     )
 )
 
