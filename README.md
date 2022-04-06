@@ -24,8 +24,8 @@ If we missed something, or you're still having trouble, feel free to [create an 
 ## Getting Started
 
 ### Prerequisites
-  - [Sentry](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry
-  - [Docker](https://docs.docker.com/get-docker/) - You must have docker installed on your local machine
+  - [Sentry](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry.
+  - [Docker](https://docs.docker.com/get-docker/) - You must have Docker installed on your local machine.
   - Select a codebase - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands/environment that is more appropriate for your implementation.
 
 ### Step 0: Choose an Integration
@@ -50,13 +50,16 @@ authtoken: abc123
 tunnels:
   ipe-frontend:
     proto: http
-    addr: 3000 # Make sure it matches REACT_APP_PORT in .env
+    # Make sure addr matches REACT_APP_PORT in .env
+    addr: 3000 
   ipe-backend-py:
     proto: http
-    addr: 5100 # Make sure it matches FLASK_RUN_PORT in .env
+    # Make sure addr matches FLASK_RUN_PORT in .env
+    addr: 5100 
   ipe-backend-ts:
     proto: http
-    addr: 5200 # Make sure it matches EXPRESS_LISTEN_PORT in .env
+    # Make sure addr matches EXPRESS_LISTEN_PORT in .env
+    addr: 5200 
 ```
 
 This will let you easily set up your tunnels with:
@@ -65,56 +68,64 @@ This will let you easily set up your tunnels with:
 ngrok start --all
 ```
 
-Otherwise, you can expose ports individually with:
+Otherwise, you can expose ports individually. For example, the default frontend port can
 
 ```shell
-ngrok http $PORT
+ngrok http 3000
 ```
+
+With ngrok running, you'll be presented with an interface that might look like the following:
+
+```
+ngrok by @inconshreveable
+
+Session Status      online
+Account             Sentry (Plan: Pro)
+Version             2.3.40
+Region              United States (us)
+Web Interface       http://127.0.0.1:4040
+Forwarding          https://abc123.ngrok.io -> http://localhost:3000 
+Forwarding          https://def456.ngrok.io -> http://localhost:5100 
+Forwarding          https://ghi789.ngrok.io -> http://localhost:5200 
+Connections         ttl     opn     rt1     rt5     p50     p90
+                    42      0       0.00    0.00    0.02    3.88
+```
+
+Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within [Sentry](https://sentry.io/). 
 
 ### Step 2: Setup Sentry
 
-Next, with your ngrok ports exposed, take a note of the forwarding addresses (ending with `.ngrok.io`), you'll need them to setup your integration within [Sentry](https://sentry.io/). 
-
-```python
-Forwarding    https://abc123.ngrok.io -> http://localhost:3000 # -> demo frontend
-Forwarding    https://def456.ngrok.io -> http://localhost:5100 # -> demo python backend
-Forwarding    https://ghi789.ngrok.io -> http://localhost:5200 # -> demo node backend
-```
-
 In your Sentry instance,
 
-1. Click Settings > Developer Settings > New Public Integration
-2. Give it an appropriate name and author
+1. Click Settings > Developer Settings > New Public Integration.
+2. Give your integration an appropriate name and author.
 3. Specify a Webhook and Redirect URL with your ngrok forwarding address. Using the above example, with the python backend, it may look like this:
     - Webhook URL: `https://def456.ngrok.io/api/sentry/webhook/` 
     - Redirect URL: `https://abc123.ngrok.io/sentry/setup/`
 > Note: On the free plan for ngrok, if your service restarts, [you will be issued a new forwarding address](https://ngrok.com/docs#getting-started-stable). If this happens, be sure to update these URLs in Sentry to keep your app functional while developing/testing.
-4. Ensure 'Verify Installation' is checked
-5. Enable 'Issue & Event - Read' permissions
-6. Enable 'issue' webhooks (for created, resolved, assigned, and ignored actions)
-<!-- TODO(Leander): Fill these in as we add more features -->
-7. Click 'Save Changes'
-8. Make a note of the **Client ID** and **Client Secret**
+4. Ensure 'Verify Installation' is checked.
+5. Enable 'Issue & Event - Read' permissions.
+6. Enable 'issue' webhooks (for created, resolved, assigned, and ignored actions).
+7. TODO(Leander): Add extra steps here as we add features
+7. Click 'Save Changes'.
+8. Make a note of the **Client ID** and **Client Secret**.
 
-This demo integration can helpfully create errors in Sentry to trigger webhooks while developing. To enable this, you'll need to issue this app a DSN. To do so,
+This demo integration can helpfully create errors in Sentry to trigger webhooks while developing, but you'll need to issue this app a DSN. 
 
-1. Click Projects > Create Project
-2. Select React (JS)
-3. Give it an appropriate name
-4. Click Create Project
-5. Make a note of the **DSN** URL
+1. Click Projects > Create Project.
+2. Select React (JS).
+3. Give your project an appropriate name (for example: Demo Integration).
+4. Click Create Project.
+5. Make a note of the **DSN** URL.
 
 Next, we'll be taking these values from Sentry and putting together our application's environment.
 ### Step 3: Setup your Environment
 
 We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename from `.env.sample` to `.env`. Now you can change any of these values, but the pay close attention to a few of them:
-  - `SENTRY_URL`: The instance of Sentry you're building upon (Use 'https://sentry.io' if not self-hosted)
   - `SENTRY_CLIENT_ID`: The Client ID from Step 2
-  - `SENTRY_CLIENT_SECRET`: The CLIENT Secret from Step 2
+  - `SENTRY_CLIENT_SECRET`: The Client Secret from Step 2
   - `REACT_APP_SENTRY_DSN`: The DSN from Step 2
-  - `REACT_APP_BACKEND_URL`: The complete address of your chosen backend
-    - Use `http://localhost:$FLASK_RUN_PORT` for python, or `http://localhost:$EXPRESS_LISTEN_PORT` for node (default)
-    - If there are issues with `localhost` and your configuration, you may want to use an corresponding ngrok forwarding address instead
+  - `REACT_APP_BACKEND_URL`: The ngrok forwarding address of your chosen backend
 
 > Note: If you change `REACT_APP_PORT`, `FLASK_RUN_PORT`, or `EXPRESS_LISTEN_PORT`, you may have to reconfigure your ngrok setup and Integration URLs in Sentry
 
@@ -147,6 +158,7 @@ make build-typescript
 
 Building an app on our integration platform gives you access to lots of Sentry features. This section will detail how to go about testing them while building your integration.
 ### Testing Webhooks
+
   - [How to test installation/uninstallation](/docs/installation.md)
     - `installation.created`, `installation.deleted`
   - [How to test issue webhooks](/docs/webhooks/event-webhooks.md#issue-webhooks)
@@ -160,6 +172,7 @@ Building an app on our integration platform gives you access to lots of Sentry f
     - `metric_alert.critical`, `metric_alert.warning`, `metric_alert.resolved` _(Requires Business Plan, both to develop and install)_
 
 ### Testing UI Components
+
   - [Issue Linking/Creating](/docs/ui-components/issue-linking.md)
   - [Stacktrace Linking](/docs/ui-components/stacktrace-linking.md)
   - [Alert Rule UI Components](/docs/ui-components/alert-rule-actions.md)
