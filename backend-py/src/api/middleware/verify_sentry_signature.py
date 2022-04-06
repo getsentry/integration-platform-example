@@ -8,7 +8,7 @@ import functools
 from typing import Any, Mapping
 
 from dotenv import load_dotenv
-from flask import request
+from flask import request, Response
 
 from src import app
 
@@ -53,10 +53,10 @@ def verify_sentry_signature():
                 and not is_correct_sentry_signature(
                     body=request.json,
                     key=SENTRY_CLIENT_SECRET,
-                    expected=request.headers["sentry-hook-signature"]
+                    expected=request.headers.get("sentry-hook-signature")
                 )
             ):
-                return "Could not verify request came from Sentry", 401
+                return Response('', 401)
             return f(*args, **kwargs)
         return inner
     return wrapper

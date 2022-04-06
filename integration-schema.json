@@ -1,0 +1,35 @@
+{
+  "elements": [
+    {
+      "type": "issue-link",
+      "link": {
+        "uri": "/items/",
+        "required_fields": [
+          {
+            "type": "select",
+            "label": "Which item would you like to link to this Sentry Issue?",
+            "name": "itemId",
+            "uri": "/api/sentry/options/items/"
+          }
+        ]
+      },
+      "create": {
+        "uri": "/items/",
+        "required_fields": [
+          {
+            "type": "text",
+            "label": "Item Title",
+            "name": "title",
+            "default": "issue.title"
+          },
+          {
+            "type": "textarea",
+            "label": "Item Description",
+            "name": "description",
+            "default": "issue.description"
+          }
+        ]
+      }
+    }
+  ]
+}
