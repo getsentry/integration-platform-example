@@ -27,16 +27,18 @@ To test the uninstallation flow:
 If you monitor server logs during the above install-uninstall test, you should see something similar to the following:
 
 ```
+# Installation Request
+
 1. Authorized: Verified request came from Sentry
 2. Received 'installation.created' webhook from Sentry
 3. Installed example on 'Bahringer LLC'
+
+# Uninstallation Request
 
 4. Authorized: Verified request came from Sentry
 5. Received 'installation.deleted' webhook from Sentry
 6. Uninstalled example from 'Bahringer LLC'
 ```
-
-Logs 1-3 have to do with the installation request, while 4-6 are triggered on uninstallation.
 
 1. The authorization comes from verifying the request signature with the shared 
    - [Python Signature Verification](../backend-py/src/api/middleware/auth.py)
