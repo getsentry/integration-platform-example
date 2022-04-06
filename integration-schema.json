@@ -3,7 +3,7 @@
     {
       "type": "issue-link",
       "link": {
-        "uri": "/items/",
+        "uri": "/api/sentry/issue-link/link/",
         "required_fields": [
           {
             "type": "select",
@@ -14,7 +14,7 @@
         ]
       },
       "create": {
-        "uri": "/items/",
+        "uri": "/api/sentry/issue-link/create/",
         "required_fields": [
           {
             "type": "text",

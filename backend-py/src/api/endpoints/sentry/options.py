@@ -19,4 +19,5 @@ def get_item_options() -> Response:
         return Response('', 404)
     items = Item.query.filter(Item.organization_id == sentry_installation.organization_id).all()
     result = [{"value": item.id, "label": item.title} for item in items]
+    app.logger.info(f"Populating item options in Sentry")
     return jsonify(result)

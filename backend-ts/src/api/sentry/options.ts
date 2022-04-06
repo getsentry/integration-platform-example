@@ -26,6 +26,7 @@ router.get('/items', async (request, response) => {
     label: item.title,
     value: item.id,
   }));
+  console.info('Populating item options in Sentry');
   return response.send(result);
 });
 
