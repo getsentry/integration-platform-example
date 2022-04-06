@@ -166,6 +166,14 @@ Building an app on our integration platform gives you access to lots of Sentry f
 
 ---
 
+## Publishing
+
+Once you've finalized, tested and deployed your application, you can submit a publication request on Sentry. Once it's reviewed, it'll be accessible to install by anyone on the Sentry platform.
+
+You can find out more about publishing, [here].(https://docs.sentry.io/product/integrations/integration-platform/#published-state)
+
+---
+
 ## Credits
 
 - [ui-avatars.com](https://ui-avatars.com/) - Simple API to generate initials from names
