@@ -13,10 +13,9 @@ class CreateIssueLinkTest(APITestCase):
         super().setUp()
         self.organization = self.create_organization()
         self.sentry_installation = self.create_sentry_installation(self.organization)
-        self.initial_item_count = Item.query.count()
+        self.initial_item_count = 0
 
     def test_create_issue_link(self):
-        # Check that no item exists
         assert Item.query.count() == self.initial_item_count
         # Check that the response was appropriate
         response = self.get_success_response(data=MOCK_ISSUE_LINK)
@@ -24,6 +23,7 @@ class CreateIssueLinkTest(APITestCase):
         assert response.json.get("project") == "IPE-DEMO"
         # Check that item was created properly
         new_issue_id = response.json.get("identifier")
+        assert Item.query.count() == self.initial_item_count + 1
         item = Item.query.filter(Item.id == new_issue_id).first()
         for field in ["title", "description", "complexity"]:
             assert getattr(item, field) == MOCK_ISSUE_LINK["fields"].get(field)
@@ -44,10 +44,9 @@ class LinkIssueLinkTest(APITestCase):
         payload = MOCK_ISSUE_LINK
         payload["fields"]["itemId"] = self.item.id
         self.payload = payload
-        self.initial_item_count = Item.query.count()
+        self.initial_item_count = 1
 
     def test_link_issue_link(self):
-        # Check the item exists and is unlinked
         assert Item.query.count() == self.initial_item_count
         assert self.item.sentry_id is None
         # Check that the existing item was updated

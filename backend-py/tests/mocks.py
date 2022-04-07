@@ -119,6 +119,7 @@ MOCK_ISSUE_LINK = {
         "description": "This is an item description!",
         "column": "DOING",
         "complexity": 2,
+        "itemId": None
     },
     "issueId": ISSUE["id"],
 }
