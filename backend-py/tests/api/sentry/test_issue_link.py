@@ -1,12 +1,8 @@
-import json
-import os
-import responses
-
 from src.models import Item
 from src.database import db_session
 
 from tests.api import APITestCase
-from tests.mocks import MOCK_ISSUE_LINK, ISSUE
+from tests.mocks import MOCK_ISSUE_LINK
 
 
 class CreateIssueLinkTest(APITestCase):
