@@ -11,9 +11,7 @@ from flask import jsonify, request, Response
 @app.route("/api/sentry/options/items/", methods=["GET"])
 @verify_sentry_signature()
 def get_item_options() -> Response:
-    """
-    Used by FormFields in Sentry to populate the item options for the user to select.
-    """
+    # Used by FormFields in Sentry to populate the item options for the user to select.
     uuid = request.args.get("installationId")
     sentry_installation = SentryInstallation.query.filter(
         SentryInstallation.uuid == uuid

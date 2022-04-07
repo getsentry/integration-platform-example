@@ -5,7 +5,7 @@ import Organization from '../../models/Organization.model';
 import SentryInstallation from '../../models/SentryInstallation.model';
 
 type IssueLinkRequestData = {
-  // The fields here are populated from integration-schema.json
+  // The fields here are populated from integration-schema.json.
   fields: Record<string, any>;
   issueId: string;
   installationId: string;
@@ -18,27 +18,9 @@ const router = express.Router();
 
 router.use(getOrganizationFromRequest);
 
-router.post('/link', async (request, response) => {
-  // The blob with the key "link" beside {"type": "issue-link"} in integration-schema.json specifies
-  // the fields we'll have access to in this endpoint (on issueLinkData.fields).
-  const issueLinkData = request.body as IssueLinkRequestData;
-
-  // Associate the Sentry Issue with the item from our application the user selected.
-  const item = await Item.findByPk(issueLinkData.fields.itemId);
-  await item.update({sentryId: issueLinkData.issueId});
-
-  console.info('Linked Item through Sentry Issue Link UI Component');
-  // Respond to Sentry with the exact fields it requires to complete the link
-  response.send({
-    webUrl: `http://localhost:${process.env.REACT_APP_PORT}/${response.locals.organization.slug}/`,
-    project: 'IPE-DEMO',
-    identifier: `${item.id}`,
-  });
-});
-
 router.post('/create', async (request, response) => {
-  // The blob with the key "create" beside {"type": "issue-link"} in integration-schema.json specifies
-  // the fields we'll have access to in this endpoint (on issueLinkData.fields).
+  // The blob with the key "create" beside {"type": "issue-link"} in integration-schema.json
+  // specifies the fields we'll have access to in this endpoint (on issueLinkData.fields).
   const issueLinkData = request.body as IssueLinkRequestData;
 
   // Create an item in our application from the Sentry Issue and user provided data
@@ -50,17 +32,35 @@ router.post('/create', async (request, response) => {
     organizationId: response.locals.organization.id,
     sentryId: issueLinkData.issueId,
   });
+  console.info('Created item through Sentry Issue Link UI Component');
 
-  console.info('Created Item through Sentry Issue Link UI Component');
-  // Respond to Sentry with the exact fields it requires to complete the link
-  response.send({
+  // Respond to Sentry with the exact fields it requires to complete the link.
+  response.status(201).send({
     webUrl: `http://localhost:${process.env.REACT_APP_PORT}/${response.locals.organization.slug}/`,
     project: 'IPE-DEMO',
     identifier: `${item.id}`,
   });
 });
 
-// Helper middleware to attach the organization to response.locals
+router.post('/link', async (request, response) => {
+  // The blob with the key "link" beside {"type": "issue-link"} in integration-schema.json
+  // specifies the fields we'll have access to in this endpoint (on issueLinkData.fields).
+  const issueLinkData = request.body as IssueLinkRequestData;
+
+  // Associate the Sentry Issue with the item from our application the user selected.
+  const item = await Item.findByPk(issueLinkData.fields.itemId);
+  await item.update({sentryId: issueLinkData.issueId});
+  console.info('Linked item through Sentry Issue Link UI Component');
+
+  // Respond to Sentry with the exact fields it requires to complete the link.
+  response.status(200).send({
+    webUrl: `http://localhost:${process.env.REACT_APP_PORT}/${response.locals.organization.slug}/`,
+    project: 'IPE-DEMO',
+    identifier: `${item.id}`,
+  });
+});
+
+// Helper middleware to attach the organization to response.locals.
 async function getOrganizationFromRequest(
   request: Request,
   response: Response,
