@@ -5,12 +5,13 @@ import SentryInstallation from '../../models/SentryInstallation.model';
 
 const router = express.Router();
 
-type SentryOption = {
+type SentrySelectOption = {
   label: string;
   value: string;
   default?: boolean;
 };
 
+// This endpoint is used by FormFields in Sentry to populate the item options for the user to select.
 router.get('/items', async (request, response) => {
   const {installationId: uuid} = request.query;
   const sentryInstallation = await SentryInstallation.findOne({
@@ -19,10 +20,12 @@ router.get('/items', async (request, response) => {
   if (!sentryInstallation) {
     return response.sendStatus(404);
   }
+  // We can use the installation data to filter the items we return to Sentry.
   const items = await Item.findAll({
     where: {organizationId: sentryInstallation.organizationId},
   });
-  const result: SentryOption[] = items.map(item => ({
+  // Sentry requires the results in this exact format.
+  const result: SentrySelectOption[] = items.map(item => ({
     label: item.title,
     value: item.id,
   }));
