@@ -111,3 +111,14 @@ MOCK_WEBHOOK = {
     "issue.ignored": MOCK_ISSUE_IGNORED_WEBHOOK,
     "issue.resolved": MOCK_ISSUE_RESOLVED_WEBHOOK,
 }
+
+MOCK_ISSUE_LINK = {
+    "installationId": UUID,
+    "fields": {
+        "title": ISSUE["title"],
+        "description": "This is an item description!",
+        "column": "DOING",
+        "complexity": 2,
+    },
+    "issueId": ISSUE["id"],
+}
