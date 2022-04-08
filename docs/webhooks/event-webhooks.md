@@ -50,8 +50,8 @@ Marked item as ignored
 Broadly, the steps in handling these webhooks are as follows:
 
 1. Verify the signature. The authorization comes from verifying the request signature with the shared 
-   - [Python Signature Verification](../../backend-py/src/api/middleware/auth.py)
-   - [TypeScript Signature Verification](../../backend-ts/src/api/sentry/index.ts) 
+   - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
+   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 2. Logging the type of webhook the application is receiving before handling it. This is helpful just for debugging and sanity checking.
    - [Python Webhook Logging](../../backend-py/src/api/endpoints/sentry/webhook.py)
    - [TypeScript Webhook Logging](../../backend-ts/src/api/sentry/webhook.ts)
@@ -62,8 +62,8 @@ Broadly, the steps in handling these webhooks are as follows:
    - In this example, it's checking if we already have a ticket for the issue, and creating one if not
 5. Act on the webhook
    - You can perform the whatever actions make sense for your application based on the webhook
-   - In this reference implementation, it's largely changing the fields/properties of the tickets in the kanban board
-6. Responsd with an appropriate status code
+   - In this reference implementation, we're changing the properties of the tickets in the kanban board
+6. Respond with an appropriate status code
    - The integration dashboard in Sentry will reflect these status codes for more debugging help
 
 # Error Webhooks

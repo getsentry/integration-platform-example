@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Any, Mapping
 
 from src import app
-from src.api.middleware.auth import verify_sentry_signature
+from src.api.middleware import verify_sentry_signature
 from src.database import db_session
 from src.models import SentryInstallation, Organization
 from src.api.endpoints.sentry.handlers import issue_handler

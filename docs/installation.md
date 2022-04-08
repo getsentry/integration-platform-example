@@ -41,8 +41,8 @@ If you monitor server logs during the above install-uninstall test, you should s
 ```
 
 1. The authorization comes from verifying the request signature with the shared 
-   - [Python Signature Verification](../backend-py/src/api/middleware/auth.py)
-   - [TypeScript Signature Verification](../backend-ts/src/api/sentry/index.ts) 
+   - [Python Signature Verification](../backend-py/src/api/middleware/verify_sentry_signature.py)
+   - [TypeScript Signature Verification](../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 2. The `installation.created` webhook is fine to ignore since we have set up a custom endpoint to which our Redirect URL's form submits:
    - [Python Installation Handling](../backend-py/src/api/endpoints/sentry/setup.py)
    - [Typescript Installation Handling](../backend-ts/src/api/sentry/setup.ts)

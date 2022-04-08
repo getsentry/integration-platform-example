@@ -45,7 +45,6 @@ def verify_sentry_signature():
     without having to repeat this check.
     See more: https://docs.sentry.io/product/integrations/integration-platform/webhooks/
     """
-
     def wrapper(f):
         @functools.wraps(f)
         def inner(*args: Any, **kwargs: Any):
