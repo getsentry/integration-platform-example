@@ -16,7 +16,6 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service individually:
 
 ```bash
-docker compose build frontend-ts
 docker compose up frontend-ts
 ```
 

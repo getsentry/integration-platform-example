@@ -1,32 +1,31 @@
 # Integration Platform Example
 
-So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 That's why we built out this codebase; clone/fork away!
+So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 That's why we built out this codebase; clone and fork away!
 
-This repository contains some basic starter code to act as a tool/reference for you to refer back to. In it, we'll be covering the following features:
+This repository contains some basic starter code to act as a tool or reference for you to refer back to. In it, we'll be covering the following features:
 
 - Handling Installation (with OAuth)
 - Refreshing Tokens
 - Verifying Installations
 - Handling Uninstallations
 - Handling Webhooks
-  - Issues/Errors
+  - Issues
+  - Errors
   - Comments
   - Alerts
 - UI Components
-  - Issue Creating/Linking
+  - Issue Linking
   - Stack Trace Linking
   - Alert Rule Actions
 
 If we missed something, or you're still having trouble, feel free to [create an issue](https://github.com/sentry-ecosystem/integration-platform-example/issues), and we'll see what we can do! Happy Developing!
-
----
 
 ## Getting Started
 
 ### Prerequisites
   - [Sentry](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry.
   - [Docker](https://docs.docker.com/get-docker/) - You must have Docker installed on your local machine.
-  - Select a codebase - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands/environment that is more appropriate for your implementation.
+  - Select a codebase - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands and environment that is more appropriate for your implementation.
 
 ### Step 0: Choose an Integration
 
@@ -34,7 +33,7 @@ Before setting anything up, you must determine the type of integration you're bu
 
 [Public integrations](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations) are meant to be accessed by all Sentry Customers, regardless of whether or not they belong to your organization. 
 
-If you only wish to provide an application to your team/organization, you should probably develop an [Internal integration](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations). These are far easier to get up and running, as they skip the OAuth installation process and become immediately available for webhooks, UI components or API usage.
+If you only wish to provide an application to your team or organization, you should probably develop an [Internal integration](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations). These are far easier to get up and running, as they skip the OAuth installation process and become immediately available for webhooks, UI components or API usage.
 
 For the rest of this tutorial, we will assume you're building a public integration.
 
@@ -102,7 +101,7 @@ In your Sentry instance,
 3. Specify a Webhook and Redirect URL with your ngrok forwarding address. Using the above example, with the python backend, it may look like this:
     - Webhook URL: `https://def456.ngrok.io/api/sentry/webhook/` 
     - Redirect URL: `https://abc123.ngrok.io/sentry/setup/`
-> Note: On the free plan for ngrok, if your service restarts, [you will be issued a new forwarding address](https://ngrok.com/docs#getting-started-stable). If this happens, be sure to update these URLs in Sentry to keep your app functional while developing/testing.
+> Note: On the free plan for ngrok, if your service restarts, [you will be issued a new forwarding address](https://ngrok.com/docs#getting-started-stable). If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
 4. Ensure 'Verify Installation' is checked.
 5. Enable 'Issue & Event - Read' permissions.
 6. Enable 'issue' webhooks (for created, resolved, assigned, and ignored actions).
@@ -142,7 +141,7 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
-Now the app is ready to test/demo! Consult the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry.
+Now the app is ready to test! Consult the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry.
 
 If, during development, you make changes to the `.env` file or dependencies, you'll need to rebuild the images with:
 
@@ -152,14 +151,12 @@ make build-python
 make build-typescript
 ```
 
----
-
 ## Using your Integration
 
 Building an app on our integration platform gives you access to lots of Sentry features. This section will detail how to go about testing them while building your integration.
 ### Testing Webhooks
 
-  - [How to test installation/uninstallation](/docs/installation.md)
+  - [How to test installation and uninstallation](/docs/installation.md)
     - `installation.created`, `installation.deleted`
   - [How to test issue webhooks](/docs/webhooks/event-webhooks.md#issue-webhooks)
     - `issue.assigned`, `issue.created`, `issue.ignored`, `issue.resolved`
@@ -173,19 +170,15 @@ Building an app on our integration platform gives you access to lots of Sentry f
 
 ### Testing UI Components
 
-  - [Issue Linking/Creating](/docs/ui-components/issue-linking.md)
+  - [Issue Linking](/docs/ui-components/issue-linking.md)
   - [Stacktrace Linking](/docs/ui-components/stacktrace-linking.md)
   - [Alert Rule UI Components](/docs/ui-components/alert-rule-actions.md)
-
----
 
 ## Publishing
 
 Once you've finalized, tested and deployed your application, you can submit a publication request on Sentry. Once it's reviewed, it'll be accessible to install by anyone on the Sentry platform.
 
-You can find out more about publishing, [here].(https://docs.sentry.io/product/integrations/integration-platform/#published-state)
-
----
+You can find out more about publishing, [here](https://docs.sentry.io/product/integrations/integration-platform/#published-state).
 
 ## Credits
 
