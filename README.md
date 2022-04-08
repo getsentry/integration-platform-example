@@ -35,7 +35,7 @@ Before setting anything up, you must determine the type of integration you're bu
 
 If you only wish to provide an application to your team or organization, you should probably develop an [Internal integration](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations). These are far easier to get up and running, as they skip the OAuth installation process and become immediately available for webhooks, UI components or API usage.
 
-For the rest of this tutorial, we will assume you're building a public integration.
+This tutorial assumes you're building a public integration, but most of the steps are identical for internal integrations unless stated otherwise.
 
 ### Step 1: Setup ngrok
 
