@@ -9,7 +9,7 @@ import webhookRoutes from './webhook';
 const router = express.Router();
 
 router.use('/setup', setupRoutes);
-// We need to very that the request came from Sentry before we can...
+// We need to verify that the request came from Sentry before we can...
 // ...trust the webhook data.
 router.use('/webhook', verifySentrySignature, webhookRoutes);
 // ...allow queries to the options fields.

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 from src import app
-from src.api.middleware.auth import verify_sentry_signature
+from src.api.middleware import verify_sentry_signature
 from src.models import SentryInstallation, Item
 
 from flask import jsonify, request, Response
@@ -22,5 +22,5 @@ def get_item_options() -> Response:
     items = Item.query.filter(Item.organization_id == sentry_installation.organization_id).all()
     # Sentry requires the results in this exact format.
     result = [{"value": item.id, "label": item.title} for item in items]
-    app.logger.info(f"Populating item options in Sentry")
+    app.logger.info("Populating item options in Sentry")
     return jsonify(result)

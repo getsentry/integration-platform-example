@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 from src import app
-from src.api.middleware.auth import verify_sentry_signature
+from src.api.middleware import verify_sentry_signature
 from src.models import SentryInstallation, Item, Organization
 from src.models.items import ItemColumn
 from src.database import db_session
@@ -38,7 +38,7 @@ def create_issue_link() -> Response:
     )
     db_session.add(item)
     db_session.commit()
-    app.logger.info(f"Created item through Sentry Issue Link UI Component")
+    app.logger.info("Created item through Sentry Issue Link UI Component")
 
     # Respond to Sentry with the exact fields it requires to complete the link.
     return jsonify({
@@ -65,9 +65,8 @@ def link_issue_link() -> Response:
     # Associate the Sentry Issue with the item from our application the user selected.
     item = Item.query.filter(Item.id == user_link_data.get("itemId")).first()
     item.sentry_id = request.json.get("issueId")
-    db_session.add(item)
     db_session.commit()
-    app.logger.info(f"Linked item through Sentry Issue Link UI Component")
+    app.logger.info("Linked item through Sentry Issue Link UI Component")
 
     # Respond to Sentry with the exact fields it requires to complete the link.
     return jsonify({
