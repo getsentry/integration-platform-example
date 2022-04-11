@@ -40,7 +40,7 @@ If you monitor server logs during the above install-uninstall test, you should s
 6. Uninstalled example from 'Bahringer LLC'
 ```
 
-1. The authorization comes from verifying the request signature with the shared 
+1. The authorization comes from verifying the request signature with the shared secret 
    - [Python Signature Verification](../backend-py/src/api/middleware/verify_sentry_signature.py)
    - [TypeScript Signature Verification](../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 2. The `installation.created` webhook is fine to ignore since we have set up a custom endpoint to which our Redirect URL's form submits:

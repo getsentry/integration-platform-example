@@ -49,7 +49,7 @@ Marked item as ignored
 
 Broadly, the steps in handling these webhooks are as follows:
 
-1. Verify the signature. The authorization comes from verifying the request signature with the shared 
+1. Verify the signature. The authorization comes from verifying the request signature with the shared secret
    - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
    - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 2. Logging the type of webhook the application is receiving before handling it. This is helpful just for debugging and sanity checking.

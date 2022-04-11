@@ -1,0 +1,59 @@
+{
+  "elements": [
+    {
+      "type": "issue-link",
+      "create": {
+        "uri": "/api/sentry/issue-link/create/",
+        "required_fields": [
+          {
+            "type": "text",
+            "label": "Task Name",
+            "name": "title",
+            "default": "issue.title"
+          },
+          {
+            "type": "textarea",
+            "label": "Task Description",
+            "name": "description",
+            "default": "issue.description"
+          }
+        ],
+        "optional_fields": [
+          {
+            "type": "select",
+            "label": "What's the status of this task?",
+            "name": "column",
+            "options": [
+              ["TODO", "Planned"],
+              ["DOING", "In Progress"],
+              ["DONE", "Completed"]
+            ]
+          },
+          {
+            "type": "select",
+            "label": "What is the estimated complexity?",
+            "name": "complexity",
+            "options": [
+              ["1", "1"],
+              ["2", "2"],
+              ["3", "3"],
+              ["5", "5"],
+              ["8", "8"]
+            ]
+          }
+        ]
+      },
+      "link": {
+        "uri": "/api/sentry/issue-link/link/",
+        "required_fields": [
+          {
+            "type": "select",
+            "label": "Which task would you like to link to this Sentry Issue?",
+            "name": "itemId",
+            "uri": "/api/sentry/options/items/"
+          }
+        ]
+      }
+    }
+  ]
+}

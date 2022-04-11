@@ -14,7 +14,7 @@ export default class Item extends Model {
   @Column
   title: string;
 
-  @Column
+  @Column(DataType.TEXT)
   description: string;
 
   @Column
