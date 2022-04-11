@@ -2,17 +2,6 @@
   "elements": [
     {
       "type": "issue-link",
-      "link": {
-        "uri": "/api/sentry/issue-link/link/",
-        "required_fields": [
-          {
-            "type": "select",
-            "label": "Which task would you like to link to this Sentry Issue?",
-            "name": "itemId",
-            "uri": "/api/sentry/options/items/"
-          }
-        ]
-      },
       "create": {
         "uri": "/api/sentry/issue-link/create/",
         "required_fields": [
@@ -51,6 +40,17 @@
               ["5", "5"],
               ["8", "8"]
             ]
+          }
+        ]
+      },
+      "link": {
+        "uri": "/api/sentry/issue-link/link/",
+        "required_fields": [
+          {
+            "type": "select",
+            "label": "Which task would you like to link to this Sentry Issue?",
+            "name": "itemId",
+            "uri": "/api/sentry/options/items/"
           }
         ]
       }
