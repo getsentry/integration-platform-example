@@ -54,6 +54,27 @@
           }
         ]
       }
+    },
+    {
+      "type": "alert-rule-action",
+      "title": "Create an alert ticket in Integration Platform Example",
+      "settings": {
+        "type": "alert-rule-settings",
+        "uri": "/api/sentry/alert-rule-action/",
+        "description": "Create an alert ticket",
+        "required_fields": [
+          {
+            "type": "text",
+            "label": "Alert Ticket Title",
+            "name": "title"
+          },
+          {
+            "type": "textarea",
+            "label": "Alert Ticket Description",
+            "name": "description"
+          }
+        ]
+      }
     }
   ]
 }

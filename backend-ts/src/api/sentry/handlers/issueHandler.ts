@@ -117,4 +117,5 @@ const getItemDefaults = (
   column: issueData.status === 'resolved' ? ItemColumn.Done : ItemColumn.Todo,
   isIgnored: issueData.status === 'ignored',
   sentryId: issueData.id,
+  priority: 1,
 });

@@ -9,6 +9,11 @@ export enum ItemColumn {
   Done = 'DONE',
 }
 
+export enum ItemType {
+  Issue = 'ISSUE',
+  Alert = 'ALERT',
+}
+
 @Table({tableName: 'item', underscored: true, timestamps: false})
 export default class Item extends Model {
   @Column
@@ -26,6 +31,13 @@ export default class Item extends Model {
 
   @Column
   sentryId: string;
+
+  @Column
+  priority: number;
+
+  @Default(ItemType.Issue)
+  @Column({type: DataType.ENUM({values: Object.values(ItemType)})})
+  type: ItemType;
 
   @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
   column: ItemColumn;
