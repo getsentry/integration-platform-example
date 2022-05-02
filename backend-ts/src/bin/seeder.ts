@@ -2,7 +2,7 @@
 import faker from '@faker-js/faker';
 
 import {sequelize} from '../models';
-import Item, {ItemColumn, ItemType} from '../models/Item.model';
+import Item, {ItemColumn} from '../models/Item.model';
 import Organization from '../models/Organization.model';
 import User from '../models/User.model';
 
@@ -54,8 +54,6 @@ async function createSeedData(
       description: faker.hacker.phrase(),
       complexity: faker.helpers.randomize([1, 2, 3, 5, 8]),
       column: faker.helpers.randomize(Object.values(ItemColumn)),
-      type: ItemType.Issue,
-      priority: 1,
       isIgnored: false,
     });
   }
