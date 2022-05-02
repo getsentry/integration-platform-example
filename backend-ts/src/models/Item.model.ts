@@ -27,6 +27,10 @@ export default class Item extends Model {
   @Column
   sentryId: string;
 
+  @Column
+  sentryAlertId: string;
+
+  @Default(ItemColumn.Todo)
   @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
   column: ItemColumn;
 

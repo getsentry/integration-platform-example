@@ -1,41 +1,61 @@
 import {Response} from 'express';
+import {Op} from 'sequelize';
 
+import Item, {ItemColumn} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
+import {getItemDefaultsFromSentry} from './issueHandler';
 
 async function handleEventAlertTriggered(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  return await new Promise(() => {
-    return;
+  const issueData = data.event;
+  const itemDefaults = getItemDefaultsFromSentry(sentryInstallation, issueData);
+  await Item.create({
+    ...itemDefaults,
+    title: `🚨 Issue Alert: ${itemDefaults.title}`,
+    description: `Triggering event: ${issueData.web_url}`,
   });
+  console.info('Created item from Sentry issue alert trigger');
 }
 
 async function handleMetricAlertResolved(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  return await new Promise(() => {
-    return;
+  await Item.create({
+    organizationId: sentryInstallation.organizationId,
+    title: `✅ Resolved Metric: ${data.metric_alert.alert_rule.title}`,
+    description: data.description_text,
+    column: ItemColumn.Todo,
   });
+  console.info('Created item from metric alert resolved trigger');
 }
 
 async function handleMetricAlertWarning(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  return await new Promise(() => {
-    return;
+  await Item.create({
+    organizationId: sentryInstallation.organizationId,
+    title: `⚠️ Warning Metric: ${data.metric_alert.alert_rule.title}`,
+    description: data.description_text,
+    column: ItemColumn.Todo,
   });
+  console.info('Created item from metric alert warning trigger');
 }
 
 async function handleMetricAlertCritical(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  return await new Promise(() => {
-    return;
+  await Item.create({
+    organizationId: sentryInstallation.organizationId,
+    title: `🔥 Critical Metric: ${data.metric_alert.alert_rule.title}`,
+    description: data.description_text,
+    column: ItemColumn.Todo,
   });
+  console.info('Created item from metric alert critical trigger');
 }
 
 export default async function alertHandler(

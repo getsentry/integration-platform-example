@@ -36,6 +36,7 @@ router.post('/', async (request, response) => {
     await issueHandler(response, action, sentryInstallation, data);
   }
 
+  // Handle webhooks related to alerts
   if (resource === 'event_alert' || resource === 'metric_alert') {
     await alertHandler(response, resource, action, sentryInstallation, data);
   }
