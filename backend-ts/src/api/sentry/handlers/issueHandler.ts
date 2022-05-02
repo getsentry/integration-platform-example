@@ -12,11 +12,11 @@ async function handleAssigned(
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: {
-      ...getItemDefaults(sentryInstallation, issueData),
+      ...getItemDefaultsFromSentry(sentryInstallation, issueData),
       column: ItemColumn.Doing,
     },
   });
-  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked item from Sentry issue`);
   // Find or create a user to associate with the item
   // Note: The assignee in Sentry might be a team, which you could handle here as well
   const {type, email, name} = issueData.assignedTo;
@@ -40,8 +40,8 @@ async function handleCreated(
   issueData: Record<string, any>
 ) {
   // Create an item to associate with the Sentry Issue
-  await Item.create(getItemDefaults(sentryInstallation, issueData));
-  console.info('Created linked Sentry issue');
+  await Item.create(getItemDefaultsFromSentry(sentryInstallation, issueData));
+  console.info('Created linked item from Sentry issue');
 }
 
 async function handleIgnored(
@@ -51,9 +51,9 @@ async function handleIgnored(
   // Find or create an item to associate with the Sentry Issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
-    defaults: getItemDefaults(sentryInstallation, issueData),
+    defaults: getItemDefaultsFromSentry(sentryInstallation, issueData),
   });
-  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry issue`);
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked item from Sentry issue`);
   // Mark the item as ignored
   item.isIgnored = true;
   await item.save();
@@ -67,9 +67,9 @@ async function handleResolved(
   // Find or create an item to associate with the Sentry Issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
-    defaults: getItemDefaults(sentryInstallation, issueData),
+    defaults: getItemDefaultsFromSentry(sentryInstallation, issueData),
   });
-  console.info(`${isItemNew ? 'Created' : 'Found'} linked Sentry Issue`);
+  console.info(`${isItemNew ? 'Created' : 'Found'} linked item from Sentry Issue`);
   // Update the item's column to DONE
   item.column = ItemColumn.Done;
   await item.save();
@@ -107,7 +107,7 @@ export default async function issueHandler(
   }
 }
 
-const getItemDefaults = (
+export const getItemDefaultsFromSentry = (
   sentryInstallation: SentryInstallation,
   issueData: Record<string, any>
 ) => ({
