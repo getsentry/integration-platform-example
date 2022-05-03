@@ -12,7 +12,7 @@ async function handleAssigned(
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: {
-      ...getItemDefaultsFromSentry(sentryInstallation, issueData),
+      ...getItemDefaultsFromSentryIssue(sentryInstallation, issueData),
       column: ItemColumn.Doing,
     },
   });
@@ -40,7 +40,7 @@ async function handleCreated(
   issueData: Record<string, any>
 ) {
   // Create an item to associate with the Sentry Issue
-  await Item.create(getItemDefaultsFromSentry(sentryInstallation, issueData));
+  await Item.create(getItemDefaultsFromSentryIssue(sentryInstallation, issueData));
   console.info('Created linked item from Sentry issue');
 }
 
@@ -51,7 +51,7 @@ async function handleIgnored(
   // Find or create an item to associate with the Sentry Issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
-    defaults: getItemDefaultsFromSentry(sentryInstallation, issueData),
+    defaults: getItemDefaultsFromSentryIssue(sentryInstallation, issueData),
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked item from Sentry issue`);
   // Mark the item as ignored
@@ -67,7 +67,7 @@ async function handleResolved(
   // Find or create an item to associate with the Sentry Issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
-    defaults: getItemDefaultsFromSentry(sentryInstallation, issueData),
+    defaults: getItemDefaultsFromSentryIssue(sentryInstallation, issueData),
   });
   console.info(`${isItemNew ? 'Created' : 'Found'} linked item from Sentry Issue`);
   // Update the item's column to DONE
@@ -107,7 +107,7 @@ export default async function issueHandler(
   }
 }
 
-export const getItemDefaultsFromSentry = (
+export const getItemDefaultsFromSentryIssue = (
   sentryInstallation: SentryInstallation,
   issueData: Record<string, any>
 ) => ({

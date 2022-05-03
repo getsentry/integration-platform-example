@@ -1,61 +1,96 @@
 import {Response} from 'express';
-import {Op} from 'sequelize';
 
 import Item, {ItemColumn} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
-import {getItemDefaultsFromSentry} from './issueHandler';
 
-async function handleEventAlertTriggered(
+// The shape of your settings will depend on how you configure your schema
+// This example coordinates with integration-schema.json
+type SchemaSettings = {
+  title?: string;
+  description?: string;
+};
+
+// XXX(Leander): This assumes only one action for this integration per payload!
+// Returns the alert settings as a mapping of field.name to field.value
+function getSchemaSettings(
+  sentryInstallation: SentryInstallation,
+  data: Record<string, any>,
+  action?: string
+): SchemaSettings {
+  let fields = [];
+  // For issue alerts...
+  if (data.event) {
+    fields = data?.issue_alert?.settings ?? {};
+  }
+  // For metric alerts...
+  else {
+    const triggers = data?.metric_alert?.alert_rule?.triggers ?? [];
+    const relevantTrigger = triggers.find(({label}: {label: string}) => label === action);
+    const integrationAction = relevantTrigger.actions.find(
+      ({sentry_app_installation_uuid: uuid}: {sentry_app_installation_uuid: string}) =>
+        uuid === sentryInstallation.uuid
+    );
+    fields = integrationAction.settings ?? {};
+  }
+  // Convert the list of fields to a mapping of name to value
+  return fields.reduce(
+    (acc: Record<string, any>, {name, value}: {name: string; value: any}) => {
+      acc[name] = value;
+      return acc;
+    },
+    {}
+  );
+}
+
+async function handleIssueAlert(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  const issueData = data.event;
-  const itemDefaults = getItemDefaultsFromSentry(sentryInstallation, issueData);
+  const settings = getSchemaSettings(sentryInstallation, data);
   await Item.create({
-    ...itemDefaults,
-    title: `🚨 Issue Alert: ${itemDefaults.title}`,
-    description: `Triggering event: ${issueData.web_url}`,
+    organizationId: sentryInstallation.organizationId,
+    title: `🚨 Issue Alert: ${settings.title ?? data.event.title}`,
+    description: settings.description ?? `Triggering event: ${data.event.web_url}`,
+    column: ItemColumn.Todo,
+    sentryId: data.event.issue_id,
+    // TODO(Leander): Pass issue alert ID in the webhook for event_alert.triggered
   });
   console.info('Created item from Sentry issue alert trigger');
 }
 
-async function handleMetricAlertResolved(
+async function handleMetricAlert(
   sentryInstallation: SentryInstallation,
-  data: Record<string, any>
+  data: Record<string, any>,
+  action: 'resolved' | 'warning' | 'critical'
 ) {
-  await Item.create({
-    organizationId: sentryInstallation.organizationId,
-    title: `✅ Resolved Metric: ${data.metric_alert.alert_rule.title}`,
-    description: data.description_text,
-    column: ItemColumn.Todo,
+  const [item, isItemNew] = await Item.findOrCreate({
+    where: {
+      organizationId: sentryInstallation.organizationId,
+      sentryAlertId: data.metric_alert.id,
+    },
   });
-  console.info('Created item from metric alert resolved trigger');
-}
-
-async function handleMetricAlertWarning(
-  sentryInstallation: SentryInstallation,
-  data: Record<string, any>
-) {
-  await Item.create({
-    organizationId: sentryInstallation.organizationId,
-    title: `⚠️ Warning Metric: ${data.metric_alert.alert_rule.title}`,
-    description: data.description_text,
+  let itemTitlePrefix = '';
+  switch (action) {
+    case 'resolved':
+      itemTitlePrefix = '✅ Resolved Metric';
+      break;
+    case 'warning':
+      itemTitlePrefix = '⚠️ Warning Metric';
+      break;
+    case 'critical':
+      itemTitlePrefix = '🔥 Critical Metric';
+      break;
+  }
+  const settings = getSchemaSettings(sentryInstallation, data, action);
+  await item.update({
+    title: `${itemTitlePrefix}: ${settings.title ?? data.metric_alert.title}`,
+    description: settings.description ?? data.description_text,
     column: ItemColumn.Todo,
+    sentryAlertId: data.metric_alert.id,
   });
-  console.info('Created item from metric alert warning trigger');
-}
-
-async function handleMetricAlertCritical(
-  sentryInstallation: SentryInstallation,
-  data: Record<string, any>
-) {
-  await Item.create({
-    organizationId: sentryInstallation.organizationId,
-    title: `🔥 Critical Metric: ${data.metric_alert.alert_rule.title}`,
-    description: data.description_text,
-    column: ItemColumn.Todo,
-  });
-  console.info('Created item from metric alert critical trigger');
+  console.info(
+    `${isItemNew ? 'Created' : 'Modified'} item from metric alert ${action} trigger`
+  );
 }
 
 export default async function alertHandler(
@@ -65,27 +100,19 @@ export default async function alertHandler(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ): Promise<void> {
+  // Issue Alerts (or Event Alerts) only have one type of action: 'triggered'
   if (resource === 'event_alert') {
-    // The only action for 'event_alert' is 'triggered'
-    await handleEventAlertTriggered(sentryInstallation, data);
+    await handleIssueAlert(sentryInstallation, data);
     response.status(202);
-  } else if (resource === 'metric_alert') {
-    switch (action) {
-      case 'resolved':
-        await handleMetricAlertResolved(sentryInstallation, data);
-        response.status(202);
-        break;
-      case 'warning':
-        await handleMetricAlertWarning(sentryInstallation, data);
-        response.status(202);
-        break;
-      case 'critical':
-        await handleMetricAlertCritical(sentryInstallation, data);
-        response.status(202);
-        break;
-      default:
-        console.info(`Unhandled Metric Alert action: ${action}`);
-        response.status(400);
+  }
+  // Metric Alerts have three types of actions: 'resolved', 'warning', and 'critical'
+  else if (resource === 'metric_alert') {
+    if (action === 'resolved' || action === 'warning' || action === 'critical') {
+      await handleMetricAlert(sentryInstallation, data, action);
+      response.status(202);
+    } else {
+      console.info(`Unhandled metric alert action: ${action}`);
+      response.status(400);
     }
   } else {
     console.info(`Unexpected resource received: ${resource}`);
