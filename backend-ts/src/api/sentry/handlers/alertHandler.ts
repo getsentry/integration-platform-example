@@ -8,6 +8,7 @@ import SentryInstallation from '../../../models/SentryInstallation.model';
 type SchemaSettings = {
   title?: string;
   description?: string;
+  userId?: string;
 };
 
 // XXX(Leander): This assumes only one action for this integration per payload!
@@ -54,6 +55,7 @@ async function handleIssueAlert(
     column: ItemColumn.Todo,
     sentryId: data.event.issue_id,
     sentryAlertId: data.issue_alert.id,
+    assigneeId: settings.userId,
   });
   console.info('Created item from Sentry issue alert trigger');
 }
@@ -87,6 +89,7 @@ async function handleMetricAlert(
     title: `${itemTitlePrefix}: ${settings.title ?? data.metric_alert.title}`,
     description: settings.description ?? data.description_text,
     column: ItemColumn.Todo,
+    assigneeId: settings.userId,
   });
   console.info(
     `${isItemNew ? 'Created' : 'Modified'} item from metric alert ${action} trigger`
