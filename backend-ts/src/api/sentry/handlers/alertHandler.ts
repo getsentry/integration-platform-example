@@ -20,17 +20,17 @@ function getSchemaSettings(
   let fields = [];
   // For issue alerts...
   if (data.event) {
-    fields = data?.issue_alert?.settings ?? {};
+    fields = data?.issue_alert?.settings ?? [];
   }
   // For metric alerts...
   else {
     const triggers = data?.metric_alert?.alert_rule?.triggers ?? [];
     const relevantTrigger = triggers.find(({label}: {label: string}) => label === action);
-    const integrationAction = relevantTrigger.actions.find(
+    const integrationAction = relevantTrigger?.actions?.find(
       ({sentry_app_installation_uuid: uuid}: {sentry_app_installation_uuid: string}) =>
         uuid === sentryInstallation.uuid
     );
-    fields = integrationAction.settings ?? {};
+    fields = integrationAction?.settings ?? [];
   }
   // Convert the list of fields to a mapping of name to value
   return fields.reduce(
@@ -50,10 +50,10 @@ async function handleIssueAlert(
   await Item.create({
     organizationId: sentryInstallation.organizationId,
     title: `🚨 Issue Alert: ${settings.title ?? data.event.title}`,
-    description: settings.description ?? `Triggering event: ${data.event.web_url}`,
+    description: settings.description ?? `Latest Trigger: ${data.event.web_url}`,
     column: ItemColumn.Todo,
     sentryId: data.event.issue_id,
-    // TODO(Leander): Pass issue alert ID in the webhook for event_alert.triggered
+    sentryAlertId: data.issue_alert.id,
   });
   console.info('Created item from Sentry issue alert trigger');
 }
@@ -66,6 +66,7 @@ async function handleMetricAlert(
   const [item, isItemNew] = await Item.findOrCreate({
     where: {
       organizationId: sentryInstallation.organizationId,
+      // XXX(Ecosystem): The metric alert ID changes frequently, making it unreliable??
       sentryAlertId: data.metric_alert.id,
     },
   });
@@ -86,7 +87,6 @@ async function handleMetricAlert(
     title: `${itemTitlePrefix}: ${settings.title ?? data.metric_alert.title}`,
     description: settings.description ?? data.description_text,
     column: ItemColumn.Todo,
-    sentryAlertId: data.metric_alert.id,
   });
   console.info(
     `${isItemNew ? 'Created' : 'Modified'} item from metric alert ${action} trigger`
