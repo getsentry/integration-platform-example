@@ -2,14 +2,7 @@ import {Response} from 'express';
 
 import Item, {ItemColumn} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
-
-// The shape of your settings will depend on how you configure your schema
-// This example coordinates with integration-schema.json
-type SchemaSettings = {
-  title?: string;
-  description?: string;
-  userId?: string;
-};
+import {convertSentryFieldsToDict, SchemaSettings, SentryField} from '../alertRuleAction';
 
 // XXX(Leander): This assumes only one action for this integration per payload!
 // Returns the alert settings as a mapping of field.name to field.value
@@ -18,7 +11,7 @@ function getSchemaSettings(
   data: Record<string, any>,
   action?: string
 ): SchemaSettings {
-  let fields = [];
+  let fields = [] as SentryField[];
   // For issue alerts...
   if (data.event) {
     fields = data?.issue_alert?.settings ?? [];
@@ -34,13 +27,7 @@ function getSchemaSettings(
     fields = integrationAction?.settings ?? [];
   }
   // Convert the list of fields to a mapping of name to value
-  return fields.reduce(
-    (acc: Record<string, any>, {name, value}: {name: string; value: any}) => {
-      acc[name] = value;
-      return acc;
-    },
-    {}
-  );
+  return convertSentryFieldsToDict(fields);
 }
 
 async function handleIssueAlert(

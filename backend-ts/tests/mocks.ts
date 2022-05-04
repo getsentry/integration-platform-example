@@ -70,7 +70,7 @@ const EVENT = {
 export const ALERT_RULE_ACTION_VALUES = {
   title: 'Alert Rule Action Item Title',
   description: 'Alert Rule Action Item Description',
-  userId: '1',
+  userId: 1,
 };
 
 const ALERT_RULE_ACTION_SETTINGS = Object.entries(ALERT_RULE_ACTION_VALUES).map(
@@ -260,4 +260,9 @@ export const MOCK_ISSUE_LINK = {
     itemId: undefined as string,
   },
   issueId: ISSUE['id'],
+};
+
+export const MOCK_ALERT_RULE_ACTION = {
+  fields: ALERT_RULE_ACTION_SETTINGS,
+  installationId: UUID,
 };

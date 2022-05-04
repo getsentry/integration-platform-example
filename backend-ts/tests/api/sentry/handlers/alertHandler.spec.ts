@@ -68,7 +68,7 @@ describe('alertHandler for webhooks', () => {
     expect(item.title).toContain('Issue Alert');
     expect(item.title).toContain(ALERT_RULE_ACTION_VALUES.title);
     expect(item.description).toContain(ALERT_RULE_ACTION_VALUES.description);
-    expect(item.assigneeId).toEqual(parseInt(ALERT_RULE_ACTION_VALUES.userId, 10));
+    expect(item.assigneeId).toEqual(ALERT_RULE_ACTION_VALUES.userId);
   });
 
   it('should handle metric alerts with alert rule actions', async () => {
@@ -88,7 +88,7 @@ describe('alertHandler for webhooks', () => {
       expect(item.title.toLowerCase()).toContain(action);
       expect(item.title).toContain(ALERT_RULE_ACTION_VALUES.title);
       expect(item.description).toContain(ALERT_RULE_ACTION_VALUES.description);
-      expect(item.assigneeId).toEqual(parseInt(ALERT_RULE_ACTION_VALUES.userId, 10));
+      expect(item.assigneeId).toEqual(ALERT_RULE_ACTION_VALUES.userId);
     }
   });
 });
