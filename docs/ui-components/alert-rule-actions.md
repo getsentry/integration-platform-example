@@ -19,60 +19,11 @@
 
 ## Testing
 
-1. To trigger your issue alert:
-   1. Go to your frontend webpage (http://localhost:3000 by default)
-   2. Trigger a new issue by clicking 'Send Error to Sentry'
-   3. Wait for a moment, while the `event_alert.triggered` webhooks are sent to your application.
-2. To trigger your metric alerts:
-   1. Go to your frontend webpage (http://localhost:3000 by default)
-   2. Trigger a new issue by clicking 'Send Error to Sentry' and refresh the page.
-   3. Do this an appropriate number of times to trigger the appropriate incident (e.g. twice for a warning, thrice for a critical)
-   3. Wait for a moment, while the `metric_alert` webhooks are sent to your application.
-3. To test alert triggers repeatedly while developing, we recommend take advantage of the [ngrok's inspection interface](https://ngrok.com/docs/secure-tunnels#inspecting-requests) (located by default on http://localhost:4040/inspect/http)
-
+For testing, refer to [Alert Webhooks docs](../webhooks/alert-webhooks.md#testing).
 
 ## Code Insights
 
-If you monitor server logs duraing the above alert rule actions test, you should see something similar to the following:
 
-```
-# Triggered when Sentry renders your async settings form fields
+For code insights, refer to [Alert Webhooks docs](../webhooks/alert-webhooks.md#code-insights).
 
-Authorized: Verified request came from Sentry
-Populating user options in Sentry
-
-# Allows the Sentry User to save the alert rule
-
-Successfully validated Sentry alert rule
-
-# Logs the successful handling of the relevant webhook
-
-Created item from issue alert trigger
-Warning item from metric alert warning trigger
-Modified item from metric alert critical trigger
-Modified item from metric alert resolved trigger
-```
-
-All the authorization logs are coming from middleware which verifies the request signature with the shared secret:
-   - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
-   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
-
-The 'Populating user options' log comes from the select field we specify in the schema:
-   - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].settings.required_fields`)
-
-It tells Sentry what endpoint to ping and use to populate options in a Select field.
-   - [Python Options Response Code](../../backend-py/src/api/endpoints/sentry/options.py)
-   - [TypeScript Options Response Code](../../backend-ts/src/api/sentry/options.ts)
-
-The 'Successful validation' log comes from Sentry pinging another endpoint we specifiy in the schema
-   - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].uri`)
-
-Here, we're validate the settings the user sent to our application and tell Sentry whether or not they should approve the changes to the alert rule. If somethings incorrect, we can surface error messages directly to the user in Sentry.
-   <!-- TODO(Leander): Add link to python code -->
-   - [Python Settings Approval Code](#) 
-   - [TypeScript Settings Approval Code](../../backend-ts/src/api/sentry/alertRuleAction.ts)
-
-The 'Created/Modified item' logs come from the consumption of the alert webhooks. 
-   <!-- TODO(Leander): Add link to python code -->
-   - [Python Alert Webhook Consumption](#)
-   - [TypeScript Alert Webhook Consumption](../../backend-ts/src/api/sentry/handlers/alertHandler.ts)
+It should be noted that the only difference in alert webhook consumption when Alert Rule Actions are enabled is the precense of extra, custom data on each payload. See [the public docs](https://docs.sentry.io/product/integrations/integration-platform/ui-components/alert-rule-action) for more info.
