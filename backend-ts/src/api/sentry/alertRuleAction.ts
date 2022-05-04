@@ -5,9 +5,9 @@ import User from '../../models/User.model';
 
 const router = express.Router();
 
-// The shape of your settings will depend on how you configure your schema
-// This example coordinates with integration-schema.json
-export type SchemaSettings = {
+// The shape of your settings will depend on how you configure your form fields
+// This example coordinates with integration-schema.json for 'alert-rule-settings'
+export type AlertRuleSettings = {
   title?: string;
   description?: string;
   userId?: string;
@@ -18,14 +18,14 @@ export type SentryField = {
   value: any;
 };
 
-export const convertSentryFieldsToDict = (fields: SentryField[]): SchemaSettings =>
+export const convertSentryFieldsToDict = (fields: SentryField[]): AlertRuleSettings =>
   fields.reduce((acc: Record<string, any>, {name, value}) => {
     acc[name] = value;
     return acc;
   }, {});
 
+// This endpoint will only be called if the 'alert-rule-action' is present in the schema.
 router.post('/', async (request, response) => {
-  // This endpoint will only be called if the 'alert-rule-action' is present in the schema.
   const {installationId: uuid} = request.body;
   const sentryInstallation = uuid
     ? await SentryInstallation.findOne({

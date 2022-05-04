@@ -2,15 +2,19 @@ import {Response} from 'express';
 
 import Item, {ItemColumn} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
-import {convertSentryFieldsToDict, SchemaSettings, SentryField} from '../alertRuleAction';
+import {
+  AlertRuleSettings,
+  convertSentryFieldsToDict,
+  SentryField,
+} from '../alertRuleAction';
 
 // XXX(Leander): This assumes only one action for this integration per payload!
 // Returns the alert settings as a mapping of field.name to field.value
-function getSchemaSettings(
+function getAlertRuleSettings(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>,
   action?: string
-): SchemaSettings {
+): AlertRuleSettings {
   let fields = [] as SentryField[];
   // For issue alerts...
   if (data.event) {
@@ -26,7 +30,6 @@ function getSchemaSettings(
     );
     fields = integrationAction?.settings ?? [];
   }
-  // Convert the list of fields to a mapping of name to value
   return convertSentryFieldsToDict(fields);
 }
 
@@ -34,7 +37,7 @@ async function handleIssueAlert(
   sentryInstallation: SentryInstallation,
   data: Record<string, any>
 ) {
-  const settings = getSchemaSettings(sentryInstallation, data);
+  const settings = getAlertRuleSettings(sentryInstallation, data);
   await Item.create({
     organizationId: sentryInstallation.organizationId,
     title: `🚨 Issue Alert: ${settings.title ?? data.event.title}`,
@@ -73,7 +76,7 @@ async function handleMetricAlert(
       itemTitlePrefix = '🔥 Critical Metric';
       break;
   }
-  const settings = getSchemaSettings(sentryInstallation, data, action);
+  const settings = getAlertRuleSettings(sentryInstallation, data, action);
   await item.update({
     title: `${itemTitlePrefix}: ${settings.title ?? data.metric_alert.title}`,
     description: settings.description ?? data.description_text,
