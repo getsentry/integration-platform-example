@@ -167,7 +167,7 @@ Building an app on our integration platform gives you access to lots of Sentry f
     - `comment.created`, `comment.edited`, `comment.deleted`
   - [How to test alerting webhooks](/docs/webhooks/alert-webhooks.md)
     - `event_alert.triggered` 
-    - `metric_alert.critical`, `metric_alert.warning`, `metric_alert.resolved` _(Requires Business Plan, both to develop and install)_
+    - `metric_alert.critical`, `metric_alert.warning`, `metric_alert.resolved` _(Requires Team Plan, both to develop and install)_
 
 ### Testing UI Components
 

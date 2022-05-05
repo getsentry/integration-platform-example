@@ -11,7 +11,7 @@ from flask import Response
 def handle_assigned(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
     # Find or create an item to associate with the Sentry Issue
     item, item_created = get_or_create_item(sentry_installation, issue_data)
-    app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
+    app.logger.info(f"{'Created' if item_created else 'Found'} linked item from Sentry issue")
     item.column = ItemColumn.Doing
     # Find or create a user to associate with the item
     # Note: The assignee in Sentry might be a team, which you could handle here as well
@@ -26,16 +26,16 @@ def handle_assigned(sentry_installation: SentryInstallation, issue_data: Mapping
 
 def handle_created(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
     # Create an item to associate with the Sentry Issue
-    item = Item(**get_item_defaults(sentry_installation, issue_data))
+    item = Item(**get_item_defaults_from_sentry(sentry_installation, issue_data))
     db_session.add(item)
     db_session.commit()
-    app.logger.info("Created linked Sentry issue")
+    app.logger.info("Created linked item from Sentry issue")
 
 
 def handle_ignored(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
     # Find or create an item to associate with the Sentry Issue
     item, item_created = get_or_create_item(sentry_installation, issue_data)
-    app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
+    app.logger.info(f"{'Created' if item_created else 'Found'} linked item from Sentry issue")
     # Mark the item as ignored
     item.is_ignored = True
     db_session.commit()
@@ -45,7 +45,7 @@ def handle_ignored(sentry_installation: SentryInstallation, issue_data: Mapping[
 def handle_resolved(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
     # Find or create an item to associate with the Sentry Issue
     item, item_created = get_or_create_item(sentry_installation, issue_data)
-    app.logger.info(f"{'Created' if item_created else 'Found'} linked Sentry issue")
+    app.logger.info(f"{'Created' if item_created else 'Found'} linked item from Sentry issue")
     # Update the item's column to DONE
     item.column = ItemColumn.Done
     db_session.commit()
@@ -75,14 +75,15 @@ def issue_handler(
         return Response('', 400)
 
 
-def get_item_defaults(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
+def get_item_defaults_from_sentry(
+    sentry_installation: SentryInstallation,
+    issue_data: Mapping[str, Any]
+) -> Mapping[str, Any]:
     return {
         "organization_id": sentry_installation.organization_id,
         "title": issue_data.get('title'),
         "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done
-        if issue_data.get('status') == "resolved"
-        else ItemColumn.Todo,
+        "column": ItemColumn.Done if issue_data.get('status') == "resolved" else ItemColumn.Todo,
         "is_ignored": issue_data.get('status') == "ignored",
         "sentry_id": issue_data.get('id'),
     }
@@ -96,7 +97,7 @@ def get_or_create_item(sentry_installation: SentryInstallation, issue_data: Mapp
     if item:
         return item, False
     else:
-        item = Item(**get_item_defaults(sentry_installation, issue_data))
+        item = Item(**get_item_defaults_from_sentry(sentry_installation, issue_data))
         db_session.add(item)
         db_session.commit()
         return item, True

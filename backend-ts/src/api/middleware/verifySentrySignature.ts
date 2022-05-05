@@ -9,6 +9,8 @@ export default function verifySentrySignature(
   response: Response,
   next: NextFunction
 ) {
+  // TODO(Leander): Continue signature verification once partners have been notified of changes
+  return next();
   if (process.env.NODE_ENV == 'test') {
     return next();
   }

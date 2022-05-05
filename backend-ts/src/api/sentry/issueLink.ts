@@ -4,9 +4,18 @@ import Item, {ItemColumn} from '../../models/Item.model';
 import Organization from '../../models/Organization.model';
 import SentryInstallation from '../../models/SentryInstallation.model';
 
+// The shape of your settings will depend on how you configure your schema
+// This example coordinates with integration-schema.json for 'issue-link'
+type IssueLinkSettings = {
+  title?: string;
+  description?: string;
+  column?: ItemColumn;
+  complexity?: string;
+  itemId?: string;
+};
+
 type IssueLinkRequestData = {
-  // The fields here are populated from integration-schema.json.
-  fields: Record<string, any>;
+  fields: IssueLinkSettings;
   issueId: string;
   installationId: string;
   webUrl: string;

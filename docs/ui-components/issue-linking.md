@@ -42,7 +42,7 @@ All the authorization logs are coming from middleware which verifies the request
 The 'Populating item options' log comes from the select field we specify in the schema:
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[0].link.required_fields`)
 
-It tells Sentry what endpoint to ping and use to populate options in a Select field. For this demo, the response to Sentry is a list of items from this app's kanban
+It tells Sentry what endpoint to ping and use to populate options in a Select field.
    - [Python Options Response Code](../../backend-py/src/api/endpoints/sentry/options.py)
    - [TypeScript Options Response Code](../../backend-ts/src/api/sentry/options.ts)
 

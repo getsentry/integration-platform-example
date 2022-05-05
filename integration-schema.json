@@ -54,6 +54,35 @@
           }
         ]
       }
+    },
+    {
+      "type": "alert-rule-action",
+      "title": "Create an alert ticket in Integration Platform Example",
+      "settings": {
+        "type": "alert-rule-settings",
+        "uri": "/api/sentry/alert-rule-action/",
+        "description": "Provide the details for the alert ticket",
+        "required_fields": [
+          {
+            "type": "text",
+            "label": "Alert Ticket Title",
+            "name": "title"
+          },
+          {
+            "type": "textarea",
+            "label": "Alert Ticket Description",
+            "name": "description"
+          }
+        ],
+        "optional_fields": [
+          {
+            "type": "select",
+            "label": "Who would you like assigned to the Alert Ticket?",
+            "name": "userId",
+            "uri": "/api/sentry/options/users/"
+          }
+        ]
+      }
     }
   ]
 }
