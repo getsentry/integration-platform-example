@@ -75,14 +75,15 @@ def issue_handler(
         return Response('', 400)
 
 
-def get_item_defaults_from_sentry(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
+def get_item_defaults_from_sentry(
+    sentry_installation: SentryInstallation,
+    issue_data: Mapping[str, Any]
+) -> Mapping[str, Any]:
     return {
         "organization_id": sentry_installation.organization_id,
         "title": issue_data.get('title'),
         "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done
-        if issue_data.get('status') == "resolved"
-        else ItemColumn.Todo,
+        "column": ItemColumn.Done if issue_data.get('status') == "resolved" else ItemColumn.Todo,
         "is_ignored": issue_data.get('status') == "ignored",
         "sentry_id": issue_data.get('id'),
     }
