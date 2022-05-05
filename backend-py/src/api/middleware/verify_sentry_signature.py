@@ -22,6 +22,8 @@ def is_correct_sentry_signature(
     key: str,
     expected: str
 ) -> bool:
+    # TODO(Leander): Continue signature verification once partners have been notified of changes
+    return True
     # The expected string is hashed assuming _no_ whitespace.
     body_encoded = json.dumps(body, separators=(',', ':')).encode("utf-8")
     digest = hmac.new(

@@ -57,8 +57,7 @@ router.post('/', async (request, response) => {
 
   console.info('Successfully validated Sentry alert rule');
 
-  // In a real application, this payload can be used to configure in app notification settings, etc.
-  // By sending a successful response code, we are allowing that alert to notify our app when it fires.
+  // By sending a successful response code, we are approving that alert to notify our application.
   response.sendStatus(200);
 });
 
