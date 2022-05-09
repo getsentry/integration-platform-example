@@ -29,7 +29,7 @@ def convert_sentry_fields_to_dict(fields: Sequence[SentryField]) -> AlertRuleSet
 # This endpoint will only be called if the 'alert-rule-action' is present in the schema.
 @app.route("/api/sentry/alert-rule-action/", methods=["POST"])
 @verify_sentry_signature()
-def validate_alert_rule_action_settings() -> Response:
+def alert_rule_action() -> Response:
     uuid = request.json.get("installationId")
     installation = SentryInstallation.query.filter(SentryInstallation.uuid == uuid).first()
     if not installation:
@@ -53,4 +53,4 @@ def validate_alert_rule_action_settings() -> Response:
     app.logger.info("Successfully validated Sentry alert rule")
 
     # By sending a successful response code, we are approving that alert to notify our application.
-    return Response('', 404)
+    return Response('', 200)

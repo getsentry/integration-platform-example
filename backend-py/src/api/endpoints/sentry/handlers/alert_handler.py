@@ -82,15 +82,16 @@ def handle_metric_alert(
         "organization_id": sentry_installation.organization_id,
     }
     item = Item.query.filter(
-        Item.sentry_alert_id == data.get("metric_alert", {}).get('id'),
-        Item.organization_id == sentry_installation.organization_id
+        Item.sentry_alert_id == item_data["sentry_alert_id"],
+        Item.organization_id == item_data['organization_id']
     ).first()
     item_created = item is None
     if item_created:
         item = Item(**item_data)
         db_session.add(item)
     else:
-        item.update(**item_data)
+        for key, value in item_data.items():
+            setattr(item, key, value)
     db_session.commit()
     app.logger.info(
         f"{'Created' if item_created else 'Modified'} item from metric alert {action} trigger"

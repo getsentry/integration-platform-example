@@ -73,10 +73,10 @@ ALERT_RULE_ACTION_VALUES = {
     'userId': 1,
 }
 
-ALERT_RULE_ACTION_SETTINGS = map(
+ALERT_RULE_ACTION_SETTINGS = list(map(
     lambda item: {'name': item[0], 'value': item[1]},
     ALERT_RULE_ACTION_VALUES.items()
-)
+))
 
 ISSUE_ALERT_WITH_ALERT_RULE_ACTION = {
     'id': '456',
@@ -264,6 +264,6 @@ MOCK_ISSUE_LINK = {
 }
 
 MOCK_ALERT_RULE_ACTION = {
-    'fields': ALERT_RULE_ACTION_SETTINGS,
     'installationId': UUID,
+    'fields': ALERT_RULE_ACTION_SETTINGS,
 }
