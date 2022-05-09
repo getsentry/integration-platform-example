@@ -7,9 +7,11 @@ from src.api.middleware import verify_sentry_signature
 from src.models import SentryInstallation, User
 
 
-# The shape of your settings will depend on how you configure your form fields
-# This example coordinates with integration-schema.json for 'alert-rule-settings'
 class AlertRuleSettings(TypedDict):
+    """
+    The shape of your settings will depend on how you configure your form fields
+    This example coordinates with integration-schema.json for 'alert-rule-settings'
+    """
     title: str
     description: str
     userId: str

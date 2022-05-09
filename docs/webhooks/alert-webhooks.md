@@ -68,11 +68,9 @@ The 'Successful validation' log comes from Sentry pinging another endpoint we sp
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].uri`)
 
 Here, we're validate the settings the user sent to our application and tell Sentry whether or not they should approve the changes to the alert rule. If somethings incorrect, we can surface error messages directly to the user in Sentry.
-   <!-- TODO(Leander): Add link to python code -->
-   - [Python Settings Approval Code](#) 
+   - [Python Settings Approval Code](../../backend-py/src/api/endpoints/sentry/alert_rule_action.py) 
    - [TypeScript Settings Approval Code](../../backend-ts/src/api/sentry/alertRuleAction.ts)
 
 The 'Created/Modified item' logs come from the consumption of the alert webhooks. 
-   <!-- TODO(Leander): Add link to python code -->
-   - [Python Alert Webhook Consumption](#)
+   - [Python Alert Webhook Consumption](../../backend-py/src/api/endpoints/sentry/handlers/alert_handler.py)
    - [TypeScript Alert Webhook Consumption](../../backend-ts/src/api/sentry/handlers/alertHandler.ts)

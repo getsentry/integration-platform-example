@@ -8,7 +8,7 @@ async function handleAssigned(
   sentryInstallation: SentryInstallation,
   issueData: Record<string, any>
 ) {
-  // Find or create an item to associate with the Sentry Issue
+  // Find or create an item to associate with the Sentry issue
   const [item, isItemNew] = await Item.findOrCreate({
     where: {sentryId: issueData.id, organization_id: sentryInstallation.organizationId},
     defaults: {
@@ -102,7 +102,7 @@ export default async function issueHandler(
       response.status(202);
       break;
     default:
-      console.info(`Unhandled Sentry Issue action: ${action}`);
+      console.info(`Unhandled Sentry issue action: ${action}`);
       response.status(400);
   }
 }
