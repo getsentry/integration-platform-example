@@ -87,7 +87,7 @@ ISSUE_ALERT_WITH_ALERT_RULE_ACTION = {
 METRIC_ALERT = {
     'id': '789',
     'alert_rule': {
-        id: '456',
+        'id': '456',
         'name': 'metric alert',
         'status': 0,
         'triggers': [],

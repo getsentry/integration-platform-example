@@ -8,15 +8,16 @@ from src.database import db_session
 
 from ..alert_rule_action import AlertRuleSettings, convert_sentry_fields_to_dict, SentryField
 
+
 # XXX(Leander): This assumes only one action for this integration per payload!
-# Returns the alert settings as a mapping of fieldp["name"] to field["value"]
-
-
 def get_alert_rule_settings(
     sentry_installation: SentryInstallation,
     data: Mapping[str, Any],
     action: str = None,
 ) -> AlertRuleSettings:
+    """
+    Returns the alert settings as a mapping of field["name"] to field["value"]
+    """
     fields: Sequence[SentryField] = []
     # For issue alerts...
     if data.get("event"):
@@ -25,7 +26,7 @@ def get_alert_rule_settings(
     else:
         triggers = data.get("metric_alert", {}).get("alert_rule", {}).get("triggers", [])
         relevant_trigger = next(
-            (trigger for trigger in triggers if trigger.get("action_type") == action), {}
+            (trigger for trigger in triggers if trigger.get("label") == action), {}
         )
         trigger_actions = relevant_trigger.get("actions", [])
         integration_action = next(
@@ -44,6 +45,7 @@ def handle_issue_alert(
     data: Mapping[str, Any],
 ) -> Response:
     settings = get_alert_rule_settings(sentry_installation, data)
+    print('safetly got here', settings)
     item = Item(
         organization_id=sentry_installation.organization_id,
         title=f"🚨 Issue Alert: {settings.get('title') or data['event']['title']}",
@@ -58,6 +60,7 @@ def handle_issue_alert(
     db_session.add(item)
     db_session.commit()
     app.logger.info("Created item from Sentry issue alert trigger")
+    return Response('', 202)
 
 
 def handle_metric_alert(
@@ -75,7 +78,7 @@ def handle_metric_alert(
     settings = get_alert_rule_settings(sentry_installation, data, action)
     item_data = {
         "title": f"{item_title_prefix}: {settings.get('title') or data['metric_alert']['title']}",
-        "description": settings.get("description") or data['data.description_text'],
+        "description": settings.get("description") or data['description_text'],
         "column": ItemColumn.Todo,
         "assignee_id": settings.get("userId"),
         "sentry_alert_id": data.get("metric_alert", {}).get('id'),
@@ -96,6 +99,7 @@ def handle_metric_alert(
     app.logger.info(
         f"{'Created' if item_created else 'Modified'} item from metric alert {action} trigger"
     )
+    return Response('', 202)
 
 
 def alert_handler(
