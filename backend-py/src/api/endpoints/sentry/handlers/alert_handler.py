@@ -45,7 +45,6 @@ def handle_issue_alert(
     data: Mapping[str, Any],
 ) -> Response:
     settings = get_alert_rule_settings(sentry_installation, data)
-    print('safetly got here', settings)
     item = Item(
         organization_id=sentry_installation.organization_id,
         title=f"🚨 Issue Alert: {settings.get('title') or data['event']['title']}",

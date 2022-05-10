@@ -35,7 +35,7 @@ def alert_rule_action() -> Response:
     if not installation:
         return jsonify({"message": "Invalid installation was provided"}), 400
 
-    # Now we can validate the data we the user provided to our alert rule action
+    # Now we can validate the data the user provided to our alert rule action
     # Sending a payload with the 'message' key will be surfaced to the user in Sentry
     # This stops the user from creating the alert, so it's a good way to bubble up relevant info.
     alert_rule_action_settings = convert_sentry_fields_to_dict(request.json.get("fields"))

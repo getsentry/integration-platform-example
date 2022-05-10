@@ -36,7 +36,7 @@ router.post('/', async (request, response) => {
     return response.status(400).send({message: 'Invalid installation was provided'});
   }
 
-  // Now we can validate the data we the user provided to our alert rule action
+  // Now we can validate the data the user provided to our alert rule action
   // Sending a payload with the 'message' key will be surfaced to the user in Sentry
   // This stops the user from creating the alert, so it's a good way to bubble up relevant info.
   const alertRuleActionSettings = convertSentryFieldsToDict(request.body.fields);
