@@ -37,7 +37,7 @@ def get_user_options() -> Response:
     if not sentry_installation:
         return Response('', 404)
     # We can use the installation data to filter the users we return to Sentry.
-    users = User.query.filter(Item.organization_id == sentry_installation.organization_id).all()
+    users = User.query.filter(User.organization_id == sentry_installation.organization_id).all()
     # Sentry requires the results in this exact format.
     result = [{"value": user.id, "label": user.name} for user in users]
     app.logger.info("Populating user options in Sentry")
