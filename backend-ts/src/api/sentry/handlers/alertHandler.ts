@@ -45,7 +45,6 @@ async function handleIssueAlert(
     column: ItemColumn.Todo,
     sentryId: data.event.issue_id,
     // data.issue_alert is only present for Alert Rule Action webhooks
-    // See https://docs.sentry.io/product/integrations/integration-platform/webhooks/#issue-alerts
     sentryAlertId: data?.issue_alert?.id,
     assigneeId: settings.userId,
   });
@@ -106,11 +105,11 @@ export default async function alertHandler(
       await handleMetricAlert(sentryInstallation, data, action);
       response.status(202);
     } else {
-      console.info(`Unhandled metric alert action: ${action}`);
+      console.info(`Unexpected Sentry metric alert action: ${action}`);
       response.status(400);
     }
   } else {
-    console.info(`Unexpected resource received: ${resource}`);
+    console.info(`Unexpected Sentry resource: ${resource}`);
     response.status(400);
   }
 }

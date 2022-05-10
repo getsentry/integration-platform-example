@@ -9,7 +9,7 @@ from flask import Response
 
 
 def handle_assigned(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
-    # Find or create an item to associate with the Sentry Issue
+    # Find or create an item to associate with the Sentry issue
     item, item_created = get_or_create_item(sentry_installation, issue_data)
     app.logger.info(f"{'Created' if item_created else 'Found'} linked item from Sentry issue")
     item.column = ItemColumn.Doing
@@ -71,7 +71,7 @@ def issue_handler(
         handle_resolved(sentry_installation, issue_data)
         return Response('', 202)
     else:
-        app.logger.info(f"Unhandled Sentry Issue action: {action}")
+        app.logger.info(f"Unhandled Sentry issue action: {action}")
         return Response('', 400)
 
 

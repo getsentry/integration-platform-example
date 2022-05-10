@@ -30,20 +30,19 @@ describe(`POST ${path}`, () => {
   });
 
   it('handles successfully surfacing errors in Sentry', async () => {
-    // No SentryInstallation...
     let response = await request(server).post(path).send({});
     assert.equal(response.statusCode, 400);
-    expect(response.body.message);
+    assert.equal(response.body.message, 'Invalid installation was provided');
 
-    // No required fields...
     await createSentryInstallation({uuid: UUID});
-    response = await request(server).post(path).send({});
+    response = await request(server)
+      .post(path)
+      .send({...MOCK_ALERT_RULE_ACTION, fields: []});
     assert.equal(response.statusCode, 400);
-    expect(response.body.message);
+    assert.equal(response.body.message, 'Title and description are required');
 
-    // No associated User...
     response = await request(server).post(path).send(MOCK_ALERT_RULE_ACTION);
     assert.equal(response.statusCode, 400);
-    expect(response.body.message);
+    assert.equal(response.body.message, 'Selected user was not found');
   });
 });

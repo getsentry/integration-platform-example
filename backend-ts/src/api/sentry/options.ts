@@ -12,7 +12,7 @@ type SentrySelectOption = {
   default?: boolean;
 };
 
-// These endpoints are used by FormFields in Sentry to populate the item options for the user to select.
+// These endpoints are used to populate the options for 'Select' FormFields in Sentry.
 
 router.get('/items', async (request, response) => {
   const {installationId: uuid} = request.query;

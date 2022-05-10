@@ -15,10 +15,12 @@ class Item(database.Base):
     complexity = Column(Integer)
     column = Column(
         Enum(ItemColumn, values_callable=lambda x: [e.value for e in x]),
-        nullable=False
+        default=ItemColumn.Todo,
+        nullable=False,
     )
     is_ignored = Column(Boolean, default=False)
     sentry_id = Column(String)
+    sentry_alert_id = Column(String)
     assignee_id = Column(Integer, ForeignKey('user.id'))
     organization_id = Column(Integer, ForeignKey('organization.id'))
 
@@ -31,6 +33,7 @@ class Item(database.Base):
         complexity: int | None = None,
         column: str | None = None,
         sentry_id: str | None = None,
+        sentry_alert_id: str | None = None,
         is_ignored: bool | None = False,
     ):
         self.title = title
@@ -39,8 +42,9 @@ class Item(database.Base):
         self.column = column
         self.organization_id = organization_id
         self.assignee_id = assignee_id
-        self.is_ignored = is_ignored
         self.sentry_id = sentry_id
+        self.sentry_alert_id = sentry_alert_id
+        self.is_ignored = is_ignored
 
     def __repr__(self):
         return f"<Item #{self.id}: {self.title}>"
