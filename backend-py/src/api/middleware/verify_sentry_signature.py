@@ -43,7 +43,6 @@ def verify_sentry_signature():
     This function will authenticate that the requests are coming from Sentry.
     Now we can be confident in our nested routes that the data is legit,
     without having to repeat this check.
-    See more: https://docs.sentry.io/product/integrations/integration-platform/webhooks/
     """
     def wrapper(f):
         @functools.wraps(f)

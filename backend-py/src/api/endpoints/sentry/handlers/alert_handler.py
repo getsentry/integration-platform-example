@@ -1,5 +1,5 @@
 from typing import Any, Mapping, Sequence
-from flask import jsonify, request, Response
+from flask import Response
 
 from src import app
 from src.models import Item, SentryInstallation
@@ -52,7 +52,6 @@ def handle_issue_alert(
         column=ItemColumn.Todo,
         sentry_id=data["event"]["issue_id"],
         # data["issue_alert"] is only present for Alert Rule Action webhooks
-        # See https://docs.sentry.io/product/integrations/integration-platform/webhooks/#issue-alerts
         sentry_alert_id=data.get("issue_alert", {}).get("id"),
         assignee_id=settings.get("userId"),
     )

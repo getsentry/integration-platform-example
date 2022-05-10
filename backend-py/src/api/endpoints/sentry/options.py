@@ -8,7 +8,7 @@ from src.models import SentryInstallation, Item, User
 from flask import jsonify, request, Response
 
 
-# These endpoints are used by FormFields in Sentry to populate the item options for the user to select.
+# These endpoints are used to populate the options for 'Select' FormFields in Sentry.
 
 @app.route("/api/sentry/options/items/", methods=["GET"])
 @verify_sentry_signature()

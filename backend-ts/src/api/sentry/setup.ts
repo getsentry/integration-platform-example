@@ -78,9 +78,9 @@ router.post('/', async (req, res) => {
   await organization.save();
 
   // Continue the installation process
-  //    - If your app requires additional configuration, this is where you can do it
-  //    - The token/refreshToken can be used to make requests to Sentry's API -> https://docs.sentry.io/api/
-  //    - Once you're done, you can optionally redirect the user back to Sentry as we do below
+  // - If your app requires additional configuration, this is where you can do it
+  // - The token/refreshToken can be used to make requests to Sentry's API
+  // - Once you're done, you can optionally redirect the user back to Sentry as we do below
   console.info(`Installed ${verifyResponse.data.app.slug} on '${organization.name}'`);
   res.status(201).send({
     redirectUrl: `${process.env.SENTRY_URL}/settings/${sentryOrgSlug}/sentry-apps/${verifyResponse.data.app.slug}/`,

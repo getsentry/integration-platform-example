@@ -45,7 +45,6 @@ async function handleIssueAlert(
     column: ItemColumn.Todo,
     sentryId: data.event.issue_id,
     // data.issue_alert is only present for Alert Rule Action webhooks
-    // See https://docs.sentry.io/product/integrations/integration-platform/webhooks/#issue-alerts
     sentryAlertId: data?.issue_alert?.id,
     assigneeId: settings.userId,
   });
