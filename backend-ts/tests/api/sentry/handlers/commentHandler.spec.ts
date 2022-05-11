@@ -74,6 +74,7 @@ describe(`commentHandler for webhooks`, () => {
     const existingComment = item.comments[0];
     assert.equal(existingComment.text, MOCK_WEBHOOK['comment.updated'].data.comment);
   });
+
   it('should handle comment.deleted events', async () => {
     await item.update({
       comments: [

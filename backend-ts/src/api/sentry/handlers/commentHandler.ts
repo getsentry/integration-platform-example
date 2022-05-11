@@ -30,25 +30,29 @@ export default async function commentHandler(
     sentryCommentId: data.comment_id,
   };
   const existingComments = (item.comments ?? []) as ItemComment[];
-  const commentIndex = existingComments.findIndex(
+  const incomingCommentIndex = existingComments.findIndex(
     comment => comment.sentryCommentId === incomingComment.sentryCommentId
   );
+
   switch (action) {
     case 'created':
     case 'updated':
-      if (commentIndex === -1) {
+      if (incomingCommentIndex === -1) {
+        // Create a new comment at the end of the list
         await item.update({comments: [...existingComments, incomingComment]});
         console.info(`Added new comment from Sentry issue`);
         response.status(201);
       } else {
+        // Replace the existing comment with an updated version
         const comments = [...existingComments];
-        comments.splice(commentIndex, 1, incomingComment);
+        comments.splice(incomingCommentIndex, 1, incomingComment);
         await item.update({comments});
         console.info(`Updated comment from Sentry issue`);
         response.status(200);
       }
       break;
     case 'deleted':
+      // Remove the matching comment from the list
       await item.update({
         comments: existingComments.filter(
           comment => comment.sentryCommentId !== incomingComment.sentryCommentId
