@@ -50,13 +50,13 @@ def webhook_index():
         # Keep this in mind while building on this webhook.
         return Response('', 200)
 
-    # Handle webhooks related to alerts
-    if resource == 'event_alert' or resource == 'metric_alert':
-        return alert_handler(resource, action, sentry_installation, data)
-
     # Handle webhooks related to comments
     if resource == 'comment':
         return comment_handler(action, sentry_installation, data, actor)
+
+    # Handle webhooks related to alerts
+    if resource == 'event_alert' or resource == 'metric_alert':
+        return alert_handler(resource, action, sentry_installation, data)
 
     # Handle uninstallation webhooks
     if resource == "installation" and action == "deleted":
