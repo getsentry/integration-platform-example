@@ -46,6 +46,7 @@ def create_item(
     organization: Organization,
     user: User | None = None,
     title: str = "Item Title",
+    **item_kwargs,
 ) -> Item:
     item = Item(
         title=title,
@@ -54,6 +55,7 @@ def create_item(
         column=ItemColumn.Todo,
         assignee_id=getattr(user, "id", None),
         organization_id=organization.id,
+        **item_kwargs,
     )
 
     db_session.add(item)

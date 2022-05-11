@@ -1,6 +1,5 @@
 
-from src.models import Item, User
-from src.types import ItemColumn
+from src.models import Item
 from src.database import db_session
 
 from tests.api import APITestCase

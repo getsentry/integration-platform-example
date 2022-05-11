@@ -37,28 +37,27 @@ describe(`commentHandler for webhooks`, () => {
   });
 
   it('should handle comment.created events', async () => {
-    const response = await baseRequest.send(MOCK_WEBHOOK['comment.created']);
+    const payload = MOCK_WEBHOOK['comment.created'];
+    const response = await baseRequest.send(payload);
     assert.equal(response.statusCode, 201);
 
     await item.reload();
     assert.equal(item.comments.length, 1);
     const newComment = item.comments[0];
-    assert.equal(newComment.author, MOCK_WEBHOOK['comment.created'].actor.name);
-    assert.equal(newComment.text, MOCK_WEBHOOK['comment.created'].data.comment);
-    assert.equal(newComment.timestamp, MOCK_WEBHOOK['comment.created'].data.timestamp);
-    assert.equal(
-      newComment.sentryCommentId,
-      MOCK_WEBHOOK['comment.created'].data.comment_id
-    );
+    assert.equal(newComment.author, payload.actor.name);
+    assert.equal(newComment.text, payload.data.comment);
+    assert.equal(newComment.timestamp, payload.data.timestamp);
+    assert.equal(newComment.sentryCommentId, payload.data.comment_id);
   });
 
   it('should handle comment.updated events', async () => {
+    const payload = MOCK_WEBHOOK['comment.updated'];
     await item.update({
       comments: [
         {
-          sentryCommentId: MOCK_WEBHOOK['comment.updated'].data.comment_id,
-          timestamp: MOCK_WEBHOOK['comment.updated'].data.timestamp,
-          author: MOCK_WEBHOOK['comment.updated'].actor.name,
+          sentryCommentId: payload.data.comment_id,
+          timestamp: payload.data.timestamp,
+          author: payload.actor.name,
           text: 'old comment',
         },
       ],
@@ -66,28 +65,29 @@ describe(`commentHandler for webhooks`, () => {
     await item.reload();
     assert.equal(item.comments.length, 1);
 
-    const response = await baseRequest.send(MOCK_WEBHOOK['comment.updated']);
+    const response = await baseRequest.send(payload);
     assert.equal(response.statusCode, 200);
 
     await item.reload();
     assert.equal(item.comments.length, 1);
     const existingComment = item.comments[0];
-    assert.equal(existingComment.text, MOCK_WEBHOOK['comment.updated'].data.comment);
+    assert.equal(existingComment.text, payload.data.comment);
   });
 
   it('should handle comment.deleted events', async () => {
+    const payload = MOCK_WEBHOOK['comment.deleted'];
     await item.update({
       comments: [
         {
-          sentryCommentId: MOCK_WEBHOOK['comment.deleted'].data.comment_id,
-          timestamp: MOCK_WEBHOOK['comment.deleted'].data.timestamp,
-          author: MOCK_WEBHOOK['comment.deleted'].actor.name,
-          text: MOCK_WEBHOOK['comment.deleted'].data.comment,
+          sentryCommentId: payload.data.comment_id,
+          timestamp: payload.data.timestamp,
+          author: payload.actor.name,
+          text: payload.data.comment,
         },
         {
           sentryCommentId: '90210',
-          timestamp: MOCK_WEBHOOK['comment.deleted'].data.timestamp,
-          author: MOCK_WEBHOOK['comment.deleted'].actor.name,
+          timestamp: payload.data.timestamp,
+          author: payload.actor.name,
           text: 'untouched comment',
         },
       ],
@@ -95,7 +95,7 @@ describe(`commentHandler for webhooks`, () => {
     await item.reload();
     assert.equal(item.comments.length, 2);
 
-    const response = await baseRequest.send(MOCK_WEBHOOK['comment.deleted']);
+    const response = await baseRequest.send(payload);
     assert.equal(response.statusCode, 204);
 
     await item.reload();
