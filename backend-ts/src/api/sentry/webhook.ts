@@ -31,9 +31,18 @@ router.post('/', async (request, response) => {
   if (!sentryInstallation) {
     return response.sendStatus(404);
   }
+
   // Handle webhooks related to issues
   if (resource === 'issue') {
     await issueHandler(response, action, sentryInstallation, data);
+  }
+
+  // Handle webhooks related to errors
+  if (resource === 'error') {
+    // The error.created webhook has an immense volume since it triggers on every occurence of
+    // every issue in Sentry. Both the integration builder, and integration installer require
+    // at least a Business plan to use them. Keep this in mind if you choose to use this webhook.
+    response.status(200);
   }
 
   // Handle webhooks related to alerts
