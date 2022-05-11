@@ -37,6 +37,7 @@ export default class Item extends Model {
   @Column
   sentryAlertId: string;
 
+  @Default([])
   @Column(DataType.JSON)
   comments: ItemComment[];
 
