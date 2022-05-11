@@ -68,4 +68,10 @@ Broadly, the steps in handling these webhooks are as follows:
 
 # Error Webhooks
 
-TODO(Leander): Write these
+We haven't added any functionality for the `error.created` webhook in this application due to the volume at which it can trigger. If enabled for your integration, you will see the following logs and nothing else:
+
+```
+Received 'error.created' webhook from Sentry
+```
+
+If you choose to use these webhooks, keep in mind that both you the integrator, and any users installing your integration, will require at least a Business plan. These webhooks trigger on every occurance of every issue processed by Sentry, so keep that in mind when building out your app-specific features.

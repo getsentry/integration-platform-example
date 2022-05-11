@@ -29,29 +29,32 @@ If you monitor server logs during the above install-uninstall test, you should s
 ```
 # Installation Request
 
-1. Authorized: Verified request came from Sentry
-2. Received 'installation.created' webhook from Sentry
-3. Installed example on 'Bahringer LLC'
+Authorized: Verified request came from Sentry
+Received 'installation.created' webhook from Sentry
+Installed example on 'Bahringer LLC'
 
 # Uninstallation Request
 
-4. Authorized: Verified request came from Sentry
-5. Received 'installation.deleted' webhook from Sentry
-6. Uninstalled example from 'Bahringer LLC'
+Authorized: Verified request came from Sentry
+Received 'installation.deleted' webhook from Sentry
+Uninstalled example from 'Bahringer LLC'
 ```
 
-1. The authorization comes from verifying the request signature with the shared secret 
+The authorization logs comes from verifying the request signature with the shared secret 
    - [Python Signature Verification](../backend-py/src/api/middleware/verify_sentry_signature.py)
-   - [TypeScript Signature Verification](../backend-ts/src/api/middleware/verifySentrySignature.ts) 
-2. The `installation.created` webhook is fine to ignore since we have set up a custom endpoint to which our Redirect URL's form submits:
+   - [TypeScript Signature Verification](../backend-ts/src/api/middleware/verifySentrySignature.ts)
+ 
+The `installation.created` webhook is fine to ignore since we have set up a custom endpoint to which our Redirect URL's form submits:
    - [Python Installation Handling](../backend-py/src/api/endpoints/sentry/setup.py)
    - [Typescript Installation Handling](../backend-ts/src/api/sentry/setup.ts)
-3. Confirmation that the code in #2 ran properly.
-4. See #1
-5. The `installation.deleted` webhook must be handled to remove the associated installation/token data
+  
+The 'Installed app on organization' log confirms that we've verified the installation with Sentry
+
+The `installation.deleted` webhook must be handled to remove the associated installation/token data
    - [Python Uninstallation Handling](../backend-py/src/api/endpoints/sentry/webhook.py)
    - [Typescript Uninstallation Handling](../backend-ts/src/api/sentry/webhook.ts)
-6. Confirmation that the code in #5 ran properly.
+  
+The 'Uninstalled app from organization' log confirms that we've removed the Sentry installation from our database
 
 
 

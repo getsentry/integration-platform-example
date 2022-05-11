@@ -41,6 +41,14 @@ def webhook_index():
     if resource == 'issue':
         return issue_handler(action, sentry_installation, data)
 
+    # Handle webhooks related to errors
+    if resource == 'error':
+        # The error.created webhook has an immense volume since it triggers on each event in Sentry.
+        # If you're developing a public integration on SaaS, both you (the integration builder) and
+        # the user installing your integration will require at least a Business plan to use them.
+        # Keep this in mind while building on this webhook.
+        return Response('', 200)
+
     # Handle webhooks related to alerts
     if resource == 'event_alert' or resource == 'metric_alert':
         return alert_handler(resource, action, sentry_installation, data)

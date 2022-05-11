@@ -103,11 +103,14 @@ In your Sentry instance,
     - Redirect URL: `https://abc123.ngrok.io/sentry/setup/`
 > Note: On the free plan for ngrok, if your service restarts, [you will be issued a new forwarding address](https://ngrok.com/docs#getting-started-stable). If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
 4. Ensure 'Verify Installation' is checked.
-5. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
-6. Enable 'Issue & Event - Read' permissions.
-7. Enable 'issue' webhooks (for created, resolved, assigned, and ignored actions).
-8. TODO(Leander): Add extra steps here as we add features
-9. Click 'Save Changes'.
+5. Ensure 'Alert Rule Action' is checked.
+6. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
+7. Enable 'Issue & Event - Read' permissions.
+8. Enable the webhooks 
+   - `issue` (for `created`, `resolved`, `assigned`, and `ignored` actions)
+   - `comment` (for `created`, `edited`, and `deleted` actions)
+> Note: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
+9.  Click 'Save Changes'.
 10. Make a note of the **Client ID** and **Client Secret**.
 
 This demo integration can helpfully create errors in Sentry to trigger webhooks while developing, but you'll need to issue this app a DSN. 
