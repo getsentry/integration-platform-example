@@ -46,8 +46,6 @@ def verify_sentry_signature():
         def inner(*args: Any, **kwargs: Any):
 
             if (
-                # TODO(Leander): Continue signature verification once partners
-                # have been notified of changes
                 FLASK_ENV != "test"
                 and not is_correct_sentry_signature(
                     body=request.get_data(),
