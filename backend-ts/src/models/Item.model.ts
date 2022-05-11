@@ -9,6 +9,13 @@ export enum ItemColumn {
   Done = 'DONE',
 }
 
+export type ItemComment = {
+  text: string;
+  author: string;
+  timestamp: string;
+  sentryCommentId: string;
+};
+
 @Table({tableName: 'item', underscored: true, timestamps: false})
 export default class Item extends Model {
   @Column
@@ -29,6 +36,9 @@ export default class Item extends Model {
 
   @Column
   sentryAlertId: string;
+
+  @Column(DataType.JSON)
+  comments: ItemComment[];
 
   @Default(ItemColumn.Todo)
   @Column({type: DataType.ENUM({values: Object.values(ItemColumn)})})
