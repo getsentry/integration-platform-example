@@ -22,16 +22,13 @@ def is_correct_sentry_signature(
     key: str,
     expected: str
 ) -> bool:
-    # The expected string is hashed assuming _no_ whitespace.
-    body_encoded = json.dumps(body, separators=(',', ':')).encode("utf-8")
     digest = hmac.new(
         key=key.encode("utf-8"),
-        msg=body_encoded,
+        msg=body,
         digestmod=hashlib.sha256,
     ).hexdigest()
 
     if digest != expected:
-        app.logger.info("Unauthorized: Could not verify request came from Sentry")
         return False
 
     app.logger.info("Authorized: Verified request came from Sentry")
@@ -47,17 +44,23 @@ def verify_sentry_signature():
     def wrapper(f):
         @functools.wraps(f)
         def inner(*args: Any, **kwargs: Any):
+
             if (
                 # TODO(Leander): Continue signature verification once partners
                 # have been notified of changes
-                False and
                 FLASK_ENV != "test"
                 and not is_correct_sentry_signature(
-                    body=request.json,
+                    body=request.get_data(),
                     key=SENTRY_CLIENT_SECRET,
                     expected=request.headers.get("sentry-hook-signature")
                 )
+                and not is_correct_sentry_signature(
+                    body=request.get_data(),
+                    key=SENTRY_CLIENT_SECRET,
+                    expected=request.headers.get("sentry-app-signature")
+                )
             ):
+                app.logger.info("Unauthorized: Could not verify request came from Sentry")
                 return Response('', 401)
             return f(*args, **kwargs)
         return inner
