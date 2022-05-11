@@ -29,29 +29,33 @@ export default async function commentHandler(
     timestamp: data.timestamp,
     sentryCommentId: data.comment_id,
   };
-  const commentIndex = item.comments.findIndex(
+  const existingComments = (item.comments ?? []) as ItemComment[];
+  const commentIndex = existingComments.findIndex(
     comment => comment.sentryCommentId === incomingComment.sentryCommentId
   );
   switch (action) {
     case 'created':
     case 'updated':
       if (commentIndex === -1) {
-        await item.update({comments: [...(item.comments ?? []), incomingComment]});
+        await item.update({comments: [...existingComments, incomingComment]});
         console.info(`Added new comment from Sentry issue`);
+        response.status(201);
       } else {
-        const comments = [...item.comments];
+        const comments = [...existingComments];
         comments.splice(commentIndex, 1, incomingComment);
         await item.update({comments});
         console.info(`Updated comment from Sentry issue`);
+        response.status(200);
       }
       break;
     case 'deleted':
       await item.update({
-        comments: item.comments.filter(
+        comments: existingComments.filter(
           comment => comment.sentryCommentId !== incomingComment.sentryCommentId
         ),
       });
       console.info(`Deleted comment from Sentry issue`);
+      response.status(204);
       break;
     default:
       console.info(`Unexpected Sentry comment action: ${action}`);

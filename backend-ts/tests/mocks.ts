@@ -178,6 +178,37 @@ const MOCK_ISSUE_RESOLVED_WEBHOOK = {
   installation: INSTALLATION,
 };
 
+const MOCK_BASE_COMMENT_WEBHOOK = {
+  data: {
+    comment_id: 456,
+    issue_id: ISSUE.id,
+    project_slug: 'ipe',
+    timestamp: '2022-01-01T00:00:00.000000Z',
+    comment: 'this is a test comment',
+  },
+  actor: {
+    type: 'user',
+    id: 123,
+    name: 'leander',
+  },
+  installation: INSTALLATION,
+};
+
+const MOCK_COMMENT_CREATED_WEBHOOK = {
+  ...MOCK_BASE_COMMENT_WEBHOOK,
+  action: 'created',
+};
+
+const MOCK_COMMENT_UPDATED_WEBHOOK = {
+  ...MOCK_BASE_COMMENT_WEBHOOK,
+  action: 'updated',
+};
+
+const MOCK_COMMENT_DELETED_WEBHOOK = {
+  ...MOCK_BASE_COMMENT_WEBHOOK,
+  action: 'deleted',
+};
+
 const MOCK_EVENT_ALERT_TRIGGERED_WEBHOOK = {
   action: 'triggered',
   data: {event: EVENT},
@@ -238,6 +269,9 @@ export const MOCK_WEBHOOK = {
   'issue.created': MOCK_ISSUE_CREATED_WEBHOOK,
   'issue.ignored': MOCK_ISSUE_IGNORED_WEBHOOK,
   'issue.resolved': MOCK_ISSUE_RESOLVED_WEBHOOK,
+  'comment.created': MOCK_COMMENT_CREATED_WEBHOOK,
+  'comment.updated': MOCK_COMMENT_UPDATED_WEBHOOK,
+  'comment.deleted': MOCK_COMMENT_DELETED_WEBHOOK,
   'event_alert.triggered': MOCK_EVENT_ALERT_TRIGGERED_WEBHOOK,
   'event_alert.triggered:with_alert_rule_action':
     MOCK_EVENT_ALERT_TRIGGERED_WEBHOOK_WITH_ALERT_RULE_ACTION,
