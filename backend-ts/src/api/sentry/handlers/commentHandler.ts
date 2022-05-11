@@ -17,7 +17,7 @@ export default async function commentHandler(
     },
   });
   if (!item) {
-    console.info(`Ignoring comment for unlinked Sentry issue.`);
+    console.info(`Ignoring comment for unlinked Sentry issue`);
     response.status(200);
     return;
   }

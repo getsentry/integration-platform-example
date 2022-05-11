@@ -1,10 +1,10 @@
 from __future__ import annotations
-from typing import Any, Mapping, Sequence
+from typing import Sequence
 
 from sqlalchemy import Column,  Integer, String, ForeignKey, Boolean, Enum, JSON
 
 from .. import database
-from ..types import ItemColumn
+from ..types import ItemComment, ItemColumn
 
 
 class Item(database.Base):
@@ -36,7 +36,7 @@ class Item(database.Base):
         column: str | None = None,
         sentry_id: str | None = None,
         sentry_alert_id: str | None = None,
-        comments: Sequence[Mapping[str, Any]] | None = [],
+        comments: Sequence[ItemComment] | None = [],
         is_ignored: bool | None = False,
     ):
         self.title = title

@@ -6,7 +6,7 @@ from src import app
 from src.api.middleware import verify_sentry_signature
 from src.database import db_session
 from src.models import SentryInstallation, Organization
-from src.api.endpoints.sentry.handlers import alert_handler, issue_handler
+from src.api.endpoints.sentry.handlers import alert_handler, comment_handler, issue_handler
 
 from flask import request, Response
 
@@ -17,6 +17,7 @@ def webhook_index():
     # Parse the JSON body fields off of the request
     action = request.json.get("action")
     data = request.json.get("data")
+    actor = request.json.get("actor")
     uuid = request.json.get("installation", {}).get("uuid")
     # Identify the resource triggering the webhook in Sentry
     resource = request.headers.get("sentry-hook-resource")
@@ -52,6 +53,10 @@ def webhook_index():
     # Handle webhooks related to alerts
     if resource == 'event_alert' or resource == 'metric_alert':
         return alert_handler(resource, action, sentry_installation, data)
+
+    # Handle webhooks related to comments
+    if resource == 'comment':
+        return comment_handler(action, sentry_installation, data, actor)
 
     # Handle uninstallation webhooks
     if resource == "installation" and action == "deleted":

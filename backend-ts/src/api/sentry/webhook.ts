@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   response.status(200);
   // Parse the JSON body fields off of the request
-  const {action, data, installation} = request.body;
+  const {action, data, installation, actor} = request.body;
   const {uuid} = installation || {};
 
   // Identify the resource triggering the webhook in Sentry
@@ -49,7 +49,6 @@ router.post('/', async (request, response) => {
 
   // Handle webhooks related to comments
   if (resource === 'comment') {
-    const {actor} = request.body;
     await commentHandler(response, action, sentryInstallation, data, actor);
   }
 
