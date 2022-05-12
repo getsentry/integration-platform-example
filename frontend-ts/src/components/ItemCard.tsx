@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 import {Item} from '../types';
+import ItemCardCommentSection from './ItemCardCommentSection';
 
 type ItemCardProps = {
   item: Item;
@@ -11,23 +12,28 @@ const ItemCard = ({
   item: {
     id,
     title,
-    description,
+    description = '',
     complexity,
     assignee,
     sentryId,
     sentryAlertId,
     isIgnored,
-    comments,
+    comments = [],
   },
 }: ItemCardProps) => {
+  const shortDescription =
+    description.length > 150
+      ? (description || '').slice(0, 150).concat('...')
+      : description;
+
   return (
     <Card isIgnored={!!isIgnored}>
       <CardHeader>
         <div className="card-title">{title}</div>
         <div className="card-id">#{id}</div>
       </CardHeader>
-      {description && <Description>{description}</Description>}
-      <BottomBar>
+      <CardBody>{shortDescription}</CardBody>
+      <PillSection>
         <UserDisplay>
           {assignee && (
             <img src={assignee.avatar} alt={assignee.name} title={assignee.name} />
@@ -38,8 +44,8 @@ const ItemCard = ({
           {sentryId && <Badge className="issue-id">Issue: {sentryId}</Badge>}
           {complexity && <Badge className="complexity">{complexity}</Badge>}
         </BadgeDisplay>
-        {comments}
-      </BottomBar>
+      </PillSection>
+      {comments && comments.length > 0 && <ItemCardCommentSection comments={comments} />}
     </Card>
   );
 };
@@ -67,22 +73,25 @@ const CardHeader = styled.div`
   }
 `;
 
-const Title = styled.div``;
-
-const TitleId = styled.div``;
-
-const Description = styled.p`
+const CardBody = styled.p`
   color: ${p => p.theme.gray300};
   font-size: 12px;
   margin: 0.5rem 0;
 `;
 
-const BottomBar = styled.div`
+const PillSection = styled.div`
   display: flex;
   border-top: 0.5px solid ${p => p.theme.gray200};
   padding-top: 0.5rem;
   justify-content: space-between;
   align-items: center;
+`;
+
+const CommentSection = styled.details`
+  margin: 0.5rem 0;
+  border-top: 0.5px solid ${p => p.theme.gray200};
+  padding-top: 0.5rem;
+  color: ${p => p.theme.gray300};
 `;
 
 const UserDisplay = styled.div`
