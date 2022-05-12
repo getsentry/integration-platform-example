@@ -1,49 +1,32 @@
 import styled from '@emotion/styled';
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Item} from '../types';
-import SentryLogo from './SentryLogo';
 
 type ItemCardProps = {
   item: Item;
 };
 
 const ItemCard = ({
-  item: {id, title, description, complexity, assignee, sentryId, isIgnored},
+  item: {
+    id,
+    title,
+    description,
+    complexity,
+    assignee,
+    sentryId,
+    sentryAlertId,
+    isIgnored,
+    comments,
+  },
 }: ItemCardProps) => {
-  const [isHovering, setIsHovering] = useState(false);
   return (
-    <Card
-      isIgnored={!!isIgnored}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <Title>{title}</Title>
+    <Card isIgnored={!!isIgnored}>
+      <CardHeader>
+        <div className="card-title">{title}</div>
+        <div className="card-id">#{id}</div>
+      </CardHeader>
       {description && <Description>{description}</Description>}
-      <DeleteButton
-        title="Delete"
-        isVisible={isHovering}
-        disabled={!isHovering}
-        onClick={() => console.log(`Delete Item #${id}`)}
-      />
-      <EditButton
-        title="Edit"
-        isVisible={isHovering}
-        disabled={!isHovering}
-        onClick={() => console.log(`Update Item #${id}`)}
-      />
-      <LeftColumnButton
-        title="Transition Left"
-        isVisible={isHovering}
-        disabled={!isHovering}
-        onClick={() => console.log(`Move Item #${id} to the left`)}
-      />
-      <RightColumnButton
-        title="Transition Right"
-        isVisible={isHovering}
-        disabled={!isHovering}
-        onClick={() => console.log(`Move Item #${id} to the right`)}
-      />
       <BottomBar>
         <UserDisplay>
           {assignee && (
@@ -51,16 +34,11 @@ const ItemCard = ({
           )}
         </UserDisplay>
         <BadgeDisplay>
-          {sentryId && (
-            <SentryIssue className="badge">
-              <div className="sentryContainer">
-                <SentryLogo size={20} />
-                <span>{sentryId}</span>
-              </div>
-            </SentryIssue>
-          )}
-          {complexity && <Complexity className="badge">{complexity}</Complexity>}
+          {sentryAlertId && <Badge className="alert-id">Alert: {sentryAlertId}</Badge>}
+          {sentryId && <Badge className="issue-id">Issue: {sentryId}</Badge>}
+          {complexity && <Badge className="complexity">{complexity}</Badge>}
         </BadgeDisplay>
+        {comments}
       </BottomBar>
     </Card>
   );
@@ -75,71 +53,23 @@ const Card = styled.div<{isIgnored: boolean}>`
   position: relative;
 `;
 
-const HoverButton = styled.button<{isVisible: boolean}>`
-  position: absolute;
-  padding: 0;
-  margin: 0;
-  top: -10px;
-  padding: 10px;
-  color: ${p => p.theme.surface100};
-  border-radius: 100px;
-  &:after {
-    line-height: 100%;
-    font-size: 1.1rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+const CardHeader = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  font-weight: bold;
+  align-items: start;
+  .card-title {
+    font-size: 14px;
+    color: ${p => p.theme.gray400};
   }
-  transition: opacity 0.2s ease;
-  opacity: ${p => (p.isVisible ? 1 : 0)};
-`;
-
-const DeleteButton = styled(HoverButton)`
-  right: -10px;
-  border: 1px solid ${p => p.theme.red300};
-  background: ${p => p.theme.red200};
-  &:after {
-    content: '🔥';
-    transform: translate(-50%, -55%);
+  .card-id {
+    color: ${p => p.theme.purple300};
   }
 `;
 
-const EditButton = styled(HoverButton)`
-  right: 15px;
-  border: 1px solid ${p => p.theme.yellow300};
-  background: ${p => p.theme.yellow200};
-  &:after {
-    content: '✏️';
-    transform: translate(-50%, -55%);
-  }
-`;
+const Title = styled.div``;
 
-const RightColumnButton = styled(HoverButton)`
-  right: 40px;
-  border: 1px solid ${p => p.theme.green300};
-  background: ${p => p.theme.green200};
-  &:after {
-    content: '▶';
-    transform: translate(-50%, -55%);
-  }
-`;
-
-const LeftColumnButton = styled(HoverButton)`
-  right: 65px;
-  border: 1px solid ${p => p.theme.blue300};
-  background: ${p => p.theme.blue200};
-  &:after {
-    content: '◀';
-    transform: translate(-50%, -55%);
-  }
-`;
-
-const Title = styled.h3`
-  font-size: 14px;
-  color: ${p => p.theme.gray400};
-  margin: 0;
-`;
+const TitleId = styled.div``;
 
 const Description = styled.p`
   color: ${p => p.theme.gray300};
@@ -172,38 +102,26 @@ const UserDisplay = styled.div`
 const BadgeDisplay = styled.div`
   flex: 10;
   text-align: right;
-  .badge {
-    display: inline-block;
-  }
+  gap: 10;
 `;
 
-const Complexity = styled.span`
+const Badge = styled.a`
+  display: inline-block;
+  margin: 0.05rem;
   line-height: 1;
-  color: ${p => p.theme.surface100};
   padding: 0.25rem 0.75rem;
   border-radius: 1000px;
-  background: ${p => p.theme.purple200};
-`;
-
-const SentryIssue = styled.span`
-  color: ${p => p.theme.surface100};
-  border: 1px solid ${p => p.theme.purple200};
-  padding: 0.25rem 0.75rem;
-  border-radius: 1000px;
-  color: ${p => p.theme.purple200};
-  text-decoration: none;
-  .sentryContainer {
-    display: flex;
-    line-height: 0;
-    align-items: center;
-    svg {
-      margin-right: 0.25rem;
-    }
-    .sentry-id {
-      flex: 1
-      line-height: 1;
-    }
-
+  &.issue-id {
+    color: ${p => p.theme.blue300};
+    background: ${p => p.theme.blue100};
+  }
+  &.alert-id {
+    color: ${p => p.theme.pink300};
+    background: ${p => p.theme.pink100};
+  }
+  &.complexity {
+    color: ${p => p.theme.purple300};
+    background: ${p => p.theme.purple100};
   }
 `;
 
