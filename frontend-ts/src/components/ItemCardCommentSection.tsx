@@ -3,15 +3,16 @@ import React from 'react';
 
 import {ItemComment} from '../types';
 
-type ItemCardCommentSection = {
+type ItemCardCommentSectionProps = {
   comments: ItemComment[];
 };
 
-const ItemCardCommentSection = ({comments}: ItemCardCommentSection) => {
-  const getTimeString = (timestamp: string) => {
-    const date = new Date(timestamp);
-    return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-  };
+const getTimeString = (timestamp: string) => {
+  const date = new Date(timestamp);
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+};
+
+const ItemCardCommentSection = ({comments}: ItemCardCommentSectionProps) => {
   const sortedComments = comments.sort((a, b) => {
     return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
   });
