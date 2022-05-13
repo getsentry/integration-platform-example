@@ -3,6 +3,31 @@ import {Response} from 'express';
 import Item, {ItemComment} from '../../../models/Item.model';
 import SentryInstallation from '../../../models/SentryInstallation.model';
 
+async function handleCreated(item: Item, comment: ItemComment) {
+  await item.update({comments: [...(item.comments ?? []), comment]});
+  console.info(`Added new comment from Sentry issue`);
+}
+
+async function handleUpdated(item: Item, comment: ItemComment) {
+  // Create a copy since Array.prototype.splice mutates the original array
+  const comments = [...(item.comments ?? [])];
+  const commentIndex = comments.findIndex(
+    c => c.sentryCommentId === comment.sentryCommentId
+  );
+  comments.splice(commentIndex, 1, comment);
+  await item.update({comments});
+  console.info(`Updated comment from Sentry issue`);
+}
+
+async function handleDeleted(item: Item, comment: ItemComment) {
+  await item.update({
+    comments: (item.comments ?? []).filter(
+      c => c.sentryCommentId !== comment.sentryCommentId
+    ),
+  });
+  console.info(`Deleted comment from Sentry issue`);
+}
+
 export default async function commentHandler(
   response: Response,
   action: string,
@@ -29,36 +54,18 @@ export default async function commentHandler(
     timestamp: data.timestamp,
     sentryCommentId: data.comment_id,
   };
-  const existingComments = (item.comments ?? []) as ItemComment[];
-  const incomingCommentIndex = existingComments.findIndex(
-    comment => comment.sentryCommentId === incomingComment.sentryCommentId
-  );
 
   switch (action) {
     case 'created':
+      await handleCreated(item, incomingComment);
+      response.status(201);
+      break;
     case 'updated':
-      if (incomingCommentIndex === -1) {
-        // Create a new comment at the end of the list
-        await item.update({comments: [...existingComments, incomingComment]});
-        console.info(`Added new comment from Sentry issue`);
-        response.status(201);
-      } else {
-        // Replace the existing comment with an updated version
-        const comments = [...existingComments];
-        comments.splice(incomingCommentIndex, 1, incomingComment);
-        await item.update({comments});
-        console.info(`Updated comment from Sentry issue`);
-        response.status(200);
-      }
+      await handleUpdated(item, incomingComment);
+      response.status(200);
       break;
     case 'deleted':
-      // Remove the matching comment from the list
-      await item.update({
-        comments: existingComments.filter(
-          comment => comment.sentryCommentId !== incomingComment.sentryCommentId
-        ),
-      });
-      console.info(`Deleted comment from Sentry issue`);
+      await handleDeleted(item, incomingComment);
       response.status(204);
       break;
     default:
