@@ -112,8 +112,9 @@ class APITestCase(unittest.TestCase):
         organization: Organization,
         user: User | None = None,
         title: str = "Item Title",
+        **item_kwargs,
     ) -> Item:
-        return fixtures.create_item(db_session, organization, user, title)
+        return fixtures.create_item(db_session, organization, user, title, **item_kwargs)
 
     @staticmethod
     def create_sentry_installation(

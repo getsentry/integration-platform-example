@@ -3,6 +3,7 @@ import express, {Response} from 'express';
 import Organization from '../../models/Organization.model';
 import SentryInstallation from '../../models/SentryInstallation.model';
 import alertHandler from './handlers/alertHandler';
+import commentHandler from './handlers/commentHandler';
 import issueHandler from './handlers/issueHandler';
 import {InstallResponseData} from './setup';
 
@@ -11,7 +12,7 @@ const router = express.Router();
 router.post('/', async (request, response) => {
   response.status(200);
   // Parse the JSON body fields off of the request
-  const {action, data, installation} = request.body;
+  const {action, data, installation, actor} = request.body;
   const {uuid} = installation || {};
 
   // Identify the resource triggering the webhook in Sentry
@@ -44,6 +45,11 @@ router.post('/', async (request, response) => {
     // the user installing your integration will require at least a Business plan to use them.
     // Keep this in mind while building on this webhook.
     response.status(200);
+  }
+
+  // Handle webhooks related to comments
+  if (resource === 'comment') {
+    await commentHandler(response, action, sentryInstallation, data, actor);
   }
 
   // Handle webhooks related to alerts

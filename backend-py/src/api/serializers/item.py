@@ -13,6 +13,8 @@ class ItemSerializer:
             "complexity": obj.complexity,
             "description": obj.description,
             "sentryId": obj.sentry_id,
+            "sentryAlertId": obj.sentry_alert_id,
+            "comments": obj.comments,
             "isIgnored": obj.is_ignored,
             "organizationId": obj.organization_id,
             "title": obj.title,
