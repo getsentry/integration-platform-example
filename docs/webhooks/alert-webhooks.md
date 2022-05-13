@@ -29,6 +29,7 @@
    3. Do this an appropriate number of times to trigger the appropriate incident (e.g. twice for a warning, thrice for a critical)
    4. Wait for a moment, while the `metric_alert` webhooks are sent to your application.
 3. To test alert triggers repeatedly while developing, we recommend take advantage of the [ngrok's inspection interface](https://ngrok.com/docs/secure-tunnels#inspecting-requests) (located by default on http://localhost:4040/inspect/http)
+4. When any of these alerts have been triggered, a new item with the corresponding alert information should appear in your kanban view.
 
 
 ## Code Insights
