@@ -87,13 +87,6 @@ const PillSection = styled.div`
   align-items: center;
 `;
 
-const CommentSection = styled.details`
-  margin: 0.5rem 0;
-  border-top: 0.5px solid ${p => p.theme.gray200};
-  padding-top: 0.5rem;
-  color: ${p => p.theme.gray300};
-`;
-
 const UserDisplay = styled.div`
   flex: 1;
   display: grid;
