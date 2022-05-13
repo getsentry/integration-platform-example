@@ -3,7 +3,36 @@ from flask import Response
 
 from src import app
 from src.models import Item, SentryInstallation
+from src.models.items import ItemComment
 from src.database import db_session
+
+
+def handle_created(item: Item, comment: ItemComment) -> Response:
+    item.comments = item.comments or [] + [comment]
+    db_session.commit()
+    app.logger.info("Added new comment from Sentry issue")
+    return Response('', 201)
+
+
+def handle_updated(item: Item, comment: ItemComment) -> Response:
+    item.comments = [
+        comment
+        if existing_comment["sentryCommentId"] == comment["sentryCommentId"]
+        else existing_comment
+        for existing_comment in item.comments or []
+    ]
+    db_session.commit()
+    app.logger.info("Updated comment from Sentry issue")
+    return Response('', 200)
+
+
+def handle_deleted(item: Item, comment: ItemComment) -> Response:
+    item.comments = list(filter(
+        lambda existing_comment: existing_comment["sentryCommentId"] !=
+        comment["sentryCommentId"], item.comments or []))
+    db_session.commit()
+    app.logger.info("Deleted comment from Sentry issue")
+    return Response('', 204)
 
 
 def comment_handler(
@@ -28,39 +57,13 @@ def comment_handler(
         "timestamp": data["timestamp"],
         "sentryCommentId": data["comment_id"],
     }
-    existing_comments = item.comments or []
-    has_incoming_comment = any(
-        comment["sentryCommentId"] == incoming_comment["sentryCommentId"]
-        for comment in existing_comments
-    )
 
-    if action == 'created' or action == 'updated':
-        if not has_incoming_comment:
-            # Create a new comment at the end of the list
-            item.comments = existing_comments + [incoming_comment]
-            db_session.commit()
-            app.logger.info("Added new comment from Sentry issue")
-            return Response('', 201)
-        else:
-            # Replace the existing comment with an updated version
-            item.comments = [
-                incoming_comment
-                if comment["sentryCommentId"] == incoming_comment["sentryCommentId"]
-                else comment
-                for comment in existing_comments
-            ]
-            db_session.commit()
-            app.logger.info("Updated comment from Sentry issue")
-            return Response('', 200)
-
+    if action == 'created':
+        return handle_created(item, incoming_comment)
+    elif action == 'updated':
+        return handle_updated(item, incoming_comment)
     elif action == 'deleted':
-        # Remove the matching comment from the list
-        item.comments = list(filter(
-            lambda comment: comment["sentryCommentId"] !=
-            incoming_comment["sentryCommentId"], existing_comments))
-        db_session.commit()
-        app.logger.info("Deleted comment from Sentry issue")
-        return Response('', 204)
+        return handle_deleted(item, incoming_comment)
     else:
         app.logger.info(f"Unexpected Sentry comment action: {action}")
         return Response('', 400)
