@@ -2,17 +2,21 @@
 
 ## Testing
 
-1. With the application running (`make serve-typescript` or `make serve-python`), go to your frontend webpage (http://localhost:3000 by default)
+1. Ensure this application is running (`make serve-typescript` or `make serve-python`) and has been [installed on your organization in Sentry](../installation.md).
 2. Select an organization's kanban to view
 3. Trigger the `issue.created` webhook by clicking 'Send Error to Sentry'
 	- Use the input field to change the name of the error. If the name is changed, a new issue shall be created, rather than adding an event to the same issue.
-4. Open Sentry, and navigate to Issues
-5. Filter by selecting the project you created to this app's DSN (See [README, Step 2](../../README.md))
-6. Find and select the new error you triggered ('Test Error #1' by default)
-7. Trigger the `issue.assigned` webhook by selecting an assignee in the dropdown
+4. Soon after, you can refresh the kanban to see a new item appear from the webhook firing.
+5. Open Sentry, and navigate to Issues
+6. Filter by selecting the project you created to this app's DSN (See [README, Step 2](../../README.md))
+7. Find and select the new error you triggered ('Test Error #1' by default)
+8. Trigger the `issue.assigned` webhook by selecting an assignee in the dropdown
 	- Note: These webhooks only fire on the transition from Unassigned -> Assigned, not a change of assignee
-8. Trigger the `issue.resolved` webhook by clicking the resolve button
-9. Trigger the `issue.ignored` webhook by clicking the ignore button
+9. Refresh the kanban to verify that they now appear assigned to a user 
+10. Trigger the `issue.resolved` webhook by clicking the resolve button
+11. Refresh the kanban to verify that the item's column has now been shifted to 'Done'
+12.  Trigger the `issue.ignored` webhook by clicking the ignore button
+13. Refresh one last time to verify the item appears translucent in the kanban.
 
 ## Code Insights
 

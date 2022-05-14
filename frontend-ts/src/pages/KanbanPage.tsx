@@ -5,11 +5,11 @@ import {useParams} from 'react-router-dom';
 import BasePage from '../components/BasePage';
 import Column from '../components/Column';
 import Header from '../components/Header';
-import {ColumnType, Item, User} from '../types';
+import {Item, ItemColumn, User} from '../types';
 import {makeBackendRequest} from '../util';
 
 function KanbanPage() {
-  const columnTypes = Object.values(ColumnType);
+  const columnTypes = Object.values(ItemColumn);
   const [items, setItems] = useState<Item[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const {organizationSlug} = useParams();
@@ -31,7 +31,7 @@ function KanbanPage() {
     return map;
   }, {} as {[key: string]: User});
   const itemsMap = Object.fromEntries(columnTypes.map(type => [type, [] as Item[]])) as {
-    [key in ColumnType]: Item[];
+    [key in ItemColumn]: Item[];
   };
   items?.forEach(item => {
     itemsMap[item.column].push({...item, assignee: usersMap[item.assigneeId]});

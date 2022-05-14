@@ -18,14 +18,23 @@ export type Item = {
   title: string;
   description?: string;
   complexity?: number;
-  column: ColumnType;
+  column: ItemColumn;
   sentryId?: string;
+  sentryAlertId?: string;
+  comments?: ItemComment[];
   isIgnored?: boolean;
   assigneeId: number;
   assignee: User;
 };
 
-export enum ColumnType {
+export type ItemComment = {
+  text: string;
+  author: string;
+  timestamp: string;
+  sentryCommentId: string;
+};
+
+export enum ItemColumn {
   Todo = 'TODO',
   Doing = 'DOING',
   Done = 'DONE',
