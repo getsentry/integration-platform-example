@@ -46,7 +46,7 @@ router.post('/create', async (request, response) => {
   // Respond to Sentry with the exact fields it requires to complete the link.
   response.status(201).send({
     webUrl: `http://localhost:${process.env.REACT_APP_PORT}/${response.locals.organization.slug}/`,
-    project: 'IPE-DEMO',
+    project: 'ACME',
     identifier: `${item.id}`,
   });
 });

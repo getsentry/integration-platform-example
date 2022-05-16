@@ -84,6 +84,6 @@ def link_issue_link() -> Response:
     # Respond to Sentry with the exact fields it requires to complete the link.
     return jsonify({
         "webUrl": f"http://localhost:{REACT_APP_PORT}/{organization.slug}/",
-        "project": "IPE-DEMO",
+        "project": "ACME",
         "identifier": f"{item.id}",
     }), 200
