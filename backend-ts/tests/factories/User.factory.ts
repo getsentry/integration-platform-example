@@ -9,8 +9,8 @@ export default async function createUser(fields: Partial<Attributes<User>> = {})
     fields.organizationId = organization.id;
   }
   return User.create({
-    name: 'Leander',
-    username: 'leeandher',
+    name: 'Name',
+    username: 'username',
     avatar: 'https://example.com/avatar',
     ...fields,
   });

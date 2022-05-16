@@ -189,7 +189,7 @@ const MOCK_BASE_COMMENT_WEBHOOK = {
   actor: {
     type: 'user',
     id: 123,
-    name: 'leander',
+    name: 'name',
   },
   installation: INSTALLATION,
 };

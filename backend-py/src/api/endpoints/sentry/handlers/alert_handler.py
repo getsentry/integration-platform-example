@@ -9,7 +9,6 @@ from src.database import db_session
 from ..alert_rule_action import AlertRuleSettings, convert_sentry_fields_to_dict, SentryField
 
 
-# XXX(Leander): This assumes only one action for this integration per payload!
 def get_alert_rule_settings(
     sentry_installation: SentryInstallation,
     data: Mapping[str, Any],
