@@ -40,8 +40,8 @@ const ItemCard = ({
           )}
         </UserDisplay>
         <BadgeDisplay>
-          {sentryAlertId && <Badge className="alert-id">Alert #: {sentryAlertId}</Badge>}
-          {sentryId && <Badge className="issue-id">Issue #: {sentryId}</Badge>}
+          {sentryAlertId && <Badge className="alert-id">Alert ID: {sentryAlertId}</Badge>}
+          {sentryId && <Badge className="issue-id">Issue ID: {sentryId}</Badge>}
           {complexity && <Badge className="complexity">{complexity}</Badge>}
         </BadgeDisplay>
       </PillSection>

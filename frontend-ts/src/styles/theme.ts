@@ -9,7 +9,7 @@ const baseTheme = {
 };
 
 export const lightColors = {
-  black: '#1D1127',
+  black: '#111E26',
   white: '#FFFFFF',
 
   surface100: '#FAF9FB',
@@ -22,9 +22,6 @@ export const lightColors = {
   gray300: '#6F808F',
   gray200: '#D5DFE0',
   gray100: '#E6EBF0',
-
-  translucentGray200: 'rgba(17, 36, 94, 0.18)',
-  translucentGray100: 'rgba(0, 29, 64, 0.1)',
 
   purple400: '#584AC0',
   purple300: '#6C5FC7',
@@ -58,26 +55,19 @@ export const lightColors = {
 };
 
 export const darkColors = {
-  black: '#1D1127',
+  black: '#111E26',
   white: '#FFFFFF',
 
-  surface100: '#1A141F',
-  surface200: '#241D2A',
-  surface300: '#2C2433',
-  surface400: '#362E3E',
+  surface100: '#141A1F',
+  surface200: '#1C2129',
+  surface300: '#242D33',
+  surface400: '#2D373D',
 
-  gray500: '#EBE6EF',
-  gray400: '#D6D0DC',
-  gray300: '#998DA5',
-  gray200: '#43384C',
-  gray100: '#342B3B',
-
-  /**
-   * Alternative version of gray200 that's translucent.
-   * Useful for borders on tooltips, popovers, and dialogs.
-   */
-  translucentGray200: 'rgba(218, 184, 245, 0.18)',
-  translucentGray100: 'rgba(208, 168, 240, 0.1)',
+  gray500: '#E6EDF0',
+  gray400: '#D0D7DB',
+  gray300: '#8D9DA6',
+  gray200: '#39434D',
+  gray100: '#2B353B',
 
   purple400: '#6859CF',
   purple300: '#7669D3',

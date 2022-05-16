@@ -14,6 +14,7 @@ const StyledHeader = styled.header`
   background: ${p => p.theme.gray100};
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 0 3rem;
   font-style: italic;
 `;

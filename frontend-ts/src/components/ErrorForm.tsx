@@ -40,6 +40,9 @@ const Input = styled.input`
   border-radius: 3px;
   font-family: inherit;
   line-height: 2rem;
+  background: ${p => p.theme.surface200};
+  color: inherit;
+  padding: 0.25rem 1rem;
 `;
 
 export default ErrorForm;
