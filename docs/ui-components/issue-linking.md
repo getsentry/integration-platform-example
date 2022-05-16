@@ -10,7 +10,7 @@
 5. Click it to bring up your application's Issue Link modal
    - The form fields in the 'Create' and 'Link' tabs of this modal come from the [`integration-schema.json` file](../../integration-schema.json), specifically the blob with `"type": "issue-link"`
 6. Submit the appropriate form ('Create' to spawn a new ticket, 'Link' to update an existing one) to finalize the Issue Link on Sentry
-7. Once submitted, the Issue Link should update to reflect the identifiers our app (e.g. 'IPE-DEMO #1').
+7. Once submitted, the Issue Link should update to reflect the identifiers our app (e.g. 'ACME#1').
 8. Click this link to be directed to the relevant kanban board
 9. Confirm the link by ensuring the item you created/selected has the appropriate Sentry ID attached to it.
 
