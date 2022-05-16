@@ -1,6 +1,6 @@
 const baseTheme = {
   text: {
-    family: '"Rubik", "Avenir Next", sans-serif',
+    family: '"Avenir Next", Helvetica, Arial, sans-serif',
     familyMono: '"Roboto Mono", Monaco, Consolas, "Courier New", monospace',
     lineHeightHeading: 1.2,
     lineHeightBody: 1.4,
@@ -17,14 +17,14 @@ export const lightColors = {
   surface300: '#FFFFFF',
   surface400: '#F5F3F7',
 
-  gray500: '#2B2233',
-  gray400: '#3E3446',
-  gray300: '#80708F',
-  gray200: '#DBD6E1',
-  gray100: '#EBE6EF',
+  gray500: '#222733',
+  gray400: '#333745',
+  gray300: '#6F808F',
+  gray200: '#D5DFE0',
+  gray100: '#E6EBF0',
 
-  translucentGray200: 'rgba(58, 17, 95, 0.18)',
-  translucentGray100: 'rgba(45, 0, 85, 0.1)',
+  translucentGray200: 'rgba(17, 36, 94, 0.18)',
+  translucentGray100: 'rgba(0, 29, 64, 0.1)',
 
   purple400: '#584AC0',
   purple300: '#6C5FC7',

@@ -7,9 +7,10 @@ const Button = styled.button`
   border-radius: 1000px;
   margin: 0 0.5rem;
   background: ${p => p.theme.gray200};
+  font-family: inherit;
   cursor: pointer;
   &.primary {
-    background: ${p => p.theme.purple300};
+    background: ${p => p.theme.blue300};
     font-weight: bold;
     color: ${p => p.theme.surface100};
   }

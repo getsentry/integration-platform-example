@@ -6,7 +6,7 @@ const Main = styled.main`
   max-width: 500px;
   padding: 2rem;
   border-radius: 1rem;
-  box-shadow: 2px 2px 8px ${p => p.theme.purple200};
+  box-shadow: 2px 2px 8px ${p => p.theme.blue200};
   ul {
     padding-left: 2rem;
     li {
@@ -14,7 +14,7 @@ const Main = styled.main`
     }
   }
   hr {
-    color: ${p => p.theme.purple200};
+    color: ${p => p.theme.blue200};
   }
   h3 {
     margin-top: 0;

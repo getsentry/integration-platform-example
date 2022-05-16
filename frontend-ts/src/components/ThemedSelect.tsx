@@ -10,10 +10,10 @@ const ThemedSelect = (props: Props<any>) => {
         ...defaultTheme,
         colors: {
           ...defaultTheme.colors,
-          primary: theme.purple400,
-          primary75: theme.purple300,
-          primary50: theme.purple200,
-          primary25: theme.purple100,
+          primary: theme.blue400,
+          primary75: theme.blue300,
+          primary50: theme.blue200,
+          primary25: theme.blue100,
         },
       })}
       {...props}

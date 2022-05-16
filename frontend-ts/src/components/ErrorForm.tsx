@@ -29,14 +29,17 @@ function ErrorForm() {
 }
 
 const Form = styled.form`
-  margin: 1rem 2rem;
   flex: 1;
-  display: flex;
+  text-align: right;
+  margin: 1rem 0;
+  font-family: inherit;
 `;
 
 const Input = styled.input`
   border: 1px solid ${p => p.theme.gray200};
   border-radius: 3px;
+  font-family: inherit;
+  line-height: 2rem;
 `;
 
 export default ErrorForm;

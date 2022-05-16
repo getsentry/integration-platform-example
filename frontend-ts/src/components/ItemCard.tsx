@@ -40,8 +40,8 @@ const ItemCard = ({
           )}
         </UserDisplay>
         <BadgeDisplay>
-          {sentryAlertId && <Badge className="alert-id">Alert: {sentryAlertId}</Badge>}
-          {sentryId && <Badge className="issue-id">Issue: {sentryId}</Badge>}
+          {sentryAlertId && <Badge className="alert-id">Alert #: {sentryAlertId}</Badge>}
+          {sentryId && <Badge className="issue-id">Issue #: {sentryId}</Badge>}
           {complexity && <Badge className="complexity">{complexity}</Badge>}
         </BadgeDisplay>
       </PillSection>
@@ -69,11 +69,11 @@ const CardHeader = styled.div`
     color: ${p => p.theme.gray400};
   }
   .card-id {
-    color: ${p => p.theme.purple300};
+    color: ${p => p.theme.blue300};
   }
 `;
 
-const CardBody = styled.p`
+const CardBody = styled.div`
   color: ${p => p.theme.gray300};
   font-size: 12px;
   margin: 0.5rem 0;
@@ -96,8 +96,8 @@ const UserDisplay = styled.div`
     grid-column: 1;
     max-width: 100%;
     border-radius: 1000px;
-    border: 2px solid ${p => p.theme.purple100};
-    filter: sepia(100%) hue-rotate(200deg);
+    border: 2px solid ${p => p.theme.blue100};
+    filter: sepia(100%) hue-rotate(185deg);
   }
 `;
 
@@ -113,17 +113,18 @@ const Badge = styled.a`
   line-height: 1;
   padding: 0.25rem 0.75rem;
   border-radius: 1000px;
+  font-weight: bold;
   &.issue-id {
-    color: ${p => p.theme.blue300};
-    background: ${p => p.theme.blue100};
-  }
-  &.alert-id {
-    color: ${p => p.theme.pink300};
-    background: ${p => p.theme.pink100};
-  }
-  &.complexity {
     color: ${p => p.theme.purple300};
     background: ${p => p.theme.purple100};
+  }
+  &.alert-id {
+    color: ${p => p.theme.green300};
+    background: ${p => p.theme.green100};
+  }
+  &.complexity {
+    color: ${p => p.theme.blue300};
+    background: ${p => p.theme.blue100};
   }
 `;
 
