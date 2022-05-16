@@ -137,12 +137,7 @@ const PreInstallTextBlock = () => (
     </ul>
     <h3>Miscellaneous</h3>
     <ul>
-      <li>
-        Link directly to your code with <b>Stacktrace Linking</b>
-      </li>
-      <li>
-        Access <b>Sentry&apos;s API</b> to do even more goodies
-      </li>
+      <li>Access Sentry&apos;s API to do even more goodies</li>
     </ul>
     <hr />
     <p>Please choose an organization with which to associate your Sentry installation:</p>
