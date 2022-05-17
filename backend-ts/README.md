@@ -1,6 +1,6 @@
 # Backend - TypeScript
 
-This directory contains the backend code written in TypeScript (with Express).
+This directory contains the backend code written in TypeScript (with Express and Sequelize).
 
 ## Development
 
@@ -17,4 +17,20 @@ If adding dependencies or changing the environment variables, be sure to rebuild
 ```bash
 npm install my-package
 docker compose build backend-ts
+```
+
+## Testing
+
+To check for linting errors, run the following in this directory:
+
+```bash
+npm run lint
+```
+
+To run all tests, run the following commands:
+
+```bash
+make setup-tests
+cd backend-ts
+npm run test
 ```

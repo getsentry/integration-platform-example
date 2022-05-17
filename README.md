@@ -1,6 +1,7 @@
 # Integration Platform Example
 
-So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 That's why we built out this codebase; clone and fork away!
+So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 
+That's why we built out this codebase; clone and fork away!
 
 This repository contains some basic starter code to act as a tool or reference for you to refer back to. In it, we'll be covering the following features:
 
@@ -10,7 +11,6 @@ This repository contains some basic starter code to act as a tool or reference f
 - Handling Uninstallations
 - Handling Webhooks
   - Issues
-  - Errors
   - Comments
   - Alerts
 - UI Components
@@ -25,6 +25,7 @@ If we missed something, or you're still having trouble, feel free to [create an 
   - [Sentry](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry.
   - [Docker](https://docs.docker.com/get-docker/) - You must have Docker installed on your local machine.
   - Select a codebase - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands and environment that is more appropriate for your implementation.
+  - (Optional) A local PostgreSQL DB Client - Great for debugging, removing/editing select data, viewing changes on objects. We suggest [Postico](https://eggerapps.at/postico/).
 
 ### Step 0: Choose an Integration
 
@@ -46,15 +47,15 @@ We recommend setting up [your configuration file](https://ngrok.com/docs#config-
 authtoken: abc123
 
 tunnels:
-  ipe-frontend:
+  acme-frontend:
     proto: http
     # Make sure addr matches REACT_APP_PORT in .env
     addr: 3000 
-  ipe-backend-py:
+  acme-backend-py:
     proto: http
     # Make sure addr matches FLASK_RUN_PORT in .env
     addr: 5100 
-  ipe-backend-ts:
+  acme-backend-ts:
     proto: http
     # Make sure addr matches EXPRESS_LISTEN_PORT in .env
     addr: 5200 
@@ -144,14 +145,10 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
-Now the app is ready to test! Consult the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry.
-
-If, during development, you make changes to the `.env` file or dependencies, you'll need to rebuild the images with:
+Now the app is ready to test! Continue on to the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry. There are also some helpful debugging commands which you can check out via:
 
 ```bash
-make build-python
-# OR
-make build-typescript
+make help
 ```
 
 ## Using your Integration
@@ -163,8 +160,6 @@ Building an app on our integration platform gives you access to lots of Sentry f
     - `installation.created`, `installation.deleted`
   - [How to test issue webhooks](/docs/webhooks/event-webhooks.md#issue-webhooks)
     - `issue.assigned`, `issue.created`, `issue.ignored`, `issue.resolved`
-  - [How to test error webhooks](/docs/webhooks/event-webhooks.md#error-webhooks)
-    - `error.created` _(Requires Business Plan, both to develop and install)_
   - [How to test comment webhooks](/docs/webhooks/comment-webhooks.md)
     - `comment.created`, `comment.edited`, `comment.deleted`
   - [How to test alerting webhooks](/docs/webhooks/alert-webhooks.md)
