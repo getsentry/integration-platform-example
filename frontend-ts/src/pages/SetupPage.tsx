@@ -51,9 +51,9 @@ function SetupPage() {
             <React.Fragment>
               <h2>You&apos;ve successfully linked ACME Kanban and Sentry!</h2>
               <p>You should be redirected in a few seconds.</p>
-              <a href={redirect} data-testid="direct-link">
+              <StyledLink href={redirect} data-testid="direct-link">
                 Take me back to Sentry
-              </a>
+              </StyledLink>
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -106,6 +106,10 @@ const OrganizationSelectFieldWrapper = styled.div`
   & span {
     flex: 0;
   }
+`;
+
+const StyledLink = styled.a`
+  color: ${p => p.theme.blue300};
 `;
 
 const StyledSelect = styled(ThemedSelect)`
