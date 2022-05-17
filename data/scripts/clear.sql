@@ -1,3 +1,3 @@
--- Truncating the organization with 'cascade' will also truncate 'item', 'user' and 'sentry_installation' tables.
+-- Truncating the 'organization' table with CASCADE will also truncate 'item', 'user' and 'sentry_installation' tables.
 
 TRUNCATE organization CASCADE;
