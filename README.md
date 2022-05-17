@@ -15,7 +15,6 @@ This repository contains some basic starter code to act as a tool or reference f
   - Alerts
 - UI Components
   - Issue Linking
-  - Stack Trace Linking
   - Alert Rule Actions
 
 If we missed something, or you're still having trouble, feel free to [create an issue](https://github.com/sentry-ecosystem/integration-platform-example/issues), and we'll see what we can do! Happy Developing!
@@ -175,7 +174,6 @@ Building an app on our integration platform gives you access to lots of Sentry f
 ### Testing UI Components
 
   - [Issue Linking](/docs/ui-components/issue-linking.md)
-  - [Stacktrace Linking](/docs/ui-components/stacktrace-linking.md)
   - [Alert Rule UI Components](/docs/ui-components/alert-rule-actions.md)
 
 ## Publishing

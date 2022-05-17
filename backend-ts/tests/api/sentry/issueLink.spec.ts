@@ -30,7 +30,7 @@ describe(`GET ${path}`, () => {
     const response = await request(server).post(`${path}/create`).send(MOCK_ISSUE_LINK);
     assert.equal(response.statusCode, 201);
     expect(response.body.webUrl);
-    assert.equal(response.body.project, 'IPE-DEMO');
+    assert.equal(response.body.project, 'ACME');
     // Check that item was created properly
     const itemId = response.body.identifier;
     const newItem = await Item.findByPk(itemId);
@@ -52,7 +52,7 @@ describe(`GET ${path}`, () => {
     assert.equal(item.sentryId, payload.issueId);
     // Check that the response was appropriate
     expect(response.body.webUrl);
-    assert.equal(response.body.project, 'IPE-DEMO');
+    assert.equal(response.body.project, 'ACME');
     assert.equal(response.body.identifier, item.id);
   });
 });

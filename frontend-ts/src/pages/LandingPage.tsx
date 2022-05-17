@@ -34,7 +34,7 @@ function LandingPage() {
 }
 
 const StyledLink = styled(Link)`
-  color: ${p => p.theme.purple300};
+  color: ${p => p.theme.blue300};
   font-weight: 600;
   text-decoration: none;
   background: ${p => p.theme.surface100};
@@ -43,9 +43,9 @@ const StyledLink = styled(Link)`
   padding: 1rem;
   margin: 0.5rem 0;
   transition: box-shadow 0.3s ease;
-  box-shadow: 0px 0px 0px ${p => p.theme.purple200};
+  box-shadow: 0px 0px 0px ${p => p.theme.blue200};
   &:hover {
-    box-shadow: 2px 2px 8px ${p => p.theme.purple200};
+    box-shadow: 2px 2px 8px ${p => p.theme.blue200};
   }
 `;
 

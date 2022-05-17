@@ -20,7 +20,7 @@ const Column = ({title, items = []}: ColumnProps) => (
 
 const StyledColumn = styled.div`
   background: ${p => p.theme.gray100};
-  box-shadow: 2px 2px 8px ${p => p.theme.purple200};
+  box-shadow: 2px 2px 8px ${p => p.theme.blue200};
   max-width: 400px;
   margin: 2rem 1rem;
   border-radius: 5px;

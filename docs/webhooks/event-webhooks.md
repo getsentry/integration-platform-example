@@ -34,7 +34,7 @@ Created linked Sentry issue
 Authorized: Verified request came from Sentry
 Received 'issue.assigned' webhook from Sentry
 Found linked Sentry issue
-Assigned to existing user: leander.rodrigues@sentry.io
+Assigned to existing user: name@example.com
 
 # When a Sentry issue is marked as resolved
 

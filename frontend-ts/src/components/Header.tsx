@@ -5,6 +5,7 @@ import ErrorForm from './ErrorForm';
 
 const Header = () => (
   <StyledHeader>
+    <Title>🚀 ACME Kanban</Title>
     <ErrorForm />
   </StyledHeader>
 );
@@ -12,8 +13,18 @@ const Header = () => (
 const StyledHeader = styled.header`
   background: ${p => p.theme.gray100};
   display: flex;
-  justify-content: space-between;
-  flex: 0 1 auto;
+  justify-content: center;
+  align-items: center;
+  padding: 0 3rem;
+  font-style: italic;
+`;
+
+const Title = styled.h1`
+  display: block;
+  flex: 1;
+  font-size: 1.5rem;
+  text-align: left;
+  color: ${p => p.theme.blue300};
 `;
 
 export default Header;

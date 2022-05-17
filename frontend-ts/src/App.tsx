@@ -6,13 +6,12 @@ import KanbanPage from './pages/KanbanPage';
 import LandingPage from './pages/LandingPage';
 import SetupPage from './pages/SetupPage';
 import GlobalStyles from './styles/GlobalStyles';
-import {lightTheme} from './styles/theme';
+import {darkTheme, lightTheme} from './styles/theme';
 
 function App() {
   const lightThemeMediaQuery = window.matchMedia('(prefers-color-scheme: light)');
   return (
-    // TODO(Leander): Allow dark theme once finalized
-    <ThemeProvider theme={lightThemeMediaQuery?.matches ? lightTheme : lightTheme}>
+    <ThemeProvider theme={lightThemeMediaQuery?.matches ? lightTheme : darkTheme}>
       <GlobalStyles />
       <Router>
         <Routes>

@@ -57,7 +57,7 @@
     },
     {
       "type": "alert-rule-action",
-      "title": "Create an alert ticket in Integration Platform Example",
+      "title": "Create an alert ticket in ACME Kanban",
       "settings": {
         "type": "alert-rule-settings",
         "uri": "/api/sentry/alert-rule-action/",

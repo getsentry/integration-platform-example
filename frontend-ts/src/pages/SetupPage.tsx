@@ -49,7 +49,7 @@ function SetupPage() {
           <SentryApplicationLogo size={30} />
           {redirect ? (
             <React.Fragment>
-              <h2>You&apos;ve successfully linked YOUR_APP and Sentry!</h2>
+              <h2>You&apos;ve successfully linked ACME Kanban and Sentry!</h2>
               <p>You should be redirected in a few seconds.</p>
               <a href={redirect} data-testid="direct-link">
                 Take me back to Sentry
@@ -119,7 +119,7 @@ const StyledSelect = styled(ThemedSelect)`
 
 const PreInstallTextBlock = () => (
   <React.Fragment>
-    <h2>Complete your integration of Sentry with YOUR_APP!</h2>
+    <h2>Complete your integration of Sentry with 🚀 ACME Kanban!</h2>
     <p>
       By completing this installation, you&apos;ll gain access to the following features:
     </p>
@@ -137,12 +137,7 @@ const PreInstallTextBlock = () => (
     </ul>
     <h3>Miscellaneous</h3>
     <ul>
-      <li>
-        Link directly to your code with <b>Stacktrace Linking</b>
-      </li>
-      <li>
-        Access <b>Sentry&apos;s API</b> to do even more goodies
-      </li>
+      <li>Access Sentry&apos;s API to do even more goodies</li>
     </ul>
     <hr />
     <p>Please choose an organization with which to associate your Sentry installation:</p>

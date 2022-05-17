@@ -20,7 +20,7 @@ class CreateIssueLinkTest(APITestCase):
         # Check that the response was appropriate
         response = self.get_success_response(data=MOCK_ISSUE_LINK)
         assert response.json.get("webUrl") is not None
-        assert response.json.get("project") == "IPE-DEMO"
+        assert response.json.get("project") == "ACME"
         # Check that item was created properly
         new_issue_id = response.json.get("identifier")
         assert Item.query.count() == self.initial_item_count + 1
@@ -55,5 +55,5 @@ class LinkIssueLinkTest(APITestCase):
         assert self.item.sentry_id == self.payload["issueId"]
         # Check that the response was appropriate
         assert response.json.get("webUrl") is not None
-        assert response.json.get("project") == "IPE-DEMO"
+        assert response.json.get("project") == "ACME"
         assert response.json.get("identifier") == str(self.item.id)

@@ -8,7 +8,6 @@ import {
   SentryField,
 } from '../alertRuleAction';
 
-// XXX(Leander): This assumes only one action for this integration per payload!
 // Returns the alert settings as a mapping of field.name to field.value
 function getAlertRuleSettings(
   sentryInstallation: SentryInstallation,

@@ -18,13 +18,15 @@ const ItemCardCommentSection = ({comments}: ItemCardCommentSectionProps) => {
   });
   return (
     <CommentSection>
-      <summary>Comments</summary>
+      <summary>
+        <b>Comments</b>
+      </summary>
       {sortedComments.map(comment => (
         <CommentWrapper key={comment.sentryCommentId}>
-          <p className="comment-author">
+          <div className="comment-author">
             {comment.author}
             <p className="comment-time">{getTimeString(comment.timestamp)}</p>
-          </p>
+          </div>
           <p className="comment-text">{comment.text}</p>
         </CommentWrapper>
       ))}
@@ -36,7 +38,7 @@ const CommentSection = styled.details`
   margin: 0.5rem 0;
   border-top: 0.5px solid ${p => p.theme.gray200};
   padding-top: 0.5rem;
-  color: ${p => p.theme.gray300};
+  color: ${p => p.theme.gray400};
 `;
 
 const CommentWrapper = styled.div`

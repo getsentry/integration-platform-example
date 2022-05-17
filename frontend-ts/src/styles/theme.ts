@@ -1,6 +1,6 @@
 const baseTheme = {
   text: {
-    family: '"Rubik", "Avenir Next", sans-serif',
+    family: '"Avenir Next", Helvetica, Arial, sans-serif',
     familyMono: '"Roboto Mono", Monaco, Consolas, "Courier New", monospace',
     lineHeightHeading: 1.2,
     lineHeightBody: 1.4,
@@ -9,7 +9,7 @@ const baseTheme = {
 };
 
 export const lightColors = {
-  black: '#1D1127',
+  black: '#111E26',
   white: '#FFFFFF',
 
   surface100: '#FAF9FB',
@@ -17,14 +17,11 @@ export const lightColors = {
   surface300: '#FFFFFF',
   surface400: '#F5F3F7',
 
-  gray500: '#2B2233',
-  gray400: '#3E3446',
-  gray300: '#80708F',
-  gray200: '#DBD6E1',
-  gray100: '#EBE6EF',
-
-  translucentGray200: 'rgba(58, 17, 95, 0.18)',
-  translucentGray100: 'rgba(45, 0, 85, 0.1)',
+  gray500: '#222733',
+  gray400: '#333745',
+  gray300: '#6F808F',
+  gray200: '#D5DFE0',
+  gray100: '#E6EBF0',
 
   purple400: '#584AC0',
   purple300: '#6C5FC7',
@@ -58,26 +55,19 @@ export const lightColors = {
 };
 
 export const darkColors = {
-  black: '#1D1127',
+  black: '#111E26',
   white: '#FFFFFF',
 
-  surface100: '#1A141F',
-  surface200: '#241D2A',
-  surface300: '#2C2433',
-  surface400: '#362E3E',
+  surface100: '#141A1F',
+  surface200: '#1C2129',
+  surface300: '#242D33',
+  surface400: '#2D373D',
 
-  gray500: '#EBE6EF',
-  gray400: '#D6D0DC',
-  gray300: '#998DA5',
-  gray200: '#43384C',
-  gray100: '#342B3B',
-
-  /**
-   * Alternative version of gray200 that's translucent.
-   * Useful for borders on tooltips, popovers, and dialogs.
-   */
-  translucentGray200: 'rgba(218, 184, 245, 0.18)',
-  translucentGray100: 'rgba(208, 168, 240, 0.1)',
+  gray500: '#E6EDF0',
+  gray400: '#D0D7DB',
+  gray300: '#8D9DA6',
+  gray200: '#39434D',
+  gray100: '#2B353B',
 
   purple400: '#6859CF',
   purple300: '#7669D3',
