@@ -1,6 +1,6 @@
 # Backend - Python
 
-This directory contains the backend code written in Python (with Flask).
+This directory contains the backend code written in Python (with Flask and SQLAlchemy).
 
 ## Development
 
@@ -21,4 +21,20 @@ direnv allow
 (.venv) pip install my-package
 (.venv) pip freeze > requirements.txt
 docker compose build backend-py
+```
+
+## Testing
+
+To check for linting errors, run the following in this directory:
+
+```bash
+flake8 src
+```
+
+To run all tests, run the following commands:
+
+```bash
+make setup-tests
+cd backend-py
+pytest
 ```
