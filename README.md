@@ -145,14 +145,10 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
-Now the app is ready to test! Consult the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry.
-
-If, during development, you make changes to the `.env` file or dependencies, you'll need to rebuild the images with:
+Now the app is ready to test! Continue on to the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry. There are also some helpful debugging commands which you can check out via:
 
 ```bash
-make setup-python
-# OR
-make setup-typescript
+make help
 ```
 
 ## Using your Integration
