@@ -1,6 +1,6 @@
-FROM node:16.13 as frontend-ts
+FROM node:16.13 as frontend
 # Installing packages...
-WORKDIR /frontend-ts
+WORKDIR /frontend
 COPY . .
 RUN npm install
 # Describing the environment...

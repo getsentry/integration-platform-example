@@ -46,21 +46,21 @@ services:
         source: ./data
         target: /data
 
-  frontend-ts:
+  frontend:
     container_name: frontend
     env_file:
       - .env
     build:
-      context: frontend-ts
-      target: frontend-ts
+      context: frontend
+      target: frontend
     ports:
       - "${REACT_APP_PORT}:3000"
     # Watch and react to changes in local...
     volumes:
-      #  frontend-ts/src directory
+      #  frontend/src directory
       - type: bind
-        source: ./frontend-ts/src
-        target: /frontend-ts/src
+        source: ./frontend/src
+        target: /frontend/src
       #  data directory
       - type: bind
         source: ./data

@@ -15,7 +15,7 @@ export const ISSUE = {
   id: '123',
   shortId: 'IPE-1',
   title: 'Error #1: This is a test error!',
-  culprit: 'SentryCustomError(frontend-ts/src/util)',
+  culprit: 'SentryCustomError(frontend/src/util)',
   level: 'error',
   status: 'unresolved',
   statusDetails: {},
@@ -31,7 +31,7 @@ export const ISSUE = {
   metadata: {
     value: 'This is a test error!',
     type: 'Another Error #1',
-    filename: '/frontend-ts/src/util.ts',
+    filename: '/frontend/src/util.ts',
     function: 'SentryCustomError',
     display_title_with_tree_label: false,
   },

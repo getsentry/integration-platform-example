@@ -4,7 +4,7 @@ This directory contains the frontend code written in TypeScript.
 
 It was bootstrapped from [create-react-app](https://create-react-app.dev/). We opted to use Typescript via:
 ```shell
-npx create-react-app frontend-ts --template typescript
+npx create-react-app frontend --template typescript
 ```
 See more [here](https://create-react-app.dev/docs/adding-typescript/).
 
@@ -16,14 +16,14 @@ To start, you'll need to install [Docker](https://docs.docker.com/engine/install
 Then, to spin up this service individually:
 
 ```bash
-docker compose up frontend-ts
+docker compose up frontend
 ```
 
 If adding dependencies or changing the environment variables, be sure to rebuild the image. We suggest using [Volta](https://volta.sh/) to manage your node version when installing packages.
 
 ```bash
 npm install my-package
-docker compose build frontend-ts
+docker compose build frontend
 ```
 
 ## Testing

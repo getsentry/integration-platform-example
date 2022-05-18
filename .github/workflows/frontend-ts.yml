@@ -1,4 +1,4 @@
-name: frontend-ts
+name: frontend
 on:
   pull_request:
   push:
@@ -14,10 +14,10 @@ jobs:
       - uses: actions/checkout@v2
       - uses: './.github/actions/setup-node'
         with:
-          project_directory: frontend-ts
+          project_directory: frontend
 
       - name: Lint files
-        working-directory: frontend-ts
+        working-directory: frontend
         run: npm run lint
 
   test:
@@ -28,8 +28,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: './.github/actions/setup-node'
         with:
-          project_directory: frontend-ts
+          project_directory: frontend
 
       - name: Run Tests
-        working-directory: frontend-ts
+        working-directory: frontend
         run: npm run test
