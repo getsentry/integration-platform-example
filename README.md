@@ -32,9 +32,9 @@ If we missed something, or you're still having trouble, feel free to [create an 
 
 Before setting anything up, you must determine the type of integration you're building on Sentry's [Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). 
 
-[Public integrations](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations) are meant to be accessed by all Sentry Customers, regardless of whether or not they belong to your organization. 
+[Public integrations](https://docs.sentry.io/product/integrations/integration-platform/public-integration) are meant to be accessed by all Sentry Customers, regardless of whether or not they belong to your organization. 
 
-If you only wish to provide an application to your team or organization, you should probably develop an [Internal integration](https://docs.sentry.io/product/integrations/integration-platform/#public-integrations). These are far easier to get up and running, as they skip the OAuth installation process and become immediately available for webhooks, UI components or API usage.
+If you only wish to provide an application to your team or organization, you should probably develop an [Internal integration](https://docs.sentry.io/product/integrations/integration-platform/internal-integration). These are far easier to get up and running, as they skip the OAuth installation process and become immediately available for webhooks, UI components or API usage.
 
 This tutorial assumes you're building a public integration, but most of the steps are identical for internal integrations unless stated otherwise.
 
@@ -93,16 +93,17 @@ Connections         ttl     opn     rt1     rt5     p50     p90
 Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within [Sentry](https://sentry.io/). 
 
 
+
 ### Step 2: Setup Sentry
 
 In your Sentry instance,
 
-1. Click Settings > Developer Settings > New Public Integration.
+1. Click Settings > Developer Settings > Create New Integration > Public Integration
 2. Give your integration an appropriate name and author.
 3. Specify a Webhook and Redirect URL with your ngrok forwarding address. Using the above example, with the python backend, it may look like this:
     - Webhook URL: `https://def456.ngrok.io/api/sentry/webhook/` 
     - Redirect URL: `https://abc123.ngrok.io/sentry/setup/`
-> Note: On the free plan for ngrok, if your service restarts, [you will be issued a new forwarding address](https://ngrok.com/docs#getting-started-stable). If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
+> Note: On the free plan for ngrok, if your service restarts, you will be issued a new forwarding address. If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
 4. Ensure 'Verify Installation' is checked.
 5. Ensure 'Alert Rule Action' is checked.
 6. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
@@ -121,8 +122,13 @@ This demo integration can helpfully create errors in Sentry to trigger webhooks 
 3. Give your project an appropriate name (for example: Demo Integration).
 4. Click Create Project.
 5. Make a note of the **DSN** URL.
+   - It is a URL similar to the following if you're using Sentry SaaS:
+```
+https://a9d7f6eed0d4883a62ea441b0ea2be81@o456798.ingest.sentry.io/123456
+```
 
 Next, we'll be taking these values from Sentry and putting together our application's environment.
+
 ### Step 3: Setup your Environment
 
 We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename from `.env.sample` to `.env`. Now you can change any of these values, but the pay close attention to a few of them:
@@ -134,6 +140,7 @@ We've included a `.env.sample` file for you to refer to when building out your e
 > Note: If you change `REACT_APP_PORT`, `FLASK_RUN_PORT`, or `EXPRESS_LISTEN_PORT`, you may have to reconfigure your ngrok setup and Integration URLs in Sentry
 
 Great, now we're ready to serve our application!
+
 ### Step 4: Build and serve the codebase
 
 This example code comes with a mock frontend and a choice between two backends, one in NodeJS (Express + TS) and another in Python (Flask). To launch the application, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running.
@@ -146,6 +153,8 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
+**EXAPLAIN WHAT THIS DOES**
+
 Now the app is ready to test! Continue on to the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry. There are also some helpful debugging commands which you can check out via:
 
 ```bash
@@ -155,6 +164,7 @@ make help
 ## Using your Integration
 
 Building an app on our integration platform gives you access to lots of Sentry features. This section will detail how to go about testing them while building your integration.
+
 ### Testing Webhooks
 
   - [How to test installation and uninstallation](/docs/installation.md)
@@ -176,7 +186,7 @@ Building an app on our integration platform gives you access to lots of Sentry f
 
 Once you've finalized, tested and deployed your application, you can submit a publication request on Sentry. Once it's reviewed, it'll be accessible to install by anyone on the Sentry platform.
 
-You can find out more about publishing, [here](https://docs.sentry.io/product/integrations/integration-platform/#published-state).
+Check out [the docs](https://docs.sentry.io/product/integrations/integration-platform/public-integration/#publication) to learn more about publishing.
 
 ## Credits
 

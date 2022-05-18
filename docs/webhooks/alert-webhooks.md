@@ -68,7 +68,7 @@ It tells Sentry what endpoint to ping and use to populate options in a Select fi
 The 'Successful validation' log comes from Sentry pinging another endpoint we specifiy in the schema
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].uri`)
 
-Here, we're validate the settings the user sent to our application and tell Sentry whether or not they should approve the changes to the alert rule. If somethings incorrect, we can surface error messages directly to the user in Sentry.
+Here, we're validating the settings that the user sent to our application. Then, we tell Sentry whether or not it should approve the changes to the alert rule. If somethings incorrect, we can surface error messages directly to the user in Sentry.
    - [Python Settings Approval Code](../../backend-py/src/api/endpoints/sentry/alert_rule_action.py) 
    - [TypeScript Settings Approval Code](../../backend-ts/src/api/sentry/alertRuleAction.ts)
 

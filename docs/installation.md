@@ -1,5 +1,7 @@
 # Installation / Uninstallation
 
+> **Note**: Internal integrations do not need to perform installation/verification since they are automatically installed on the authoring organization. See [the docs](https://docs.sentry.io/product/integrations/integration-platform/internal-integration/) for details.
+
 ## Testing
 
 To test the installation flow, navigate to your Sentry instance and do the following:
