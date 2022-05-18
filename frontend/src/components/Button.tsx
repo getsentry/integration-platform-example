@@ -14,10 +14,6 @@ const Button = styled.button`
     font-weight: bold;
     color: ${p => p.theme.surface100};
   }
-  &:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
 `;
 
 export default Button;
