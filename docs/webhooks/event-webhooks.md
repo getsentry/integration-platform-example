@@ -6,6 +6,7 @@
 2. Select an organization's kanban to view
 3. Trigger the `issue.created` webhook by clicking 'Send Error to Sentry'
 	- Use the input field to change the name of the error. If the name is changed, a new issue shall be created, rather than adding an event to the same issue.
+	- Note: You may need to disable your adblocker for this button to work as intended!
 4. Soon after, you can refresh the kanban to see a new item appear from the webhook firing.
 5. Open Sentry, and navigate to Issues
 6. Filter by selecting the project you created to this app's DSN (See [README, Step 2](../../README.md))

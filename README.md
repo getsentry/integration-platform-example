@@ -22,10 +22,11 @@ If we missed something, or you're still having trouble, feel free to [create an 
 ## Getting Started
 
 ### Prerequisites
-  - [Sentry](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry.
-  - [Docker](https://docs.docker.com/get-docker/) - You must have Docker installed on your local machine.
-  - Select a codebase - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands and environment that is more appropriate for your implementation.
-  - (Optional) A local PostgreSQL DB Client - Great for debugging, removing/editing select data, viewing changes on objects. We suggest [Postico](https://eggerapps.at/postico/).
+  - [**Sentry**](https://sentry.io) - You must be either a Manager or Owner of an organization on Sentry.
+  - [**Docker**](https://docs.docker.com/get-docker/) - This demo application uses Docker to setup and communicate between its different services.
+  - **Disable your adblocker** - This is a common pitfall that developers fall into when building on Sentry, doing it early can save your time down the line!
+  - **Select a codebase** - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands and environment that is more appropriate for your implementation.
+  - **A local PostgreSQL DB Client** (Optional) - Great for debugging, removing/editing select data, viewing changes on objects. We suggest [Postico](https://eggerapps.at/postico/).
 
 ### Step 0: Choose an Integration
 
@@ -41,15 +42,18 @@ This tutorial assumes you're building a public integration, but most of the step
 
 To get started, you'll need access to [ngrok](https://ngrok.com/). ngrok is a tool which lets you expose your locally running servers to the internet. Since Sentry requires an HTTP connection to your application, this is the easiest way to test changes without having to deploy constantly. You can find [installation instructions here](https://ngrok.com/download).
 
-We recommend setting up [your configuration file](https://ngrok.com/docs#config-location) as follows: 
+Make sure [you add an authtoken](https://ngrok.com/docs/ngrok-agent/ngrok#command-ngrok-config-add-authtoken) in order to generate a [configuration file](https://ngrok.com/docs/ngrok-agent/config). 
+
+Open that configuration file and set it up as follows:
 
 ```yml
-authtoken: abc123
+version: "2"
+authtoken: <YOUR AUTHTOKEN HERE>
 
 tunnels:
   acme-frontend:
     proto: http
-    # Make sure addr matches REACT_APP_PORT in .env
+    # Make sure this addr matches REACT_APP_PORT in .env
     addr: 3000 
   acme-backend-py:
     proto: http
@@ -67,30 +71,27 @@ This will let you easily set up your tunnels with:
 ngrok start --all
 ```
 
-Otherwise, you can expose ports individually. For example, the default frontend port can
-
-```shell
-ngrok http 3000
-```
-
 With ngrok running, you'll be presented with an interface that might look like the following:
 
 ```
-ngrok by @inconshreveable
+ngrok
 
 Session Status      online
 Account             Sentry (Plan: Pro)
-Version             2.3.40
+Version             3.0.3
 Region              United States (us)
+Latency             96.595653ms
 Web Interface       http://127.0.0.1:4040
 Forwarding          https://abc123.ngrok.io -> http://localhost:3000 
 Forwarding          https://def456.ngrok.io -> http://localhost:5100 
 Forwarding          https://ghi789.ngrok.io -> http://localhost:5200 
+
 Connections         ttl     opn     rt1     rt5     p50     p90
-                    42      0       0.00    0.00    0.02    3.88
+                    0       0       0.00    0.00    0.00    0.00
 ```
 
 Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within [Sentry](https://sentry.io/). 
+
 
 ### Step 2: Setup Sentry
 
