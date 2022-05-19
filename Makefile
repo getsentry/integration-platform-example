@@ -21,18 +21,18 @@ help:
 # Quickstart
 
 serve-python:
-	docker compose up frontend-ts backend-py
+	docker compose up frontend backend-py
 
 serve-typescript:
-	docker compose up frontend-ts backend-ts
+	docker compose up frontend backend-ts
 
 # Debugging
 
 setup-python:
-	docker compose build frontend-ts backend-py
+	docker compose build frontend backend-py
 
 setup-typescript:
-	docker compose build frontend-ts backend-ts
+	docker compose build frontend backend-ts
 
 seed-db:
 	docker exec database bash -c 'cat scripts/schema.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER'
@@ -44,7 +44,7 @@ reset-db:
 	docker exec database bash -c 'cat scripts/clear.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER' 
 
 teardown:
-	docker compose down -v
+	docker compose down -v --remove-orphans
 
 # Testing
 

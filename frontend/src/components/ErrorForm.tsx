@@ -22,7 +22,7 @@ function ErrorForm() {
         disabled={isFormDisabled}
       />
       <Button type="submit" className="primary" disabled={isFormDisabled}>
-        {isFormDisabled ? 'Sent!' : 'Send Error to Sentry'}
+        {isFormDisabled ? 'Sent, refresh to send another!' : 'Send Error to Sentry'}
       </Button>
     </Form>
   );

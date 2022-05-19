@@ -5,7 +5,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     build:
       context: backend-py
       target: backend-py
@@ -27,7 +28,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     build:
       context: backend-ts
       target: backend-ts
@@ -44,21 +46,21 @@ services:
         source: ./data
         target: /data
 
-  frontend-ts:
+  frontend:
     container_name: frontend
     env_file:
       - .env
     build:
-      context: frontend-ts
-      target: frontend-ts
+      context: frontend
+      target: frontend
     ports:
       - "${REACT_APP_PORT}:3000"
     # Watch and react to changes in local...
     volumes:
-      #  frontend-ts/src directory
+      #  frontend/src directory
       - type: bind
-        source: ./frontend-ts/src
-        target: /frontend-ts/src
+        source: ./frontend/src
+        target: /frontend/src
       #  data directory
       - type: bind
         source: ./data
@@ -71,6 +73,12 @@ services:
     build:
       context: data
       target: database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      start_period: 10s
+      interval: 10s
+      retries: 5
+      timeout: 5s
     ports:
       - "${DB_PORT}:5432"
     volumes:

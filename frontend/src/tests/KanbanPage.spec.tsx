@@ -49,7 +49,7 @@ describe('KanbanPage', () => {
     expect(errorButton).toBeInTheDocument();
     await act(async () => userEvent.click(errorButton));
     expect(Sentry.captureException).toHaveBeenCalled();
-    expect(await screen.findByText(/Sent!/i)).toBeInTheDocument();
+    expect(await screen.findByText(/refresh to send/i)).toBeInTheDocument();
     // Item Cards
     expect(await screen.findByText(mockItem.title)).toBeInTheDocument();
     expect(await screen.findByAltText(mockUser.name)).toBeInTheDocument();

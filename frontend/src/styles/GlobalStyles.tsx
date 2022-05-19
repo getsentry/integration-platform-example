@@ -35,6 +35,9 @@ const GlobalCss = (theme: Theme) => css`
     padding: 0.5rem 1rem;
     border: 0;
   }
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
 const GlobalStyles = () => {
