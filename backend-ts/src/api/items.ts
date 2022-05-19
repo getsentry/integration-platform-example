@@ -2,8 +2,18 @@ import express from 'express';
 
 import Item from '../models/Item.model';
 import Organization from '../models/Organization.model';
+import SentryAPIClient from '../util/SentryAPIClient';
 
 const router = express.Router();
+
+async function addSentryAPIData(
+  organization: Organization & {items: Item[]}
+): Promise<Item[]> {
+  const sentry = await SentryAPIClient.create(organization);
+  const res = await sentry.get('/projects/');
+  console.log(res);
+  return organization.items;
+}
 
 router.get('/', async (request, response) => {
   const {organization: slug} = request.query;
@@ -13,7 +23,8 @@ router.get('/', async (request, response) => {
       where: {slug},
     });
     if (organization) {
-      return response.send(organization.items);
+      const items = await addSentryAPIData(organization);
+      return response.send(items);
     }
   }
   const items = await Item.findAll();
