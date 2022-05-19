@@ -1,7 +1,11 @@
 {
   "name": "integration-platform-backend",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/getsentry/integration-platform-example.git"
+  },
   "scripts": {
     "start": "nodemon",
     "lint": "eslint . --ext .ts && prettier -c src",
@@ -13,9 +17,6 @@
     "test:dev": "npm run test -- --watch",
     "seed": "ts-node src/bin/seeder"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^0.26.0",
     "cors": "^2.8.5",
