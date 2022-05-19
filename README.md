@@ -117,7 +117,7 @@ Though, if you change your [environment variables in Step 3](#step-3-setup-your-
 
 ### Step 2: Setup Sentry
 
-In your Sentry instance,
+Next, we'll be setting up an integration for our app to connect to, and a project to which we'll send test errors. To set up the integration, perform the following steps in your Sentry instance.
 
 1. Click Settings > Developer Settings > Create New Integration > Public Integration
 2. Give your integration an appropriate name and author.
@@ -127,29 +127,32 @@ In your Sentry instance,
    Using the above example, with the python backend, it may look like this:
     - Webhook URL: `https://random-uuid-backend-py.ngrok.io/api/sentry/webhook/` 
     - Redirect URL: `https://random-uuid-frontend.ngrok.io/sentry/setup/`
+
 > Note: On the free plan for ngrok, if your service restarts, you will be issued a new forwarding address. If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
-1. Ensure 'Verify Installation' is checked.
-2. Ensure 'Alert Rule Action' is checked.
-3. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
-4. Enable 'Issue & Event - Read' permissions.
-5. Enable the webhooks 
+
+4. Ensure 'Verify Installation' is checked.
+5. Ensure 'Alert Rule Action' is checked.
+6. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
+7. Enable 'Issue & Event - Read' permissions.
+8. Enable the webhooks 
    - `issue` (for `created`, `resolved`, `assigned`, and `ignored` actions)
    - `comment` (for `created`, `edited`, and `deleted` actions)
-> Note: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
-6.  Click 'Save Changes'.
-7. Make a note of the **Client ID** and **Client Secret**.
 
-This demo integration can helpfully create errors in Sentry to trigger webhooks while developing, but you'll need to issue this app a DSN. 
+> Note: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
+
+9.  Click 'Save Changes'.
+10. Make a note of the **Client ID** and **Client Secret**.
+
+This demo integration can helpfully create errors in Sentry to trigger webhooks while developing, but you'll need to issue this app a DSN. We'll do this by setting a project. 
 
 1. Click Projects > Create Project.
 2. Select React (JS).
 3. Give your project an appropriate name (for example: Demo Integration).
 4. Click Create Project.
 5. Make a note of the **DSN** URL.
-   - It is a URL similar to the following if you're using Sentry SaaS:
-```
-https://a9d7f6eed0d4883a62ea441b0ea2be81@o456798.ingest.sentry.io/123456
-```
+   - It is a URL similar to the following if you're using Sentry SaaS: 
+    `https://a9d7f6eed0d4883a62ea441b0ea2be81@o456798.ingest.sentry.io/123456`
+
 
 Next, we'll be taking these values from Sentry and putting together our application's environment.
 
