@@ -44,7 +44,7 @@ reset-db:
 	docker exec database bash -c 'cat scripts/clear.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER' 
 
 teardown:
-	docker compose down -v
+	docker compose down -v --remove-orphans
 
 # Testing
 

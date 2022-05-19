@@ -19,6 +19,21 @@ This repository contains some starter code for interfacing with the Integration 
 
 If we missed something, or you're still having trouble, feel free to [create an issue](https://github.com/sentry-ecosystem/integration-platform-example/issues), and we'll see what we can do! Happy Developing!
 
+## Table of Contents 
+
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Step 0: Choose an Integration](#step-0-choose-an-integration)
+    - [Step 1: Setup ngrok](#step-1-setup-ngrok)
+    - [Step 2: Setup Sentry](#step-2-setup-sentry)
+    - [Step 3: Setup your environment](#step-3-setup-your-environment)
+    - [Step 4: Build and serve the codebase](#step-4-build-and-serve-the-codebase)
+  - [Using your Integration](#using-your-integration)
+    - [Testing Webhooks](#testing-webhooks)
+    - [Testing UI Components](#testing-ui-components)
+  - [Publishing](#publishing)
+  - [Credits](#credits)
+
 ## Getting Started
 
 ### Prerequisites
@@ -26,7 +41,7 @@ If we missed something, or you're still having trouble, feel free to [create an 
   - [**Docker**](https://docs.docker.com/get-docker/) - This demo application uses Docker to setup and communicate between its different services.
   - **Disable your adblocker** - This is a common pitfall that developers fall into when building on Sentry, doing it early can save your time down the line!
   - **Select a codebase** - This demo application comes with a mock frontend and a choice between two backends, one in Node (Express, Sequelize, TypeScript) and another in Python (Flask, SQLAlchemy). Pick the commands and environment that is more appropriate for your implementation.
-  - **A local PostgreSQL DB Client** (Optional) - Great for debugging, removing/editing select data, viewing changes on objects. We suggest [Postico](https://eggerapps.at/postico/).
+  - **A local PostgreSQL DB Client** (Optional) - Great for viewing changes on objects, and debugging, removing, or editing data. We suggest [Postico](https://eggerapps.at/postico/).
 
 ### Step 0: Choose an Integration
 
@@ -121,8 +136,8 @@ In your Sentry instance,
    - `issue` (for `created`, `resolved`, `assigned`, and `ignored` actions)
    - `comment` (for `created`, `edited`, and `deleted` actions)
 > Note: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
-9.  Click 'Save Changes'.
-10. Make a note of the **Client ID** and **Client Secret**.
+6.  Click 'Save Changes'.
+7. Make a note of the **Client ID** and **Client Secret**.
 
 This demo integration can helpfully create errors in Sentry to trigger webhooks while developing, but you'll need to issue this app a DSN. 
 
@@ -138,7 +153,7 @@ https://a9d7f6eed0d4883a62ea441b0ea2be81@o456798.ingest.sentry.io/123456
 
 Next, we'll be taking these values from Sentry and putting together our application's environment.
 
-### Step 3: Setup your Environment
+### Step 3: Setup your environment
 
 We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename from `.env.sample` to `.env`. You can modify any of these variables as you see fit, but the following **require** changes to work as intended:
   - `SENTRY_CLIENT_ID`: The Client ID from Step 2
@@ -162,7 +177,7 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
-This command will build the docker images needed to run the application (a postgres database, a web application, and your chosen backend), and spin them up, all in one step! Once the server logs calm down, your application should be good to go! If you make any changes to the environment variables after this point, be sure to rebuild the images with:
+This command will build the Docker images needed to run the application (a Postgres database, a web application, and your chosen backend), and spin them up, all in one step! Once the server logs calm down, your application should be good to go! If you make any changes to the environment variables after this point, be sure to rebuild the images with:
 
 ```bash
 make setup-python 
