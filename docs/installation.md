@@ -20,9 +20,8 @@ To test the installation flow, navigate to your Sentry instance and do the follo
 To test the uninstallation flow:
 
 1. Navigate to your integration's installation (Settings > Integrations > Your Integration)
-2. Click Uninstall and Confirm
+2. Click Uninstall > Confirm
   
-
 
 ## Code Insights
 

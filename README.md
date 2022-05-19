@@ -3,7 +3,7 @@
 So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 
 That's why we built out this codebase; clone and fork away!
 
-This repository contains some basic starter code to act as a tool or reference for you to refer back to. In it, we'll be covering the following features:
+This repository contains some starter code for interfacing with the Integration Platform that is meant to be a tool for your reference. In it, we'll be covering the following features:
 
 - Handling Installation (with OAuth)
 - Refreshing Tokens
@@ -82,17 +82,23 @@ Version             3.0.3
 Region              United States (us)
 Latency             96.595653ms
 Web Interface       http://127.0.0.1:4040
-Forwarding          https://abc123.ngrok.io -> http://localhost:3000 
-Forwarding          https://def456.ngrok.io -> http://localhost:5100 
-Forwarding          https://ghi789.ngrok.io -> http://localhost:5200 
+Forwarding          https://random-uuid-frontend.ngrok.io -> http://localhost:3000 
+Forwarding          https://random-uuid-backend-py.ngrok.io -> http://localhost:5100 
+Forwarding          https://random-uuid-backend-ts.ngrok.io -> http://localhost:5200 
 
 Connections         ttl     opn     rt1     rt5     p50     p90
                     0       0       0.00    0.00    0.00    0.00
 ```
 
-Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within [Sentry](https://sentry.io/). 
+Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within Sentry. You can identify which address coordinates with which server by the port they map to on your local machine. By default:
 
+```
+[Frontend address]           -> http://localhost:3000 
+[Python backend address]     -> http://localhost:5100 
+[Typescript backend address] -> http://localhost:5200
+```
 
+Though, if you change your [environment variables in Step 3](#step-3-setup-your-environment), from their default values, this will not be the case.
 
 ### Step 2: Setup Sentry
 
@@ -100,15 +106,18 @@ In your Sentry instance,
 
 1. Click Settings > Developer Settings > Create New Integration > Public Integration
 2. Give your integration an appropriate name and author.
-3. Specify a Webhook and Redirect URL with your ngrok forwarding address. Using the above example, with the python backend, it may look like this:
-    - Webhook URL: `https://def456.ngrok.io/api/sentry/webhook/` 
-    - Redirect URL: `https://abc123.ngrok.io/sentry/setup/`
+3. Specify a Webhook and Redirect URL with your ngrok forwarding address. 
+    - Webhook URL: `<YOUR BACKEND NGROK ADDRESS>/api/sentry/webhook/`    
+    - Redirect URL: `<YOUR FRONTEND NGROK ADDRESS>/sentry/setup/`    
+   Using the above example, with the python backend, it may look like this:
+    - Webhook URL: `https://random-uuid-backend-py.ngrok.io/api/sentry/webhook/` 
+    - Redirect URL: `https://random-uuid-frontend.ngrok.io/sentry/setup/`
 > Note: On the free plan for ngrok, if your service restarts, you will be issued a new forwarding address. If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
-4. Ensure 'Verify Installation' is checked.
-5. Ensure 'Alert Rule Action' is checked.
-6. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
-7. Enable 'Issue & Event - Read' permissions.
-8. Enable the webhooks 
+1. Ensure 'Verify Installation' is checked.
+2. Ensure 'Alert Rule Action' is checked.
+3. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
+4. Enable 'Issue & Event - Read' permissions.
+5. Enable the webhooks 
    - `issue` (for `created`, `resolved`, `assigned`, and `ignored` actions)
    - `comment` (for `created`, `edited`, and `deleted` actions)
 > Note: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
@@ -131,11 +140,11 @@ Next, we'll be taking these values from Sentry and putting together our applicat
 
 ### Step 3: Setup your Environment
 
-We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename from `.env.sample` to `.env`. Now you can change any of these values, but the pay close attention to a few of them:
+We've included a `.env.sample` file for you to refer to when building out your environment. To set it up, change the filename from `.env.sample` to `.env`. You can modify any of these variables as you see fit, but the following **require** changes to work as intended:
   - `SENTRY_CLIENT_ID`: The Client ID from Step 2
   - `SENTRY_CLIENT_SECRET`: The Client Secret from Step 2
   - `REACT_APP_SENTRY_DSN`: The DSN from Step 2
-  - `REACT_APP_BACKEND_URL`: The ngrok forwarding address of your chosen backend
+  - `REACT_APP_BACKEND_URL`: The ngrok forwarding address of your chosen backend from Step 1
 
 > Note: If you change `REACT_APP_PORT`, `FLASK_RUN_PORT`, or `EXPRESS_LISTEN_PORT`, you may have to reconfigure your ngrok setup and Integration URLs in Sentry
 
@@ -153,7 +162,13 @@ make serve-python # A python server built on Flask and SQLAlchemy
 make serve-typescript # A typescript node server built on Express and Sequelize
 ```
 
-**EXAPLAIN WHAT THIS DOES**
+This command will build the docker images needed to run the application (a postgres database, a web application, and your chosen backend), and spin them up, all in one step! Once the server logs calm down, your application should be good to go! If you make any changes to the environment variables after this point, be sure to rebuild the images with:
+
+```bash
+make setup-python 
+# OR
+make setup-typescript 
+```
 
 Now the app is ready to test! Continue on to the [Using your Integration](#using-your-integration) section to playground your application as you make changes and trigger webhooks in Sentry. There are also some helpful debugging commands which you can check out via:
 
