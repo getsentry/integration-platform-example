@@ -3,7 +3,7 @@ from flask import Response
 
 from src import app
 from src.models import Item, SentryInstallation
-from src.models.items import ItemColumn
+from src.models.item import ItemColumn
 from src.database import db_session
 
 from ..alert_rule_action import AlertRuleSettings, convert_sentry_fields_to_dict, SentryField

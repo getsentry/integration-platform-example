@@ -1,6 +1,6 @@
-from .items import Item
-from .organizations import Organization
-from .sentry_installations import SentryInstallation
-from .users import User
+from .item import Item
+from .organization import Organization
+from .sentry_installation import SentryInstallation
+from .user import User
 
 __all__ = ("Item", "Organization", "SentryInstallation", "User")

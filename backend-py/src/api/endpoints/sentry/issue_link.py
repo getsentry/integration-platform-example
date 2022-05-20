@@ -6,7 +6,7 @@ from typing import TypedDict
 from src import app
 from src.api.middleware import verify_sentry_signature
 from src.models import SentryInstallation, Item, Organization
-from src.models.items import ItemColumn
+from src.models.item import ItemColumn
 from src.database import db_session
 
 from flask import jsonify, request, Response
