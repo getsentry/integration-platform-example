@@ -8,11 +8,22 @@ const router = express.Router();
 
 async function addSentryAPIData(
   organization: Organization & {items: Item[]}
-): Promise<Item[]> {
+): Promise<any[]> {
+  // Create an APIClient to talk to Sentry
   const sentry = await SentryAPIClient.create(organization);
-  const res = await sentry.get('/projects/');
-  console.log(res);
-  return organization.items;
+  const items = await Promise.all(
+    organization.items.map(async item => {
+      if (item.sentryId) {
+        // Use the numerical ID to fetch the short ID
+        const sentryData = await sentry.get(`/issues/${item.sentryId}/`);
+        // Replace the numerical ID with the short ID
+        item.sentryId = (sentryData || {})?.data?.shortId ?? item.sentryId;
+        return item;
+      }
+      return item;
+    })
+  );
+  return items;
 }
 
 router.get('/', async (request, response) => {
