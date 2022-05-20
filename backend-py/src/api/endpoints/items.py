@@ -4,11 +4,30 @@ from flask import jsonify, request, Response
 from flask.views import MethodView
 from werkzeug.exceptions import NotFound
 
+from src import app
 from src.api.endpoints.base import register_api
 from src.api.serializers import serialize
 from src.api.validators import validate_new_item, validate_item_update
 from src.database import db_session
 from src.models import Item, Organization
+from src.util.sentry_api_client import SentryAPIClient
+
+
+def add_sentry_api_data(
+    organization: Organization,
+    query: Item.query,
+):
+    # Create an APIClient to talk to Sentry
+    sentry = SentryAPIClient.create(organization)
+    items = serialize(query.all())
+    for item in items:
+        if item['sentryId']:
+            # Use the numerical ID to fetch the short ID
+            sentry_data = sentry.get(f"/issues/{item['sentryId']}/")
+            short_id = sentry_data.json().get('shortId')
+            # Replace the numerical ID with the short ID
+            item['sentryId'] = short_id or item['sentryId']
+    return jsonify(items)
 
 
 class ItemAPI(MethodView):
@@ -30,6 +49,7 @@ class ItemAPI(MethodView):
             ).first()
             if organization_option:
                 query = query.filter(Item.organization_id == organization_option.id)
+                return add_sentry_api_data(organization_option, query)
 
         if user_id is not None:
             query = query.filter(Item.assignee_id == user_id)

@@ -12,7 +12,7 @@ class SentryAPIClient {
   }
 
   /**
-   * Method to ensure we're always using a valid token for the Sentry API by refreshing it if necessary
+   * Fetches an organization's Sentry API token, refreshing it if necessary.
    */
   static async getSentryAPIToken(organization: Organization) {
     const sentryInstallation = await SentryInstallation.findOne({
@@ -70,6 +70,7 @@ class SentryAPIClient {
       headers: {Authorization: `Bearer ${this.token}`},
       data,
     }).catch(e => {
+      // TODO(you): Catch these sorta errors in Sentry!
       console.error('A request to the Sentry API failed:', {
         status: e.response.status,
         statusText: e.response.statusText,
