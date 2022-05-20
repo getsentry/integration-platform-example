@@ -49,7 +49,9 @@ class ItemAPI(MethodView):
             ).first()
             if organization_option:
                 query = query.filter(Item.organization_id == organization_option.id)
-                return add_sentry_api_data(organization_option, query)
+                linked_query = query.filter(Item.sentry_id != None)
+                if (linked_query.count() > 0):
+                    add_sentry_api_data(organization_option, query)
 
         if user_id is not None:
             query = query.filter(Item.assignee_id == user_id)

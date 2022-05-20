@@ -34,8 +34,11 @@ router.get('/', async (request, response) => {
       where: {slug},
     });
     if (organization) {
-      const items = await addSentryAPIData(organization);
-      return response.send(items);
+      return response.send(
+        organization.items.some(item => !!item.sentryId)
+          ? await addSentryAPIData(organization)
+          : organization.items
+      );
     }
   }
   const items = await Item.findAll();

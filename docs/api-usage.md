@@ -12,7 +12,7 @@ This document will show you how to test this application's usage of the [Sentry 
 5. The linked issue should appear with a `SHORT-ID` instead of the numerical ID we save to the database
     - This is replaced on the frontend by using the API Token that has been issued to our installation
 6. To test token refreshing, modify the row in your database to manually expire the token.
-    - E.g. DB Client > `sentrydemo` (default) > `sentry_installations` > `expires_at`
+    - E.g. Postgres DB Client > `sentrydemo` (default) > `sentry_installations` > `expires_at`
 7. Now refresh the kanban app.
 8. If the `SHORT-ID` still appears as a badge, our token was successfully refreshed.
 
