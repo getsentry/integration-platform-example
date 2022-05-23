@@ -3,7 +3,11 @@
 So you want to integrate with the [Sentry Integration Platform](https://docs.sentry.io/product/integrations/integration-platform/). Great! We're looking forward to it 🎉 
 That's why we built out this codebase; clone and fork away!
 
-This repository contains some starter code for interfacing with the Integration Platform that is meant to be a tool for your reference. In it, we'll be covering the following features:
+This repository contains some starter code for interfacing with the Integration Platform that is meant to be a tool for your reference. It demos an example kanban application which will be integrating with Sentry to auto-generate tickets, links and create a richer user experience.
+
+![Kanban application user interface](./docs/reference-implementation-frontend.png)
+
+In it, we'll be covering the following features:
 
 - Handling Installation (with OAuth)
 - Using the [Sentry API](https://docs.sentry.io/api/)
