@@ -11,19 +11,21 @@ async function addSentryAPIData(
 ): Promise<any[]> {
   // Create an APIClient to talk to Sentry
   const sentry = await SentryAPIClient.create(organization);
-  const items = await Promise.all(
+  return Promise.all(
     organization.items.map(async item => {
       if (item.sentryId) {
         // Use the numerical ID to fetch the short ID
         const sentryData = await sentry.get(`/issues/${item.sentryId}/`);
         // Replace the numerical ID with the short ID
-        item.sentryId = (sentryData || {})?.data?.shortId ?? item.sentryId;
+        const shortId = (sentryData || {})?.data?.shortId;
+        if (shortId) {
+          item.sentryId = shortId;
+        }
         return item;
       }
       return item;
     })
   );
-  return items;
 }
 
 router.get('/', async (request, response) => {

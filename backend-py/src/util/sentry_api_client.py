@@ -1,8 +1,10 @@
 
 import os
+import requests
+
+from __future__ import annotations
 from dotenv import load_dotenv
 from datetime import datetime
-import requests
 
 from src import app
 from src.database import db_session
@@ -17,7 +19,7 @@ class SentryAPIClient:
         self.token = token
 
     @staticmethod
-    def get_sentry_api_token(organization: Organization):
+    def get_sentry_api_token(organization: Organization) -> str:
         """
         Fetches an organization's Sentry API token, refreshing it if necessary.
         """
@@ -59,12 +61,12 @@ class SentryAPIClient:
         return sentry_installation.token
 
     # We create a static wrapper on the constructor to ensure our token is always refreshed
-    @ staticmethod
+    @staticmethod
     def create(organization: Organization) -> 'SentryAPIClient':
         token = SentryAPIClient.get_sentry_api_token(organization)
         return SentryAPIClient(token)
 
-    def request(self, method: str, path: str, data: dict = None) -> requests.Response:
+    def request(self, method: str, path: str, data: dict | None = None) -> requests.Response:
         response = requests.request(
             method=method,
             url=f"{os.getenv('SENTRY_URL')}/api/0{path}",
