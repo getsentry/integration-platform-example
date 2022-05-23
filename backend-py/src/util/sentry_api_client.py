@@ -1,8 +1,8 @@
+from __future__ import annotations
 
 import os
 import requests
 
-from __future__ import annotations
 from dotenv import load_dotenv
 from datetime import datetime
 
