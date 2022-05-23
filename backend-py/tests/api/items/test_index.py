@@ -1,4 +1,14 @@
+import json
+import os
+import responses
+from dotenv import load_dotenv
+
 from . import ItemsApiTestBase
+from src.database import db_session
+
+
+load_dotenv()
+SENTRY_URL = os.getenv("SENTRY_URL")
 
 
 class ItemsApiIndexTest(ItemsApiTestBase):
@@ -23,3 +33,36 @@ class ItemsApiIndexTest(ItemsApiTestBase):
         response = self.get_success_response(organization=self.organization.slug)
         assert len(response.json) == 1
         assert response.json[0]["organizationId"] == self.organization.id
+
+    @responses.activate
+    def test_index_with_sentry_api(self):
+        sentry_id = "12345"
+        short_id = "PROJ-123"
+
+        responses.add(
+            responses.GET,
+            f"{SENTRY_URL}/api/0/issues/{sentry_id}/",
+            body=json.dumps({"shortId": short_id}),
+        )
+
+        self.item.sentry_id = sentry_id
+        db_session.commit()
+        response = self.get_success_response(organization=self.organization.slug)
+        assert len(response.json) == 1
+        assert response.json[0]["sentryId"] == short_id
+
+    @responses.activate
+    def test_index_with_failing_sentry_api(self):
+        sentry_id = "12345"
+
+        responses.add(
+            responses.GET,
+            f"{SENTRY_URL}/api/0/issues/{sentry_id}/",
+            body=json.dumps({}),
+        )
+
+        self.item.sentry_id = sentry_id
+        db_session.commit()
+        response = self.get_success_response(organization=self.organization.slug)
+        assert len(response.json) == 1
+        assert response.json[0]["sentryId"] == sentry_id
