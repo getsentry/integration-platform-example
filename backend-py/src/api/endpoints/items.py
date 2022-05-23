@@ -4,7 +4,6 @@ from flask import jsonify, request, Response
 from flask.views import MethodView
 from werkzeug.exceptions import NotFound
 
-from src import app
 from src.api.endpoints.base import register_api
 from src.api.serializers import serialize
 from src.api.validators import validate_new_item, validate_item_update
@@ -43,14 +42,14 @@ class ItemAPI(MethodView):
 
         query = Item.query
 
-        if organization_slug is not None:
+        if organization_slug:
             organization_option = Organization.query.filter(
                 Organization.slug == organization_slug
             ).first()
             if organization_option:
                 query = query.filter(Item.organization_id == organization_option.id)
-                linked_query = query.filter(Item.sentry_id != None)
-                if (linked_query.count() > 0):
+                linked_query = query.filter(Item.sentry_id is not None)
+                if linked_query.count() > 0:
                     return add_sentry_api_data(organization_option, query)
 
         if user_id is not None:
