@@ -78,11 +78,11 @@ tunnels:
     addr: 3000 
   acme-backend-py:
     proto: http
-    # Make sure addr matches FLASK_RUN_PORT in .env
+    # Make sure this addr matches FLASK_RUN_PORT in .env
     addr: 5100 
   acme-backend-ts:
     proto: http
-    # Make sure addr matches EXPRESS_LISTEN_PORT in .env
+    # Make sure this addr matches EXPRESS_LISTEN_PORT in .env
     addr: 5200 
 ```
 
