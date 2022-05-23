@@ -3,7 +3,7 @@ from flask import Response
 
 from src import app
 from src.models import Item, SentryInstallation
-from src.models.items import ItemComment
+from src.models.item import ItemComment
 from src.database import db_session
 
 

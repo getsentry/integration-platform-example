@@ -2,7 +2,7 @@ from typing import Any, Mapping
 
 from src import app
 from src.models import Item, SentryInstallation, User
-from src.models.items import ItemColumn
+from src.models.item import ItemColumn
 from src.database import db_session
 
 from flask import Response

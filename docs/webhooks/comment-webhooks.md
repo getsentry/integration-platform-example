@@ -3,17 +3,16 @@
 ## Testing
 
 1. Ensure this application is running (`make serve-typescript` or `make serve-python`) and has been [installed on your organization in Sentry](../installation.md).
-2. Select an organization's kanban to view
-3. Link a Sentry issue with a kanban item
+2. Link a Sentry issue with a kanban item
     - This can be done via the [issue webhooks](./event-webhooks.md#issue-webhooks) or [issue linking](../ui-components/issue-linking.md)
-4. Once linked, open the issue details page in Sentry
-5. Go to the 'Activity' tab
-6. Trigger the `comment.created` webhook by leaving a comment on the activity log
-7. Switch to the frontend webpage and refresh to see the new comment.
-8. Trigger the `comment.updated` webhook by hovering your comment, clicking the 'Edit' button, and submitting a change.
-9. Refresh again to see the modification to the comment.
-10. Trigger the `comment.deleted` webhook by hovering your comment,clicking the 'Remove' button, and confirming.
-11. Refresh one last time to verify that the comment has been deleted. 
+3. Once linked, open the issue details page in Sentry
+4. Go to the 'Activity' tab
+5. Trigger the `comment.created` webhook by leaving a comment on the activity log
+6. Switch to the kanban app and refresh to see the new comment.
+7. Trigger the `comment.updated` webhook by hovering your comment, clicking the 'Edit' button, and submitting a change.
+8. Refresh again to see the modification to the comment.
+9. Trigger the `comment.deleted` webhook by hovering your comment,clicking the 'Remove' button, and confirming.
+10. Refresh one last time to verify that the comment has been deleted. 
 
 ## Code Insights
 

@@ -137,7 +137,7 @@ export const MOCK_SETUP = {
   newToken: {
     token: 'abc123',
     refreshToken: 'def456',
-    expiresAt: '2022-01-01T08:00:00.000Z',
+    expiresAt: '3000-01-01T08:00:00.000Z',
   },
   installation: INSTALLATION,
 };
