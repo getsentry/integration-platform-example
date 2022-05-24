@@ -8,7 +8,7 @@ from src.database import db_session
 
 
 def handle_created(item: Item, comment: ItemComment) -> Response:
-    item.comments = item.comments or [] + [comment]
+    item.comments = (item.comments or []) + [comment]
     db_session.commit()
     app.logger.info("Added new comment from Sentry issue")
     return Response('', 201)
