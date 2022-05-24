@@ -10,7 +10,7 @@ help:
 	@echo '>>> Debugging'
 	@echo 'make setup-python        -> Rebuild the python backend with updated dependencies and environment variables'
 	@echo 'make setup-typescript    -> Rebuild the typescript backend with updated dependencies and environment variables'
-	@echo 'make seed-db             -> Manually seed the database with test data'
+	@echo 'make seed-db             -> Initialize the database with test data (Note: requires "make teardown" execution beforehand)'
 	@echo 'make dump-db             -> Replace the data in the seed file with the current database'
 	@echo 'make reset-db            -> Empty out the current database'
 	@echo 'make teardown            -> Stop all ongoing processes and remove their data (Note: erases the database)'
