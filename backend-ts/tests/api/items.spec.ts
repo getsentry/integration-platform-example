@@ -4,7 +4,7 @@ import request from 'supertest';
 
 import SentryAPIClient from '../../src/util/SentryAPIClient';
 import createItem, {Item} from '../factories/Item.factory';
-import createOrganization, {Organization} from '../factories/Organization.factory';
+import createOrganization from '../factories/Organization.factory';
 import createSentryInstallation from '../factories/SentryInstallation.factory';
 import createUser from '../factories/User.factory';
 import {closeTestServer, createTestServer} from '../testutils';
