@@ -4,7 +4,9 @@ import Item, {ItemColumn} from '../../src/models/Item.model';
 import createOrganization from './Organization.factory';
 import createUser from './User.factory';
 
-export default async function createItem(fields: Partial<Attributes<Item>> = {}) {
+export default async function createItem(
+  fields: Partial<Attributes<Item>> = {}
+): Promise<Item> {
   if (!fields.organizationId) {
     const organization = await createOrganization();
     fields.organizationId = organization.id;

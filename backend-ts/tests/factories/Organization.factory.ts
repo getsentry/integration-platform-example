@@ -4,7 +4,7 @@ import Organization from '../../src/models/Organization.model';
 
 export default async function createOrganization(
   fields: Partial<Attributes<Organization>> = {}
-) {
+): Promise<Organization> {
   return Organization.create({
     name: 'example',
     slug: 'example',

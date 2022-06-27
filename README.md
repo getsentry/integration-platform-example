@@ -182,6 +182,8 @@ Great, now we're ready to serve our application!
 
 This example code comes with a mock frontend and a choice between two backends, one in NodeJS (Express + TS) and another in Python (Flask). To launch the application, you'll need to install [Docker](https://docs.docker.com/engine/install/) and ensure it is running.
 
+> Note: If you are using an M1 Mac, you may encounter an [issue](https://github.com/getsentry/integration-platform-example/issues/48) building the Python container. Running `export DOCKER_DEFAULT_PLATFORM=linux/amd64` prior to building the images should solve the issue. [Learn More](https://stackoverflow.com/questions/62807717/how-can-i-solve-postgresql-scram-authentifcation-problem).
+
 Now you can spin up the project of your choice with:
 
 ```bash
