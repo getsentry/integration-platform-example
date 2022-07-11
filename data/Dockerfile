@@ -4,3 +4,5 @@ WORKDIR /data
 
 # Initialize the database with the schema.sql file
 COPY scripts/schema.sql ../docker-entrypoint-initdb.d/init.sql
+
+

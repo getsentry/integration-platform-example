@@ -17,7 +17,7 @@ help:
 	@echo
 	@echo '>>> Testing'
 	@echo 'make setup-tests         -> Starts the test database'
-
+	
 # Quickstart
 
 serve-python:
@@ -36,12 +36,12 @@ setup-typescript:
 
 seed-db:
 	docker exec database bash -c 'cat scripts/schema.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER'
-
+	
 dump-db:
-	docker exec database bash -c 'pg_dump $$POSTGRES_DB -U $$POSTGRES_USER > scripts/schema.sql'
+	docker exec database bash -c 'pg_dump $$POSTGRES_DB -U $$POSTGRES_USER > scripts/schema.sql'  
 
 reset-db:
-	docker exec database bash -c 'cat scripts/clear.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER'
+	docker exec database bash -c 'cat scripts/clear.sql | psql $$POSTGRES_DB -U $$POSTGRES_USER' 
 
 teardown:
 	docker compose down -v --remove-orphans --rmi all
@@ -50,3 +50,4 @@ teardown:
 
 setup-tests:
 	docker compose up test-database --detach
+
