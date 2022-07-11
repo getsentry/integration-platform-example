@@ -16,9 +16,11 @@ class AlertRuleActionTest(APITestCase):
         organization = self.create_organization()
         self.create_sentry_installation(organization)
         user = self.create_user(organization)
-        setattr(user, 'id', ALERT_RULE_ACTION_VALUES["userId"])
+        setattr(user, "id", ALERT_RULE_ACTION_VALUES["userId"])
         db_session.commit()
-        response = self.get_success_response(data=MOCK_ALERT_RULE_ACTION, status_code=200)
+        response = self.get_success_response(
+            data=MOCK_ALERT_RULE_ACTION, status_code=200
+        )
 
     def test_surfaces_errors(self):
         response = self.get_error_response(data=MOCK_ALERT_RULE_ACTION, status_code=400)
@@ -26,8 +28,10 @@ class AlertRuleActionTest(APITestCase):
 
         organization = self.create_organization()
         self.create_sentry_installation(organization)
-        response = self.get_error_response(data={**MOCK_ALERT_RULE_ACTION, "fields": []})
-        assert response.json["message"] == 'Title and description are required'
+        response = self.get_error_response(
+            data={**MOCK_ALERT_RULE_ACTION, "fields": []}
+        )
+        assert response.json["message"] == "Title and description are required"
 
         response = self.get_error_response(data=MOCK_ALERT_RULE_ACTION)
         assert response.json["message"] == "Selected user was not found"

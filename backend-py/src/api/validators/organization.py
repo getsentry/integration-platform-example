@@ -35,7 +35,9 @@ def validate_organization_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
         output["name"] = validate_optional_str(data.get("name"), "name")
 
     if "externalSlug" in data:
-        output["external_slug"] = validate_optional_str(data.get("externalSlug"), "externalSlug")
+        output["external_slug"] = validate_optional_str(
+            data.get("externalSlug"), "externalSlug"
+        )
 
     if not output:
         raise BadRequest("Invalid: PUT data must not be empty")

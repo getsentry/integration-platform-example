@@ -28,7 +28,9 @@ def validate_column(value: str | None) -> str:
     try:
         return ItemColumn(value.upper())
     except ValueError:
-        raise BadRequest(f"Invalid: field 'column' must be one of {[e.value for e in ItemColumn]}")
+        raise BadRequest(
+            f"Invalid: field 'column' must be one of {[e.value for e in ItemColumn]}"
+        )
 
 
 def validate_complexity(value: int | str | None) -> int:
@@ -77,7 +79,9 @@ def validate_item_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
         output["title"] = validate_optional_str(data.get("title"), "title")
 
     if "description" in data:
-        output["description"] = validate_optional_str(data.get("description"), "description")
+        output["description"] = validate_optional_str(
+            data.get("description"), "description"
+        )
 
     if not output:
         raise BadRequest("Invalid: PUT data must not be empty")

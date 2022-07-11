@@ -20,13 +20,13 @@ def add_sentry_api_data(
     sentry = SentryAPIClient.create(organization)
     items = serialize(query.all())
     for item in items:
-        if item['sentryId']:
+        if item["sentryId"]:
             # Use the numerical ID to fetch the short ID
             sentry_data = sentry.get(f"/issues/{item['sentryId']}/")
-            short_id = sentry_data.json().get('shortId')
+            short_id = sentry_data.json().get("shortId")
             # Replace the numerical ID with the short ID
             if short_id:
-                item['sentryId'] = short_id
+                item["sentryId"] = short_id
     return jsonify(items)
 
 

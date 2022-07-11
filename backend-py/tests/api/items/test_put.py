@@ -19,4 +19,6 @@ class ItemsApiPutTest(ItemsApiTestBase):
 
     def test_put_invalid(self):
         invalid_data = {"assigneeId": "invalid"}
-        self.get_error_response(item_id=self.item.id, data=invalid_data, status_code=400)
+        self.get_error_response(
+            item_id=self.item.id, data=invalid_data, status_code=400
+        )

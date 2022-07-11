@@ -11,7 +11,7 @@ def handle_created(item: Item, comment: ItemComment) -> Response:
     item.comments = (item.comments or []) + [comment]
     db_session.commit()
     app.logger.info("Added new comment from Sentry issue")
-    return Response('', 201)
+    return Response("", 201)
 
 
 def handle_updated(item: Item, comment: ItemComment) -> Response:
@@ -23,16 +23,20 @@ def handle_updated(item: Item, comment: ItemComment) -> Response:
     ]
     db_session.commit()
     app.logger.info("Updated comment from Sentry issue")
-    return Response('', 200)
+    return Response("", 200)
 
 
 def handle_deleted(item: Item, comment: ItemComment) -> Response:
-    item.comments = list(filter(
-        lambda existing_comment: existing_comment["sentryCommentId"] !=
-        comment["sentryCommentId"], item.comments or []))
+    item.comments = list(
+        filter(
+            lambda existing_comment: existing_comment["sentryCommentId"]
+            != comment["sentryCommentId"],
+            item.comments or [],
+        )
+    )
     db_session.commit()
     app.logger.info("Deleted comment from Sentry issue")
-    return Response('', 204)
+    return Response("", 204)
 
 
 def comment_handler(
@@ -43,11 +47,11 @@ def comment_handler(
 ) -> Response:
     item = Item.query.filter(
         Item.sentry_id == str(data["issue_id"]),
-        Item.organization_id == sentry_installation.organization_id
+        Item.organization_id == sentry_installation.organization_id,
     ).first()
     if item is None:
         app.logger.info("Ignoring comment for unlinked Sentry issue")
-        return Response('', 200)
+        return Response("", 200)
 
     # In your application you may want to map Sentry user IDs (actor.id) to your internal user IDs
     # for a richer comment sync experience
@@ -58,12 +62,12 @@ def comment_handler(
         "sentryCommentId": data["comment_id"],
     }
 
-    if action == 'created':
+    if action == "created":
         return handle_created(item, incoming_comment)
-    elif action == 'updated':
+    elif action == "updated":
         return handle_updated(item, incoming_comment)
-    elif action == 'deleted':
+    elif action == "deleted":
         return handle_deleted(item, incoming_comment)
     else:
         app.logger.info(f"Unexpected Sentry comment action: {action}")
-        return Response('', 400)
+        return Response("", 400)

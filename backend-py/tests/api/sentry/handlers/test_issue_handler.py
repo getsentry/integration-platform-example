@@ -1,4 +1,3 @@
-
 from src.models import Item, User
 from src.types import ItemColumn
 
@@ -19,7 +18,7 @@ class IssueHandlerWebhookTest(APITestCase):
         self.get_success_response(
             data=MOCK_WEBHOOK["issue.assigned"],
             headers={"sentry-hook-resource": "issue"},
-            status_code=202
+            status_code=202,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item
@@ -32,7 +31,7 @@ class IssueHandlerWebhookTest(APITestCase):
         self.get_success_response(
             data=MOCK_WEBHOOK["issue.created"],
             headers={"sentry-hook-resource": "issue"},
-            status_code=201
+            status_code=201,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item
@@ -48,7 +47,7 @@ class IssueHandlerWebhookTest(APITestCase):
         self.get_success_response(
             data=MOCK_WEBHOOK["issue.ignored"],
             headers={"sentry-hook-resource": "issue"},
-            status_code=202
+            status_code=202,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item
@@ -58,7 +57,7 @@ class IssueHandlerWebhookTest(APITestCase):
         self.get_success_response(
             data=MOCK_WEBHOOK["issue.resolved"],
             headers={"sentry-hook-resource": "issue"},
-            status_code=202
+            status_code=202,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item
@@ -68,7 +67,7 @@ class IssueHandlerWebhookTest(APITestCase):
         self.get_error_response(
             data={**MOCK_WEBHOOK["issue.assigned"], "action": "bookmarked"},
             headers={"sentry-hook-resource": "issue"},
-            status_code=400
+            status_code=400,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item == None

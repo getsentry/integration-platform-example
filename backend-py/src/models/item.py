@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import Sequence
 
-from sqlalchemy import Column,  Integer, String, ForeignKey, Boolean, Enum, JSON
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Enum, JSON
 
 from .. import database
 from ..types import ItemComment, ItemColumn
@@ -23,8 +23,8 @@ class Item(database.Base):
     sentry_id = Column(String)
     sentry_alert_id = Column(String)
     comments = Column(JSON)
-    assignee_id = Column(Integer, ForeignKey('user.id'))
-    organization_id = Column(Integer, ForeignKey('organization.id'))
+    assignee_id = Column(Integer, ForeignKey("user.id"))
+    organization_id = Column(Integer, ForeignKey("organization.id"))
 
     def __init__(
         self,

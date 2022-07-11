@@ -19,4 +19,6 @@ class UsersApiPutTest(UsersApiTestBase):
 
     def test_put_invalid(self):
         invalid_data = dict(assignee_id="invalid")
-        self.get_error_response(user_id=self.user.id, data=invalid_data, status_code=400)
+        self.get_error_response(
+            user_id=self.user.id, data=invalid_data, status_code=400
+        )

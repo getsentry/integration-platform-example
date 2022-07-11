@@ -22,7 +22,7 @@ This document will show you how to test this application's usage of the [Sentry 
 If you monitor server logs during the above install-uninstall test, you should see something similar to the following:
 
 ```
-Token for leander-test has expired. 
+Token for leander-test has expired.
 Token for 'leander-test' has been refreshed.
 ```
 
@@ -30,6 +30,6 @@ These logs are created as part of the primitive Sentry API Client we've included
     - [Python Sentry API Client](../backend-py/src/util/sentry_api_client.py)
     - [TypeScript Sentry API Client](../backend-ts/src/util/SentryAPIClient.ts)
 
-The only endpoint we enrich with Sentry API data is `/api/items`, which populates the items in the kanban app. 
+The only endpoint we enrich with Sentry API data is `/api/items`, which populates the items in the kanban app.
     - [Python Sentry Data Usage](../backend-py/src/api/endpoints/items.py)
     - [TypeScript Sentry Data Usage](../backend-ts/src/api/items.ts)

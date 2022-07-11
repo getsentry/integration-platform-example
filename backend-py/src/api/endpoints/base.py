@@ -16,15 +16,17 @@ def register_api(
         url,
         defaults={pk: None},
         view_func=view_func,
-        methods=["GET", ]
+        methods=[
+            "GET",
+        ],
     )
     app.add_url_rule(
         url,
         view_func=view_func,
-        methods=["POST", ]
+        methods=[
+            "POST",
+        ],
     )
     app.add_url_rule(
-        f"{url}<{pk_type}:{pk}>",
-        view_func=view_func,
-        methods=["GET", "PUT", "DELETE"]
+        f"{url}<{pk_type}:{pk}>", view_func=view_func, methods=["GET", "PUT", "DELETE"]
     )

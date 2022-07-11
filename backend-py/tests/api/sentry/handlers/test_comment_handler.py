@@ -16,7 +16,7 @@ class CommentHandlerWebhookTest(APITestCase):
         super().setUp()
         self.organization = self.create_organization()
         self.sentry_installation = self.create_sentry_installation(self.organization)
-        self.item = self.create_item(self.organization, sentry_id=ISSUE['id'])
+        self.item = self.create_item(self.organization, sentry_id=ISSUE["id"])
 
     def assert_comment_from_payload(self, comment: ItemComment, payload: JSONData):
         assert comment["text"] == payload["data"]["comment"]
@@ -28,17 +28,13 @@ class CommentHandlerWebhookTest(APITestCase):
         payload = copy.deepcopy(MOCK_WEBHOOK["comment.created"])
         payload["data"]["issue_id"] = "90210"
         self.get_success_response(
-            data=payload,
-            headers={"sentry-hook-resource": "comment"},
-            status_code=200
+            data=payload, headers={"sentry-hook-resource": "comment"}, status_code=200
         )
 
     def test_comment_created(self):
         payload = MOCK_WEBHOOK["comment.created"]
         self.get_success_response(
-            data=payload,
-            headers={"sentry-hook-resource": "comment"},
-            status_code=201
+            data=payload, headers={"sentry-hook-resource": "comment"}, status_code=201
         )
         assert len(self.item.comments) == 1
         new_comment = self.item.comments[0]
@@ -49,19 +45,19 @@ class CommentHandlerWebhookTest(APITestCase):
 
     def test_comment_updated(self):
         payload = MOCK_WEBHOOK["comment.updated"]
-        self.item.comments = [{
-            "text": "old comment",
-            "author": payload['actor']['name'],
-            "timestamp": payload["data"]["timestamp"],
-            "sentryCommentId": payload["data"]["comment_id"]
-        }]
+        self.item.comments = [
+            {
+                "text": "old comment",
+                "author": payload["actor"]["name"],
+                "timestamp": payload["data"]["timestamp"],
+                "sentryCommentId": payload["data"]["comment_id"],
+            }
+        ]
         db_session.commit()
         assert len(self.item.comments) == 1
 
         self.get_success_response(
-            data=payload,
-            headers={"sentry-hook-resource": "comment"},
-            status_code=200
+            data=payload, headers={"sentry-hook-resource": "comment"}, status_code=200
         )
         assert len(self.item.comments) == 1
         existing_comment = self.item.comments[0]
@@ -71,24 +67,22 @@ class CommentHandlerWebhookTest(APITestCase):
         payload = MOCK_WEBHOOK["comment.deleted"]
         self.item.comments = [
             {
-                'sentryCommentId': payload['data']['comment_id'],
-                'timestamp': payload['data']['timestamp'],
-                'author': payload['actor']['name'],
-                'text': payload['data']['comment'],
+                "sentryCommentId": payload["data"]["comment_id"],
+                "timestamp": payload["data"]["timestamp"],
+                "author": payload["actor"]["name"],
+                "text": payload["data"]["comment"],
             },
             {
-                'sentryCommentId': '90210',
-                'timestamp': payload['data']['timestamp'],
-                'author': payload['actor']['name'],
-                'text': 'untouched comment',
-            }
+                "sentryCommentId": "90210",
+                "timestamp": payload["data"]["timestamp"],
+                "author": payload["actor"]["name"],
+                "text": "untouched comment",
+            },
         ]
         db_session.commit()
         assert len(self.item.comments) == 2
 
         self.get_success_response(
-            data=payload,
-            headers={"sentry-hook-resource": "comment"},
-            status_code=204
+            data=payload, headers={"sentry-hook-resource": "comment"}, status_code=204
         )
         assert len(self.item.comments) == 1

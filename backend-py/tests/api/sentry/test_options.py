@@ -15,7 +15,9 @@ class SentryItemOptionsTest(APITestCase):
         self.initial_item_count = 1
 
     def test_sentry_item_options(self):
-        response = self.get_success_response(installationId=self.sentry_installation.uuid)
+        response = self.get_success_response(
+            installationId=self.sentry_installation.uuid
+        )
         assert len(response.json) == self.initial_item_count
         # Check that the options are all valid
         for option in response.json:

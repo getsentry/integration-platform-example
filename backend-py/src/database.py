@@ -13,7 +13,7 @@ db_session = scoped_session(
         autoflush=False,
         bind=engine,
         # Disable object expiration to make testing with fixtures easier
-        expire_on_commit=os.getenv("FLASK_ENV") != 'test'
+        expire_on_commit=os.getenv("FLASK_ENV") != "test",
     )
 )
 
@@ -23,6 +23,7 @@ Base.query = db_session.query_property()
 
 def init_db():
     from . import models  # NOQA
+
     Base.metadata.create_all(bind=engine)
 
 

@@ -14,7 +14,9 @@ from src.models import Organization
 
 class OrganizationAPI(MethodView):
     def _get_organization_or_404(self, organization_slug: str) -> Organization:
-        organization = Organization.query.filter(Organization.slug == organization_slug).first()
+        organization = Organization.query.filter(
+            Organization.slug == organization_slug
+        ).first()
         if not organization:
             raise NotFound
         return organization

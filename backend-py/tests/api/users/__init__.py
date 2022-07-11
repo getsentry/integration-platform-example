@@ -1,5 +1,3 @@
 from .base import UsersApiTestBase
 
-__all__ = (
-    "UsersApiTestBase",
-)
+__all__ = ("UsersApiTestBase",)

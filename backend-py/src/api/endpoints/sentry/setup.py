@@ -64,7 +64,7 @@ def setup_index():
     verify_response = requests.put(
         f"{SENTRY_URL}/api/0/sentry-app-installations/{uuid}/",
         json={"status": "installed"},
-        headers={"Authorization": f"Bearer {token}"}
+        headers={"Authorization": f"Bearer {token}"},
     )
 
     # Get the JSON body fields from the verify call.
@@ -80,4 +80,6 @@ def setup_index():
     # - The token/refreshToken can be used to make requests to Sentry's API
     # - You can optionally redirect the user back to Sentry as we do below.
     app.logger.info(f"Installed {app_slug} on '{organization.name}'")
-    return {"redirectUrl": f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"}, 201
+    return {
+        "redirectUrl": f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"
+    }, 201
