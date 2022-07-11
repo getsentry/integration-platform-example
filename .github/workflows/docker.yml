@@ -25,4 +25,4 @@ jobs:
       - name: Build Docker image
         run: |
           cp .env.sample .env
-          docker-compose build
+          docker compose build

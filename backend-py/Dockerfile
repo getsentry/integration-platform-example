@@ -1,6 +1,4 @@
-# syntax=docker/dockerfile:1
-# Slim layes carry a lot less
-FROM python:3.9-slim as backend-py
+FROM python:3.9 as backend-py
 
 WORKDIR /backend-py
 # Re-create the requirements layer if the requirements change
