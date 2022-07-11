@@ -1,6 +1,10 @@
 name: backend-py
 on:
   pull_request:
+    paths:
+      - ".github/actions/setup-test"
+      - ".github/workflows/backend-py.yml"
+      - "backend-py/*"
   push:
     branches:
       - main
@@ -16,7 +20,7 @@ jobs:
         with:
           python-version: "3.9"
 
-      - uses: './.github/actions/setup-test'
+      - uses: "./.github/actions/setup-test"
 
       - name: Install Python Dependecies
         working-directory: backend-py
