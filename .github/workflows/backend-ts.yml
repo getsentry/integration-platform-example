@@ -6,30 +6,16 @@ on:
       - main
 
 jobs:
-  lint:
-    timeout-minutes: 10
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
-        with:
-          project_directory: backend-ts
-
-      - name: Lint files
-        working-directory: backend-ts
-        run: npm run lint:ci
-
   test:
     timeout-minutes: 20
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
+      - uses: "./.github/actions/setup-node"
         with:
           project_directory: backend-ts
-      - uses: './.github/actions/setup-test'
+      - uses: "./.github/actions/setup-test"
 
       - name: Run Tests
         working-directory: backend-ts
