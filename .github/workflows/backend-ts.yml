@@ -1,6 +1,10 @@
 name: backend-ts
 on:
   pull_request:
+    paths:
+      - ".github/actions/*"
+      - ".github/workflows/backend-ts.yml"
+      - "backend-ts/*"
   push:
     branches:
       - main
@@ -12,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
+      - uses: "./.github/actions/setup-node"
         with:
           project_directory: backend-ts
 
@@ -26,10 +30,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
+      - uses: "./.github/actions/setup-node"
         with:
           project_directory: backend-ts
-      - uses: './.github/actions/setup-test'
+      - uses: "./.github/actions/setup-test"
 
       - name: Run Tests
         working-directory: backend-ts

@@ -1,0 +1,28 @@
+name: docker
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/docker.yml"
+      - ".dockerignore"
+      - ".env.sample"
+      - "docker-compose.yml"
+      - "backend-py/*"
+      - "backend-ts/*"
+      - "frontend/*"
+  push:
+    branches:
+      - main
+
+jobs:
+  docker:
+    name: Docker Compose builds
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          cp .env.sample .env
+          docker compose build
