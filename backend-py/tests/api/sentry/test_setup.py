@@ -37,14 +37,14 @@ class SetupTest(APITestCase):
         )
 
         response = self.get_success_response(
-            data={
-                **MOCK_SETUP["postInstall"],
-                "organizationId": self.organization.id
-            },
-            status_code=201
+            data={**MOCK_SETUP["postInstall"], "organizationId": self.organization.id},
+            status_code=201,
         )
-        redirect_url = response.json.get('redirectUrl')
+        redirect_url = response.json.get("redirectUrl")
 
         sentry_org_slug = MOCK_SETUP["postInstall"]["sentryOrgSlug"]
         app_slug = MOCK_SETUP["installation"]["app"]["slug"]
-        assert redirect_url == f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"
+        assert (
+            redirect_url
+            == f"{SENTRY_URL}/settings/{sentry_org_slug}/sentry-apps/{app_slug}/"
+        )

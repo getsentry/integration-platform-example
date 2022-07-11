@@ -25,7 +25,9 @@ def register(type: Any) -> Callable[[Type[K]], Type[K]]:
     return wrapped
 
 
-def serialize(objects: Base | Sequence[Base], **kwargs: Any) -> JSONData | Sequence[JSONData]:
+def serialize(
+    objects: Base | Sequence[Base], **kwargs: Any
+) -> JSONData | Sequence[JSONData]:
     """
     Turn a model (or list of models) into a python object made entirely of primitives.
 

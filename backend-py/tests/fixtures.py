@@ -73,7 +73,9 @@ def create_sentry_installation(
         org_slug=INSTALLATION["organization"]["slug"],
         token=MOCK_SETUP["newToken"]["token"],
         refresh_token=MOCK_SETUP["newToken"]["refreshToken"],
-        expires_at=datetime.strptime(MOCK_SETUP["newToken"]["expiresAt"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+        expires_at=datetime.strptime(
+            MOCK_SETUP["newToken"]["expiresAt"], "%Y-%m-%dT%H:%M:%S.%fZ"
+        ),
         organization_id=organization.id,
     )
 

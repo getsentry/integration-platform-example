@@ -19,6 +19,7 @@ class IssueLinkSettings(TypedDict):
     The shape of your settings will depend on how you configure your form fields
     This example coordinates with integration-schema.json for 'issue-link'
     """
+
     title: str
     description: str
     column: ItemColumn
@@ -31,10 +32,13 @@ class IssueLinkSettings(TypedDict):
 def create_issue_link() -> Response:
     # Get the associated organization.
     uuid = request.json.get("installationId")
-    organization = Organization.query.join(SentryInstallation).filter(
-        SentryInstallation.uuid == uuid).first()
+    organization = (
+        Organization.query.join(SentryInstallation)
+        .filter(SentryInstallation.uuid == uuid)
+        .first()
+    )
     if not organization:
-        return Response('', 404)
+        return Response("", 404)
 
     # The blob with the key "create" beside {"type": "issue-link"} in integration-schema.json
     # specifies the fields we'll have access to in this endpoint (on user_link_data).
@@ -54,11 +58,16 @@ def create_issue_link() -> Response:
     app.logger.info("Created item through Sentry Issue Link UI Component")
 
     # Respond to Sentry with the exact fields it requires to complete the link.
-    return jsonify({
-        "webUrl": f"http://localhost:{REACT_APP_PORT}/{organization.slug}/",
-        "project": "ACME",
-        "identifier": f"{item.id}",
-    }), 201
+    return (
+        jsonify(
+            {
+                "webUrl": f"http://localhost:{REACT_APP_PORT}/{organization.slug}/",
+                "project": "ACME",
+                "identifier": f"{item.id}",
+            }
+        ),
+        201,
+    )
 
 
 @app.route("/api/sentry/issue-link/link/", methods=["POST"])
@@ -66,10 +75,13 @@ def create_issue_link() -> Response:
 def link_issue_link() -> Response:
     # Get the associated organization.
     uuid = request.json.get("installationId")
-    organization = Organization.query.join(SentryInstallation).filter(
-        SentryInstallation.uuid == uuid).first()
+    organization = (
+        Organization.query.join(SentryInstallation)
+        .filter(SentryInstallation.uuid == uuid)
+        .first()
+    )
     if not organization:
-        return Response('', 404)
+        return Response("", 404)
 
     # The blob with the key "link" beside {"type": "issue-link"} in integration-schema.json
     # specifies the fields we'll have access to in this endpoint (on user_link_data).
@@ -82,8 +94,13 @@ def link_issue_link() -> Response:
     app.logger.info("Linked item through Sentry Issue Link UI Component")
 
     # Respond to Sentry with the exact fields it requires to complete the link.
-    return jsonify({
-        "webUrl": f"http://localhost:{REACT_APP_PORT}/{organization.slug}/",
-        "project": "ACME",
-        "identifier": f"{item.id}",
-    }), 200
+    return (
+        jsonify(
+            {
+                "webUrl": f"http://localhost:{REACT_APP_PORT}/{organization.slug}/",
+                "project": "ACME",
+                "identifier": f"{item.id}",
+            }
+        ),
+        200,
+    )

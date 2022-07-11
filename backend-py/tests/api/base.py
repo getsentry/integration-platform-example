@@ -15,7 +15,10 @@ from tests import fixtures
 def assert_status_code(response, minimum: int, maximum: int | None = None) -> None:
     # Omit max to assert status_code == minimum.
     maximum = maximum or minimum + 1
-    assert minimum <= response.status_code < maximum, (response.status_code, response.data)
+    assert minimum <= response.status_code < maximum, (
+        response.status_code,
+        response.data,
+    )
 
 
 class APITestCase(unittest.TestCase):
@@ -49,7 +52,7 @@ class APITestCase(unittest.TestCase):
             return getattr(self.client, self.method)(
                 path=url_for(self.endpoint, **kwargs),
                 json=(data or {}),
-                headers=(headers or {})
+                headers=(headers or {}),
             )
 
     def get_success_response(self, **kwargs):
@@ -100,7 +103,9 @@ class APITestCase(unittest.TestCase):
         return response
 
     @staticmethod
-    def create_user(organization: Organization, name: str = "Test User") -> Organization:
+    def create_user(
+        organization: Organization, name: str = "Test User"
+    ) -> Organization:
         return fixtures.create_user(db_session, organization, name)
 
     @staticmethod
@@ -114,7 +119,9 @@ class APITestCase(unittest.TestCase):
         title: str = "Item Title",
         **item_kwargs,
     ) -> Item:
-        return fixtures.create_item(db_session, organization, user, title, **item_kwargs)
+        return fixtures.create_item(
+            db_session, organization, user, title, **item_kwargs
+        )
 
     @staticmethod
     def create_sentry_installation(

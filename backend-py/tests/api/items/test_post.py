@@ -8,10 +8,7 @@ class ItemsApiPostTest(ItemsApiTestBase):
 
     def test_post(self):
         new_title = "New Title"
-        new_data = {
-            "title": new_title,
-            "organizationId": self.organization.id
-        }
+        new_data = {"title": new_title, "organizationId": self.organization.id}
 
         response = self.get_success_response(data=new_data)
         assert response.json["title"] == new_title

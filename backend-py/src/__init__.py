@@ -1,5 +1,5 @@
 from .server import app
-from . import database # NOQA
+from . import database  # NOQA
 
 # Register routes and serializers.
 with app.app_context():

@@ -12,7 +12,7 @@ class User(database.Base):
     name = Column(String)
     username = Column(String, nullable=False)
     avatar = Column(String)
-    organization_id = Column(Integer, ForeignKey('organization.id'))
+    organization_id = Column(Integer, ForeignKey("organization.id"))
 
     items = relationship("Item")
 

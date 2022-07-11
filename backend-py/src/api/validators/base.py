@@ -22,7 +22,7 @@ def validate_integer(
     value: int | str | None,
     name: str,
     minimum: int | None = None,
-    maximum: int | None = None
+    maximum: int | None = None,
 ) -> int:
     try:
         int_value = int(value)
@@ -56,7 +56,7 @@ def validate_optional_integer(
     value: int | str | None,
     name: str,
     minimum: int | None = None,
-    maximum: int | None = None
+    maximum: int | None = None,
 ) -> int | None:
     if value is None:
         return None
