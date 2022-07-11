@@ -57,6 +57,3 @@ The `installation.deleted` webhook must be handled to remove the associated inst
    - [Typescript Uninstallation Handling](../backend-ts/src/api/sentry/webhook.ts)
   
 The 'Uninstalled app from organization' log confirms that we've removed the Sentry installation from our database
-
-
-
