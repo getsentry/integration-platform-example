@@ -1,6 +1,9 @@
 name: frontend
 on:
   pull_request:
+    paths:
+      - ".github/workflows/frontend-ts.yml"
+      - "frontend/*"
   push:
     branches:
       - main
@@ -12,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
+      - uses: "./.github/actions/setup-node"
         with:
           project_directory: frontend
 
@@ -26,7 +29,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: './.github/actions/setup-node'
+      - uses: "./.github/actions/setup-node"
         with:
           project_directory: frontend
 
