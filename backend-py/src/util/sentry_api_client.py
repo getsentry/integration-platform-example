@@ -45,7 +45,7 @@ class SentryAPIClient:
         token_response = requests.post(
             url=(
                 f"{os.getenv('SENTRY_URL')}/api/0/sentry-app-installations/"
-                f"{sentry_installation.uuid}/authorizations/"
+                f'{sentry_installation.uuid}/authorizations/'
             ),
             json=payload,
         ).json()
@@ -70,17 +70,17 @@ class SentryAPIClient:
         response = requests.request(
             method=method,
             url=f"{os.getenv('SENTRY_URL')}/api/0{path}",
-            headers={"Authorization": f"Bearer {self.token}"},
+            headers={'Authorization': f'Bearer {self.token}'},
             data=data
         )
         try:
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             # TODO(you): Catch these sorta errors in Sentry!
-            app.logger.error(f"Error while making a request to Sentry: {e}")
+            app.logger.error(f'Error while making a request to Sentry: {e}')
         return response
 
     def get(self, path: str) -> requests.Response:
-        return self.request("GET", path)
+        return self.request('GET', path)
 
     # TODO(you): Extend as you see fit!

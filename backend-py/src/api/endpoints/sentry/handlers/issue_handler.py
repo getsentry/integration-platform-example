@@ -29,7 +29,7 @@ def handle_created(sentry_installation: SentryInstallation, issue_data: Mapping[
     item = Item(**get_item_defaults_from_sentry(sentry_installation, issue_data))
     db_session.add(item)
     db_session.commit()
-    app.logger.info("Created linked item from Sentry issue")
+    app.logger.info('Created linked item from Sentry issue')
 
 
 def handle_ignored(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
@@ -39,7 +39,7 @@ def handle_ignored(sentry_installation: SentryInstallation, issue_data: Mapping[
     # Mark the item as ignored
     item.is_ignored = True
     db_session.commit()
-    app.logger.info("Marked item as ignored")
+    app.logger.info('Marked item as ignored')
 
 
 def handle_resolved(sentry_installation: SentryInstallation, issue_data: Mapping[str, Any]):
@@ -58,20 +58,20 @@ def issue_handler(
     data: Mapping[str, Any]
 ) -> Response:
     issue_data = data.get('issue')
-    if action == "assigned":
+    if action == 'assigned':
         handle_assigned(sentry_installation, issue_data)
         return Response('', 202)
-    elif action == "created":
+    elif action == 'created':
         handle_created(sentry_installation, issue_data)
         return Response('', 201)
-    elif action == "ignored":
+    elif action == 'ignored':
         handle_ignored(sentry_installation, issue_data)
         return Response('', 202)
     elif action == 'resolved':
         handle_resolved(sentry_installation, issue_data)
         return Response('', 202)
     else:
-        app.logger.info(f"Unhandled Sentry issue action: {action}")
+        app.logger.info(f'Unhandled Sentry issue action: {action}')
         return Response('', 400)
 
 
@@ -80,12 +80,12 @@ def get_item_defaults_from_sentry(
     issue_data: Mapping[str, Any]
 ) -> Mapping[str, Any]:
     return {
-        "organization_id": sentry_installation.organization_id,
-        "title": issue_data.get('title'),
-        "description": f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
-        "column": ItemColumn.Done if issue_data.get('status') == "resolved" else ItemColumn.Todo,
-        "is_ignored": issue_data.get('status') == "ignored",
-        "sentry_id": issue_data.get('id'),
+        'organization_id': sentry_installation.organization_id,
+        'title': issue_data.get('title'),
+        'description': f"{issue_data.get('shortId')} - {issue_data.get('culprit')}",
+        'column': ItemColumn.Done if issue_data.get('status') == 'resolved' else ItemColumn.Todo,
+        'is_ignored': issue_data.get('status') == 'ignored',
+        'sentry_id': issue_data.get('id'),
     }
 
 

@@ -1,9 +1,9 @@
 from .base import register, serialize, BaseSerializer
 
 __all__ = (
-    "register",
-    "serialize",
-    "BaseSerializer",
+    'register',
+    'serialize',
+    'BaseSerializer',
 )
 
 # Register the serializers.

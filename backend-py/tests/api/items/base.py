@@ -4,7 +4,7 @@ from tests.api import APITestCase
 
 
 class ItemsApiTestBase(APITestCase):
-    endpoint = "item_api"
+    endpoint = 'item_api'
 
     def setUp(self):
         super().setUp()

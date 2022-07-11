@@ -19,7 +19,7 @@ COMPLEXITY_MIN = 0
 
 
 def validate_assignee(value: int | str | None) -> int | None:
-    return validate_optional_id(value, "assigneeId")
+    return validate_optional_id(value, 'assigneeId')
 
 
 def validate_column(value: str | None) -> str:
@@ -33,22 +33,22 @@ def validate_column(value: str | None) -> str:
 
 def validate_complexity(value: int | str | None) -> int:
     return (
-        validate_optional_integer(value, "complexity", COMPLEXITY_MIN, COMPLEXITY_MAX)
+        validate_optional_integer(value, 'complexity', COMPLEXITY_MIN, COMPLEXITY_MAX)
         or COMPLEXITY_MIN
     )
 
 
 def validate_new_item(data: Mapping[str, Any]) -> Mapping[str, Any]:
     if not data:
-        raise BadRequest("Invalid: POST data must not be empty")
+        raise BadRequest('Invalid: POST data must not be empty')
 
-    assignee_id = validate_assignee(data.get("assigneeId"))
-    column = validate_column(data.get("column"))
-    complexity = validate_complexity(data.get("complexity"))
-    organization_id = validate_organization(data.get("organizationId"))
+    assignee_id = validate_assignee(data.get('assigneeId'))
+    column = validate_column(data.get('column'))
+    complexity = validate_complexity(data.get('complexity'))
+    organization_id = validate_organization(data.get('organizationId'))
 
-    title = validate_optional_str(data.get("title"), "title")
-    description = validate_optional_str(data.get("description"), "description")
+    title = validate_optional_str(data.get('title'), 'title')
+    description = validate_optional_str(data.get('description'), 'description')
 
     return dict(
         assignee_id=assignee_id,
@@ -64,22 +64,22 @@ def validate_item_update(data: Mapping[str, Any]) -> Mapping[str, Any]:
     data = data or {}
     output = dict()
 
-    if "assigneeId" in data:
-        output["assignee_id"] = validate_assignee(data.get("assigneeId"))
+    if 'assigneeId' in data:
+        output['assignee_id'] = validate_assignee(data.get('assigneeId'))
 
-    if "column" in data:
-        output["column"] = validate_column(data.get("column"))
+    if 'column' in data:
+        output['column'] = validate_column(data.get('column'))
 
-    if "complexity" in data:
-        output["complexity"] = validate_complexity(data.get("complexity"))
+    if 'complexity' in data:
+        output['complexity'] = validate_complexity(data.get('complexity'))
 
-    if "title" in data:
-        output["title"] = validate_optional_str(data.get("title"), "title")
+    if 'title' in data:
+        output['title'] = validate_optional_str(data.get('title'), 'title')
 
-    if "description" in data:
-        output["description"] = validate_optional_str(data.get("description"), "description")
+    if 'description' in data:
+        output['description'] = validate_optional_str(data.get('description'), 'description')
 
     if not output:
-        raise BadRequest("Invalid: PUT data must not be empty")
+        raise BadRequest('Invalid: PUT data must not be empty')
 
     return output

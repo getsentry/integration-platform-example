@@ -4,7 +4,7 @@ from src.models import User
 
 
 class UsersApiDeleteTest(UsersApiTestBase):
-    method = "delete"
+    method = 'delete'
 
     def test_delete(self):
         self.get_success_response(user_id=self.user.id)

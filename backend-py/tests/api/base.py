@@ -28,7 +28,7 @@ class APITestCase(unittest.TestCase):
     """
 
     endpoint: str
-    method: str = "get"
+    method: str = 'get'
 
     def setUp(self):
         db_session.commit()
@@ -43,7 +43,7 @@ class APITestCase(unittest.TestCase):
     ) -> Response:
         """Simulate an API call to the test case's URI and method."""
         if not self.endpoint:
-            raise Exception("Implement self.endpoint to use this method.")
+            raise Exception('Implement self.endpoint to use this method.')
 
         with app.test_request_context():
             return getattr(self.client, self.method)(
@@ -61,10 +61,10 @@ class APITestCase(unittest.TestCase):
             a specific code. Omit to assert any successful status_code.
         :returns Response object
         """
-        status_code = kwargs.pop("status_code", None)
+        status_code = kwargs.pop('status_code', None)
 
         if status_code and status_code >= 400:
-            raise Exception("status_code must be < 400")
+            raise Exception('status_code must be < 400')
 
         response = self.get_response(**kwargs)
 
@@ -85,10 +85,10 @@ class APITestCase(unittest.TestCase):
             a specific error code. Omit to assert any error status_code.
         :returns Response object
         """
-        status_code = kwargs.pop("status_code", None)
+        status_code = kwargs.pop('status_code', None)
 
         if status_code and status_code < 400:
-            raise Exception("status_code must be >= 400 (an error status code)")
+            raise Exception('status_code must be >= 400 (an error status code)')
 
         response = self.get_response(**kwargs)
 
@@ -100,18 +100,18 @@ class APITestCase(unittest.TestCase):
         return response
 
     @staticmethod
-    def create_user(organization: Organization, name: str = "Test User") -> Organization:
+    def create_user(organization: Organization, name: str = 'Test User') -> Organization:
         return fixtures.create_user(db_session, organization, name)
 
     @staticmethod
-    def create_organization(name: str = "Organization") -> Organization:
+    def create_organization(name: str = 'Organization') -> Organization:
         return fixtures.create_organization(db_session, name)
 
     @staticmethod
     def create_item(
         organization: Organization,
         user: User | None = None,
-        title: str = "Item Title",
+        title: str = 'Item Title',
         **item_kwargs,
     ) -> Item:
         return fixtures.create_item(db_session, organization, user, title, **item_kwargs)

@@ -6,4 +6,4 @@ with app.app_context():
     from .api import endpoints  # NOQA
     from .api import serializers  # NOQA
 
-__all__ = ("app",)
+__all__ = ('app',)

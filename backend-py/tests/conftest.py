@@ -1,3 +1,3 @@
 import os
 
-os.environ["FLASK_ENV"] = "test"
+os.environ['FLASK_ENV'] = 'test'

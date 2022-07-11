@@ -11,16 +11,16 @@ from src.api.endpoints.sentry.handlers import alert_handler, comment_handler, is
 from flask import request, Response
 
 
-@app.route("/api/sentry/webhook/", methods=["POST"])
+@app.route('/api/sentry/webhook/', methods=['POST'])
 @verify_sentry_signature()
 def webhook_index():
     # Parse the JSON body fields off of the request
-    action = request.json.get("action")
-    data = request.json.get("data")
-    actor = request.json.get("actor")
-    uuid = request.json.get("installation", {}).get("uuid")
+    action = request.json.get('action')
+    data = request.json.get('data')
+    actor = request.json.get('actor')
+    uuid = request.json.get('installation', {}).get('uuid')
     # Identify the resource triggering the webhook in Sentry
-    resource = request.headers.get("sentry-hook-resource")
+    resource = request.headers.get('sentry-hook-resource')
     if not (action and data and uuid and resource):
         return Response('', 400)
     app.logger.info(f"Received '{resource}.{action}' webhook from Sentry")
@@ -59,16 +59,16 @@ def webhook_index():
         return alert_handler(resource, action, sentry_installation, data)
 
     # Handle uninstallation webhooks
-    if resource == "installation" and action == "deleted":
-        return handle_uninstall(data.get("installation"))
+    if resource == 'installation' and action == 'deleted':
+        return handle_uninstall(data.get('installation'))
 
     # We can monitor what status codes we're sending from the integration dashboard
     return Response('', 200)
 
 
 def handle_uninstall(install_data: Mapping[str, Any]) -> int:
-    uuid = install_data["uuid"]
-    installation_slug = install_data["app"]["slug"]
+    uuid = install_data['uuid']
+    installation_slug = install_data['app']['slug']
 
     sentry_installation = SentryInstallation.query.filter(
         SentryInstallation.uuid == uuid

@@ -11,11 +11,11 @@ from .mocks import INSTALLATION, MOCK_SETUP
 def create_user(
     db_session,
     organization: Organization,
-    name: str = "Test User",
+    name: str = 'Test User',
 ) -> Organization:
     user = User(
         name=name,
-        username=name.lower().replace(" ", ""),
+        username=name.lower().replace(' ', ''),
         organization_id=organization.id,
     )
     db_session.add(user)
@@ -26,9 +26,9 @@ def create_user(
 
 def create_organization(
     db_session,
-    name: str = "Organization",
+    name: str = 'Organization',
 ) -> Organization:
-    slug = re.sub(r"\s+", "-", name.lower().strip())
+    slug = re.sub(r'\s+', '-', name.lower().strip())
 
     organization = Organization(
         name=name,
@@ -45,15 +45,15 @@ def create_item(
     db_session,
     organization: Organization,
     user: User | None = None,
-    title: str = "Item Title",
+    title: str = 'Item Title',
     **item_kwargs,
 ) -> Item:
     item = Item(
         title=title,
-        description="computers",
+        description='computers',
         complexity=1,
         column=ItemColumn.Todo,
-        assignee_id=getattr(user, "id", None),
+        assignee_id=getattr(user, 'id', None),
         organization_id=organization.id,
         **item_kwargs,
     )
@@ -69,11 +69,11 @@ def create_sentry_installation(
     organization: Organization,
 ) -> SentryInstallation:
     sentry_installation = SentryInstallation(
-        uuid=INSTALLATION["uuid"],
-        org_slug=INSTALLATION["organization"]["slug"],
-        token=MOCK_SETUP["newToken"]["token"],
-        refresh_token=MOCK_SETUP["newToken"]["refreshToken"],
-        expires_at=datetime.strptime(MOCK_SETUP["newToken"]["expiresAt"], "%Y-%m-%dT%H:%M:%S.%fZ"),
+        uuid=INSTALLATION['uuid'],
+        org_slug=INSTALLATION['organization']['slug'],
+        token=MOCK_SETUP['newToken']['token'],
+        refresh_token=MOCK_SETUP['newToken']['refreshToken'],
+        expires_at=datetime.strptime(MOCK_SETUP['newToken']['expiresAt'], '%Y-%m-%dT%H:%M:%S.%fZ'),
         organization_id=organization.id,
     )
 

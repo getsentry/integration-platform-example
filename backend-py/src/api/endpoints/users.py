@@ -19,7 +19,7 @@ class UserAPI(MethodView):
         return user
 
     def index(self) -> Response:
-        organization_slug = request.args.get("organization")
+        organization_slug = request.args.get('organization')
 
         query = User.query
 
@@ -68,4 +68,4 @@ class UserAPI(MethodView):
         return Response(status=204)
 
 
-register_api(UserAPI, "user_api", "/api/users/", pk="user_id")
+register_api(UserAPI, 'user_api', '/api/users/', pk='user_id')

@@ -7,16 +7,16 @@ from .. import database
 
 
 class Organization(database.Base):
-    __tablename__ = "organization"
+    __tablename__ = 'organization'
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     slug = Column(String, nullable=False)
     external_slug = Column(String)
 
-    items = relationship("Item")
-    users = relationship("User")
-    sentry_installations = relationship("SentryInstallation")
+    items = relationship('Item')
+    users = relationship('User')
+    sentry_installations = relationship('SentryInstallation')
 
     def __init__(self, name: str, slug: str, external_slug: str) -> None:
         self.name = name
@@ -24,4 +24,4 @@ class Organization(database.Base):
         self.external_slug = external_slug
 
     def __repr__(self) -> str:
-        return f"<Organization #{self.id}: {self.slug}>"
+        return f'<Organization #{self.id}: {self.slug}>'

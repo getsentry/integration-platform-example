@@ -38,8 +38,8 @@ class ItemAPI(MethodView):
         return item
 
     def index(self) -> Response:
-        organization_slug = request.args.get("organization")
-        user_id = request.args.get("user")
+        organization_slug = request.args.get('organization')
+        user_id = request.args.get('user')
 
         query = Item.query
 
@@ -94,4 +94,4 @@ class ItemAPI(MethodView):
         return Response(status=204)
 
 
-register_api(ItemAPI, "item_api", "/api/items/", pk="item_id")
+register_api(ItemAPI, 'item_api', '/api/items/', pk='item_id')
