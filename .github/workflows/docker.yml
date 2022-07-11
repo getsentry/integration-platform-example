@@ -4,6 +4,7 @@ on:
     paths:
       - ".github/workflows/docker.yml"
       - ".dockerignore"
+      - ".env.sample"
       - "docker-compose.yml"
       - "backend-py/*"
       - "backend-ts/*"
@@ -22,4 +23,5 @@ jobs:
 
       - name: Build Docker image
         run: |
+          cp .env.sample .env
           docker-compose build
