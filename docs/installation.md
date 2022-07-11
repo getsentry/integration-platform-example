@@ -22,7 +22,7 @@ To test the uninstallation flow:
 1. Navigate to your integration's installation (Settings > Integrations > Your Integration)
 2. Click Uninstall
 3. Click Confirm
-  
+
 
 ## Code Insights
 
@@ -42,18 +42,18 @@ Received 'installation.deleted' webhook from Sentry
 Uninstalled example from 'Bahringer LLC'
 ```
 
-The authorization logs comes from verifying the request signature with the shared secret 
+The authorization logs comes from verifying the request signature with the shared secret
    - [Python Signature Verification](../backend-py/src/api/middleware/verify_sentry_signature.py)
    - [TypeScript Signature Verification](../backend-ts/src/api/middleware/verifySentrySignature.ts)
- 
+
 The `installation.created` webhook is fine to ignore since we have set up a custom endpoint to which our Redirect URL's form submits:
    - [Python Installation Handling](../backend-py/src/api/endpoints/sentry/setup.py)
    - [Typescript Installation Handling](../backend-ts/src/api/sentry/setup.ts)
-  
+
 The 'Installed app on organization' log confirms that we've verified the installation with Sentry
 
 The `installation.deleted` webhook must be handled to remove the associated installation/token data
    - [Python Uninstallation Handling](../backend-py/src/api/endpoints/sentry/webhook.py)
    - [Typescript Uninstallation Handling](../backend-ts/src/api/sentry/webhook.ts)
-  
+
 The 'Uninstalled app from organization' log confirms that we've removed the Sentry installation from our database
