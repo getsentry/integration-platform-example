@@ -4,7 +4,7 @@ from src.models import Item
 
 
 class ItemsApiDeleteTest(ItemsApiTestBase):
-    method = 'delete'
+    method = "delete"
 
     def test_delete(self):
         self.get_success_response(item_id=self.item.id)

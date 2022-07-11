@@ -8,7 +8,7 @@ from ..types import ItemComment, ItemColumn
 
 
 class Item(database.Base):
-    __tablename__ = 'item'
+    __tablename__ = "item"
 
     id = Column(Integer, primary_key=True)
     title = Column(String)
@@ -51,4 +51,4 @@ class Item(database.Base):
         self.is_ignored = is_ignored
 
     def __repr__(self):
-        return f'<Item #{self.id}: {self.title}>'
+        return f"<Item #{self.id}: {self.title}>"

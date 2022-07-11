@@ -4,8 +4,8 @@ from tests.api import APITestCase
 
 
 class SentryItemOptionsTest(APITestCase):
-    endpoint = 'get_item_options'
-    method = 'get'
+    endpoint = "get_item_options"
+    method = "get"
 
     def setUp(self):
         super().setUp()
@@ -19,5 +19,5 @@ class SentryItemOptionsTest(APITestCase):
         assert len(response.json) == self.initial_item_count
         # Check that the options are all valid
         for option in response.json:
-            assert option.get('value') is not None
-            assert option.get('label') is not None
+            assert option.get("value") is not None
+            assert option.get("label") is not None

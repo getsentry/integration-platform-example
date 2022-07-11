@@ -19,22 +19,22 @@ def get_alert_rule_settings(
     """
     fields: Sequence[SentryField] = []
     # For issue alerts...
-    if data.get('event'):
-        fields = data.get('issue_alert', {}).get('settings', [])
+    if data.get("event"):
+        fields = data.get("issue_alert", {}).get("settings", [])
     # For metric alerts...
     else:
-        triggers = data.get('metric_alert', {}).get('alert_rule', {}).get('triggers', [])
+        triggers = data.get("metric_alert", {}).get("alert_rule", {}).get("triggers", [])
         relevant_trigger = next(
-            (trigger for trigger in triggers if trigger.get('label') == action), {}
+            (trigger for trigger in triggers if trigger.get("label") == action), {}
         )
-        trigger_actions = relevant_trigger.get('actions', [])
+        trigger_actions = relevant_trigger.get("actions", [])
         integration_action = next(
             (
-                t_a for t_a in trigger_actions if t_a.get('sentry_app_installation_uuid') ==
+                t_a for t_a in trigger_actions if t_a.get("sentry_app_installation_uuid") ==
                 sentry_installation.uuid
             ), {}
         )
-        fields = integration_action.get('settings', [])
+        fields = integration_action.get("settings", [])
 
     return convert_sentry_fields_to_dict(fields)
 
@@ -47,16 +47,16 @@ def handle_issue_alert(
     item = Item(
         organization_id=sentry_installation.organization_id,
         title=f"🚨 Issue Alert: {settings.get('title') or data['event']['title']}",
-        description=settings.get('description') or f"Latest Trigger: {data['event']['web_url']}",
+        description=settings.get("description") or f"Latest Trigger: {data['event']['web_url']}",
         column=ItemColumn.Todo,
-        sentry_id=data['event']['issue_id'],
+        sentry_id=data["event"]["issue_id"],
         # data["issue_alert"] is only present for Alert Rule Action webhooks
-        sentry_alert_id=data.get('issue_alert', {}).get('id'),
-        assignee_id=settings.get('userId'),
+        sentry_alert_id=data.get("issue_alert", {}).get("id"),
+        assignee_id=settings.get("userId"),
     )
     db_session.add(item)
     db_session.commit()
-    app.logger.info('Created item from Sentry issue alert trigger')
+    app.logger.info("Created item from Sentry issue alert trigger")
     return Response('', 202)
 
 
@@ -65,24 +65,24 @@ def handle_metric_alert(
     data: Mapping[str, Any],
     action: str,
 ) -> Response:
-    if action == 'resolved':
+    if action == "resolved":
         item_title_prefix = '✅ Resolved Metric'
-    elif action == 'warning':
+    elif action == "warning":
         item_title_prefix = '⚠️ Warning Metric'
     else:
         item_title_prefix = '🔥 Critical Metric'
 
     settings = get_alert_rule_settings(sentry_installation, data, action)
     item_data = {
-        'title': f"{item_title_prefix}: {settings.get('title') or data['metric_alert']['title']}",
-        'description': settings.get('description') or data['description_text'],
-        'column': ItemColumn.Todo,
-        'assignee_id': settings.get('userId'),
-        'sentry_alert_id': data.get('metric_alert', {}).get('id'),
-        'organization_id': sentry_installation.organization_id,
+        "title": f"{item_title_prefix}: {settings.get('title') or data['metric_alert']['title']}",
+        "description": settings.get("description") or data['description_text'],
+        "column": ItemColumn.Todo,
+        "assignee_id": settings.get("userId"),
+        "sentry_alert_id": data.get("metric_alert", {}).get('id'),
+        "organization_id": sentry_installation.organization_id,
     }
     item = Item.query.filter(
-        Item.sentry_alert_id == item_data['sentry_alert_id'],
+        Item.sentry_alert_id == item_data["sentry_alert_id"],
         Item.organization_id == item_data['organization_id']
     ).first()
     item_created = item is None
@@ -106,15 +106,15 @@ def alert_handler(
     data: Mapping[str, Any]
 ) -> Response:
     # Issue Alerts (or Event Alerts) only have one type of action: 'triggered'
-    if resource == 'event_alert':
+    if resource == "event_alert":
         return handle_issue_alert(sentry_installation, data)
     # Metric Alerts have three types of actions: 'resolved', 'warning', and 'critical'
-    elif resource == 'metric_alert':
-        if action in ['resolved', 'warning', 'critical']:
+    elif resource == "metric_alert":
+        if action in ["resolved", "warning", "critical"]:
             return handle_metric_alert(sentry_installation, data, action)
         else:
-            app.logger.info(f'Unexpected Sentry metric alert action: {action}')
+            app.logger.info(f"Unexpected Sentry metric alert action: {action}")
             return Response('', 400)
     else:
-        app.logger.info(f'Unexpected Sentry resource: {resource}')
+        app.logger.info(f"Unexpected Sentry resource: {resource}")
         return Response('', 400)

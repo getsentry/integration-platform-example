@@ -7,8 +7,8 @@ from src.types import JSONData
 class OrganizationSerializer:
     def serialize(self, obj) -> JSONData:
         return {
-            'id': obj.id,
-            'name': obj.name,
-            'slug': obj.slug,
-            'externalSlug': obj.slug,
+            "id": obj.id,
+            "name": obj.name,
+            "slug": obj.slug,
+            "externalSlug": obj.slug,
         }

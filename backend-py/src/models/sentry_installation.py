@@ -8,7 +8,7 @@ from .. import database
 
 
 class SentryInstallation(database.Base):
-    __tablename__ = 'sentry_installation'
+    __tablename__ = "sentry_installation"
 
     id = Column(Integer, primary_key=True)
     uuid = Column(String, nullable=False)
@@ -35,4 +35,4 @@ class SentryInstallation(database.Base):
         self.organization_id = organization_id
 
     def __repr__(self):
-        return f'<SentryInstallation #{self.id}: {self.org_slug}>'
+        return f"<SentryInstallation #{self.id}: {self.org_slug}>"

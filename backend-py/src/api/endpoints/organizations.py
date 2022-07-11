@@ -64,8 +64,8 @@ class OrganizationAPI(MethodView):
 
 register_api(
     OrganizationAPI,
-    'organization_api',
-    '/api/organizations/',
-    pk='organization_slug',
-    pk_type='string',
+    "organization_api",
+    "/api/organizations/",
+    pk="organization_slug",
+    pk_type="string",
 )

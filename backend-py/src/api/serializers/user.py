@@ -7,9 +7,9 @@ from src.types import JSONData
 class UserSerializer:
     def serialize(self, obj) -> JSONData:
         return {
-            'id': obj.id,
-            'name': obj.name,
-            'username': obj.username,
-            'avatar': obj.avatar,
-            'organizationId': obj.organization_id,
+            "id": obj.id,
+            "name": obj.name,
+            "username": obj.username,
+            "avatar": obj.avatar,
+            "organizationId": obj.organization_id,
         }

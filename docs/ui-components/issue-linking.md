@@ -37,7 +37,7 @@ Linked item through Sentry Issue Link UI Component
 
 All the authorization logs are coming from middleware which verifies the request signature with the shared secret:
    - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
-   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts)
+   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 
 The 'Populating item options' log comes from the select field we specify in the schema:
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[0].link.required_fields`)
@@ -49,7 +49,7 @@ It tells Sentry what endpoint to ping and use to populate options in a Select fi
 The 'Created/Linked item' logs come from Sentry pinging another endpoint we specify in the schema:
    - [Integration Schema](../../integration-schema.json) (Look at the `uri` property under `elements[0].link` and `elements[0].create`)
    - You can modify the payload that gets sent to these `uri` by editing the `required_fields` and `optional_fields` in the corresponding JSON blob
-
+  
 When a user in Sentry submits the create/link form, the payload gets sent to the URIs specified in those fields of the schema.
    - [Python Create/Link Handling](../../backend-py/src/api/endpoints/sentry/issue_link.py)
    - [TypeScript Create/Link Handling](../../backend-ts/src/api/sentry/issueLink.ts)

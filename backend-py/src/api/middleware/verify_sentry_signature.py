@@ -12,8 +12,8 @@ from flask import request, Response
 from src import app
 
 load_dotenv()
-FLASK_ENV = os.getenv('FLASK_ENV')
-SENTRY_CLIENT_SECRET = os.getenv('SENTRY_CLIENT_SECRET')
+FLASK_ENV = os.getenv("FLASK_ENV")
+SENTRY_CLIENT_SECRET = os.getenv("SENTRY_CLIENT_SECRET")
 
 # There are few hacks in this verification step (denoted with HACK) that we at Sentry hope
 # to migrate away from in the future. Presently however, for legacy reasons, they are
@@ -26,7 +26,7 @@ def is_correct_sentry_signature(
     expected: str
 ) -> bool:
     digest = hmac.new(
-        key=key.encode('utf-8'),
+        key=key.encode("utf-8"),
         msg=body,
         digestmod=hashlib.sha256,
     ).hexdigest()
@@ -34,7 +34,7 @@ def is_correct_sentry_signature(
     if digest != expected:
         return False
 
-    app.logger.info('Authorized: Verified request came from Sentry')
+    app.logger.info("Authorized: Verified request came from Sentry")
     return True
 
 
@@ -52,20 +52,20 @@ def verify_sentry_signature():
             # with a Content-Type of application/json for some requests.
             raw_body = request.get_data()
             if (
-                FLASK_ENV != 'test'
+                FLASK_ENV != "test"
                 # HACK: The signature header may be one of these two values
                 and not is_correct_sentry_signature(
                     body=raw_body,
                     key=SENTRY_CLIENT_SECRET,
-                    expected=request.headers.get('sentry-hook-signature')
+                    expected=request.headers.get("sentry-hook-signature")
                 )
                 and not is_correct_sentry_signature(
                     body=raw_body,
                     key=SENTRY_CLIENT_SECRET,
-                    expected=request.headers.get('sentry-app-signature')
+                    expected=request.headers.get("sentry-app-signature")
                 )
             ):
-                app.logger.info('Unauthorized: Could not verify request came from Sentry')
+                app.logger.info("Unauthorized: Could not verify request came from Sentry")
                 return Response('', 401)
             return f(*args, **kwargs)
         return inner

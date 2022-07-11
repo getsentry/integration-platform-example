@@ -1,70 +1,70 @@
-UUID = '7a485448-a9e2-4c85-8a3c-4f44175783c9'
+UUID = "7a485448-a9e2-4c85-8a3c-4f44175783c9"
 
 INSTALLATION = {
-    'app': {
-        'uuid': '64bf2cf4-37ca-4365-8dd3-6b6e56d741b8',
-        'slug': 'app',
+    "app": {
+        "uuid": "64bf2cf4-37ca-4365-8dd3-6b6e56d741b8",
+        "slug": "app",
     },
-    'organization': {
-        'slug': 'example',
+    "organization": {
+        "slug": "example",
     },
-    'uuid': UUID,
+    "uuid": UUID,
 }
 
 ISSUE = {
-    'id': '123',
-    'shortId': 'IPE-1',
-    'title': 'Error #1: This is a test error!',
-    'culprit': 'SentryCustomError(frontend/src/util)',
-    'level': 'error',
-    'status': 'unresolved',
-    'statusDetails': {},
-    'isPublic': False,
-    'platform': 'javascript',
-    'project': {
-        'id': '456',
-        'name': 'ipe',
-        'slug': 'ipe',
-        'platform': 'javascript-react',
+    "id": "123",
+    "shortId": "IPE-1",
+    "title": "Error #1: This is a test error!",
+    "culprit": "SentryCustomError(frontend/src/util)",
+    "level": "error",
+    "status": "unresolved",
+    "statusDetails": {},
+    "isPublic": False,
+    "platform": "javascript",
+    "project": {
+        "id": "456",
+        "name": "ipe",
+        "slug": "ipe",
+        "platform": "javascript-react",
     },
-    'type': 'error',
-    'metadata': {
-        'value': 'This is a test error!',
-        'type': 'Another Error #1',
-        'filename': '/frontend/src/util.ts',
-        'function': 'SentryCustomError',
-        'display_title_with_tree_label': False,
+    "type": "error",
+    "metadata": {
+        "value": "This is a test error!",
+        "type": "Another Error #1",
+        "filename": "/frontend/src/util.ts",
+        "function": "SentryCustomError",
+        "display_title_with_tree_label": False,
     },
-    'numComments': 0,
-    'assignedTo': {
-        'email': 'person@example.com',
-        'type': 'user',
-        'id': '789',
-        'name': 'Person',
+    "numComments": 0,
+    "assignedTo": {
+        "email": "person@example.com",
+        "type": "user",
+        "id": "789",
+        "name": "Person",
     },
-    'isBookmarked': False,
-    'isSubscribed': False,
-    'hasSeen': False,
-    'isUnhandled': False,
-    'count': '1',
-    'userCount': 1,
-    'firstSeen': '2022-04-04T18:17:18.320000Z',
-    'lastSeen': '2022-04-04T18:17:18.320000Z',
+    "isBookmarked": False,
+    "isSubscribed": False,
+    "hasSeen": False,
+    "isUnhandled": False,
+    "count": "1",
+    "userCount": 1,
+    "firstSeen": "2022-04-04T18:17:18.320000Z",
+    "lastSeen": "2022-04-04T18:17:18.320000Z",
 }
 
 EVENT = {
-    'event_id': 'def456',
-    'platform': ISSUE['platform'],
-    'datetime': ISSUE['firstSeen'],
-    'culprit': ISSUE['culprit'],
-    'metadata': ISSUE['metadata'],
-    'title': ISSUE['title'],
-    'issue_id': ISSUE['id'],
-    'environment': 'production',
-    'web_url': f"https://sentry.io/organizations/lxyz/issues/{ISSUE['id']}/events/def456/",
-    'breadcrumbs': {},
-    'contexts': {},
-    'sdk': {},
+    "event_id": 'def456',
+    "platform": ISSUE['platform'],
+    "datetime": ISSUE['firstSeen'],
+    "culprit": ISSUE['culprit'],
+    "metadata": ISSUE['metadata'],
+    "title": ISSUE['title'],
+    "issue_id": ISSUE['id'],
+    "environment": 'production',
+    "web_url": f"https://sentry.io/organizations/lxyz/issues/{ISSUE['id']}/events/def456/",
+    "breadcrumbs": {},
+    "contexts": {},
+    "sdk": {},
 }
 
 ALERT_RULE_ACTION_VALUES = {
@@ -130,84 +130,84 @@ METRIC_ALERT_WITH_ALERT_RULE_ACTION = {
 METRIC_ALERT_DESCRIPTION = '5 events in the last 10 minutes'
 
 MOCK_SETUP = {
-    'postInstall': {
-        'code': 'installCode',
-        'installationId': UUID,
-        'sentryOrgSlug': 'example',
+    "postInstall": {
+        "code": "installCode",
+        "installationId": UUID,
+        "sentryOrgSlug": "example",
     },
-    'newToken': {
-        'token': 'abc123',
-        'refreshToken': 'def456',
-        'expiresAt': '3000-01-01T08:00:00.000Z',
+    "newToken": {
+        "token": "abc123",
+        "refreshToken": "def456",
+        "expiresAt": "3000-01-01T08:00:00.000Z",
     },
-    'installation': INSTALLATION,
+    "installation": INSTALLATION,
 }
 
 MOCK_INSTALLATION_CREATED_WEBHOOK = {
-    'action': 'created',
-    'data': {'installation': INSTALLATION},
-    'installation': INSTALLATION,
+    "action": "created",
+    "data": {"installation": INSTALLATION},
+    "installation": INSTALLATION,
 }
 
 MOCK_INSTALLATION_DELETED_WEBHOOK = {
-    'action': 'deleted',
-    'data': {'installation': INSTALLATION},
-    'installation': INSTALLATION,
+    "action": "deleted",
+    "data": {"installation": INSTALLATION},
+    "installation": INSTALLATION,
 }
 
 MOCK_ISSUE_ASSIGNED_WEBHOOK = {
-    'action': 'assigned',
-    'data': {'issue': ISSUE},
-    'installation': INSTALLATION,
+    "action": "assigned",
+    "data": {"issue": ISSUE},
+    "installation": INSTALLATION,
 }
 
 MOCK_ISSUE_CREATED_WEBHOOK = {
-    'action': 'created',
-    'data': {'issue': ISSUE},
-    'installation': INSTALLATION,
+    "action": "created",
+    "data": {"issue": ISSUE},
+    "installation": INSTALLATION,
 }
 
 MOCK_ISSUE_IGNORED_WEBHOOK = {
-    'action': 'ignored',
-    'data': {'issue': {**ISSUE, 'status': 'ignored'}},
-    'installation': INSTALLATION,
+    "action": "ignored",
+    "data": {"issue": {**ISSUE, "status": "ignored"}},
+    "installation": INSTALLATION,
 }
 
 MOCK_ISSUE_RESOLVED_WEBHOOK = {
-    'action': 'resolved',
-    'data': {'issue': {**ISSUE, 'status': 'resolved'}},
-    'installation': INSTALLATION,
+    "action": "resolved",
+    "data": {"issue": {**ISSUE, "status": "resolved"}},
+    "installation": INSTALLATION,
 }
 
 MOCK_BASE_COMMENT_WEBHOOK = {
-    'data': {
-        'comment_id': 456,
-        'issue_id': ISSUE['id'],
-        'project_slug': 'ipe',
-        'timestamp': '2022-01-01T00:00:00.000000Z',
-        'comment': 'this is a test comment',
+    "data": {
+        "comment_id": 456,
+        "issue_id": ISSUE['id'],
+        "project_slug": 'ipe',
+        "timestamp": '2022-01-01T00:00:00.000000Z',
+        "comment": 'this is a test comment',
     },
-    'actor': {
-        'type': 'user',
-        'id': 123,
-        'name': 'name',
+    "actor": {
+        "type": 'user',
+        "id": 123,
+        "name": 'name',
     },
-    'installation': INSTALLATION,
+    "installation": INSTALLATION,
 }
 
 MOCK_COMMENT_CREATED_WEBHOOK = {
     **MOCK_BASE_COMMENT_WEBHOOK,
-    'action': 'created',
+    "action": 'created',
 }
 
 MOCK_COMMENT_UPDATED_WEBHOOK = {
     **MOCK_BASE_COMMENT_WEBHOOK,
-    'action': 'updated',
+    "action": 'updated',
 }
 
 MOCK_COMMENT_DELETED_WEBHOOK = {
     **MOCK_BASE_COMMENT_WEBHOOK,
-    'action': 'deleted',
+    "action": 'deleted',
 }
 
 MOCK_EVENT_ALERT_TRIGGERED_WEBHOOK = {
@@ -264,12 +264,12 @@ MOCK_METRIC_ALERT_CRITICAL_WEBHOOK_WITH_ALERT_RULE_ACTION = {
 }
 
 MOCK_WEBHOOK = {
-    'installation.deleted': MOCK_INSTALLATION_DELETED_WEBHOOK,
-    'installation.created': MOCK_INSTALLATION_CREATED_WEBHOOK,
-    'issue.assigned': MOCK_ISSUE_ASSIGNED_WEBHOOK,
-    'issue.created': MOCK_ISSUE_CREATED_WEBHOOK,
-    'issue.ignored': MOCK_ISSUE_IGNORED_WEBHOOK,
-    'issue.resolved': MOCK_ISSUE_RESOLVED_WEBHOOK,
+    "installation.deleted": MOCK_INSTALLATION_DELETED_WEBHOOK,
+    "installation.created": MOCK_INSTALLATION_CREATED_WEBHOOK,
+    "issue.assigned": MOCK_ISSUE_ASSIGNED_WEBHOOK,
+    "issue.created": MOCK_ISSUE_CREATED_WEBHOOK,
+    "issue.ignored": MOCK_ISSUE_IGNORED_WEBHOOK,
+    "issue.resolved": MOCK_ISSUE_RESOLVED_WEBHOOK,
     'comment.created': MOCK_COMMENT_CREATED_WEBHOOK,
     'comment.updated': MOCK_COMMENT_UPDATED_WEBHOOK,
     'comment.deleted': MOCK_COMMENT_DELETED_WEBHOOK,
@@ -286,15 +286,15 @@ MOCK_WEBHOOK = {
 }
 
 MOCK_ISSUE_LINK = {
-    'installationId': UUID,
-    'fields': {
-        'title': ISSUE['title'],
-        'description': 'This is an item description!',
-        'column': 'DOING',
-        'complexity': 2,
-        'itemId': None
+    "installationId": UUID,
+    "fields": {
+        "title": ISSUE["title"],
+        "description": "This is an item description!",
+        "column": "DOING",
+        "complexity": 2,
+        "itemId": None
     },
-    'issueId': ISSUE['id'],
+    "issueId": ISSUE["id"],
 }
 
 MOCK_ALERT_RULE_ACTION = {

@@ -4,11 +4,11 @@ from . import OrganizationsApiTestBase
 
 
 class OrganizationsApiPutTest(OrganizationsApiTestBase):
-    method = 'put'
+    method = "put"
 
     def test_put(self):
-        external_slug = 'New Slug'
-        new_data = {'externalSlug': external_slug}
+        external_slug = "New Slug"
+        new_data = {"externalSlug": external_slug}
         self.get_success_response(organization_slug=self.organization.slug, data=new_data)
 
         organization = Organization.query.filter(Organization.id == self.organization.id).first()

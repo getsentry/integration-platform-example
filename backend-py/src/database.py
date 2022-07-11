@@ -6,14 +6,14 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from src import app
 
-engine = create_engine(app.config['DATABASE'])
+engine = create_engine(app.config["DATABASE"])
 db_session = scoped_session(
     sessionmaker(
         autocommit=False,
         autoflush=False,
         bind=engine,
         # Disable object expiration to make testing with fixtures easier
-        expire_on_commit=os.getenv('FLASK_ENV') != 'test'
+        expire_on_commit=os.getenv("FLASK_ENV") != 'test'
     )
 )
 

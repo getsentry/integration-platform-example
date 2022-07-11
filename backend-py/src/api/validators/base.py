@@ -40,7 +40,7 @@ def validate_str(value: str, name: str) -> str:
     if not (STR_LENGTH_MIN <= len(value) <= STR_LENGTH_MAX):
         raise BadRequest(
             f"Invalid: field '{name}' must be between {STR_LENGTH_MIN} and"
-            f' {STR_LENGTH_MAX} characters'
+            f" {STR_LENGTH_MAX} characters"
         )
     return value
 
@@ -72,4 +72,4 @@ def validate_optional_str(value: str | None, name: str) -> str | None:
 
 
 def validate_organization(value: int | str | None) -> int:
-    return validate_id(value, 'organizationId')
+    return validate_id(value, "organizationId")

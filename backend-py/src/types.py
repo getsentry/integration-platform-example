@@ -12,6 +12,6 @@ class ItemComment(TypedDict):
 
 
 class ItemColumn(enum.Enum):
-    Todo = 'TODO'
-    Doing = 'DOING'
-    Done = 'DONE'
+    Todo = "TODO"
+    Doing = "DOING"
+    Done = "DONE"

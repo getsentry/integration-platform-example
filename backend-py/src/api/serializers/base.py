@@ -7,7 +7,7 @@ from src.database import Base
 from src.types import JSONData
 
 
-K = TypeVar('K')
+K = TypeVar("K")
 
 registry: MutableMapping[Any, Any] = {}
 

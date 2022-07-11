@@ -13,7 +13,7 @@
 7. Find and select the new error you triggered ('Test Error #1' by default)
 8. Trigger the `issue.assigned` webhook by selecting an assignee in the dropdown
 	- Note: These webhooks only fire on the transition from Unassigned -> Assigned, not a change of assignee
-9. Refresh the kanban to verify that they now appear assigned to a user
+9. Refresh the kanban to verify that they now appear assigned to a user 
 10. Trigger the `issue.resolved` webhook by clicking the resolve button
 11. Refresh the kanban to verify that the item's column has now been shifted to 'Done'
 12.  Trigger the `issue.ignored` webhook by clicking the ignore button
@@ -56,12 +56,12 @@ Broadly, the steps in handling these webhooks are as follows:
 
 1. Verify the signature. The authorization comes from verifying the request signature with the shared secret
    - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
-   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts)
+   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 2. Logging the type of webhook the application is receiving before handling it. This is helpful just for debugging and sanity checking.
    - [Python Webhook Logging](../../backend-py/src/api/endpoints/sentry/webhook.py)
    - [TypeScript Webhook Logging](../../backend-ts/src/api/sentry/webhook.ts)
 3. Pass the webhook along to a dedicated handler to keep the webhook endpoint clean
-   - [Python Issue Webhook Handler](../../backend-py/src/api/endpoints/sentry/handlers/issue_handler.py)
+   - [Python Issue Webhook Handler](../../backend-py/src/api/endpoints/sentry/handlers/issue_handler.py) 
    - [TypeScript Issue Webhook Handler](../../backend-ts/src/api/sentry/handlers/issueHandler.ts)
 4. Check if the issue exists in our application
    - In this example, it's checking if we already have a ticket for the issue, and creating one if not

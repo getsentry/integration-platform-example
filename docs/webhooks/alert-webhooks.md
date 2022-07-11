@@ -56,7 +56,7 @@ Modified item from metric alert resolved trigger
 
 All the authorization logs are coming from middleware which verifies the request signature with the shared secret:
    - [Python Signature Verification](../../backend-py/src/api/middleware/verify_sentry_signature.py)
-   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts)
+   - [TypeScript Signature Verification](../../backend-ts/src/api/middleware/verifySentrySignature.ts) 
 
 The 'Populating user options' log comes from the select field we specify in the schema:
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].settings.required_fields`)
@@ -69,9 +69,9 @@ The 'Successful validation' log comes from Sentry pinging another endpoint we sp
    - [Integration Schema](../../integration-schema.json) (Look at the blob under `elements[1].uri`)
 
 Here, we're validating the settings that the user sent to our application. Then, we tell Sentry whether or not it should approve the changes to the alert rule. If something is incorrect, we can surface error messages directly to the user in Sentry.
-   - [Python Settings Approval Code](../../backend-py/src/api/endpoints/sentry/alert_rule_action.py)
+   - [Python Settings Approval Code](../../backend-py/src/api/endpoints/sentry/alert_rule_action.py) 
    - [TypeScript Settings Approval Code](../../backend-ts/src/api/sentry/alertRuleAction.ts)
 
-The 'Created/Modified item' logs come from the consumption of the alert webhooks.
+The 'Created/Modified item' logs come from the consumption of the alert webhooks. 
    - [Python Alert Webhook Consumption](../../backend-py/src/api/endpoints/sentry/handlers/alert_handler.py)
    - [TypeScript Alert Webhook Consumption](../../backend-ts/src/api/sentry/handlers/alertHandler.ts)

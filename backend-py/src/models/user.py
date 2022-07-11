@@ -6,7 +6,7 @@ from .. import database
 
 
 class User(database.Base):
-    __tablename__ = 'user'
+    __tablename__ = "user"
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
@@ -14,7 +14,7 @@ class User(database.Base):
     avatar = Column(String)
     organization_id = Column(Integer, ForeignKey('organization.id'))
 
-    items = relationship('Item')
+    items = relationship("Item")
 
     def __init__(
         self,
@@ -29,4 +29,4 @@ class User(database.Base):
         self.organization_id = organization_id
 
     def __repr__(self):
-        return f'<User #{self.id}: {self.username}>'
+        return f"<User #{self.id}: {self.username}>"
