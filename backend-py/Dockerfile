@@ -8,6 +8,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copy the rest of the source code now, otherwise, code changes will invalidate the requirements cache
-COPY ./src/* .
+COPY ./src/* /backend-py/
 # Preparing startup...
 CMD ["flask", "run"]
