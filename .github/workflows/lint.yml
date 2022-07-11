@@ -1,16 +1,12 @@
-name: backend-py
+name: lint
 on:
   pull_request:
-    paths:
-      - ".github/actions/setup-test"
-      - ".github/workflows/backend-py.yml"
-      - "backend-py/*"
   push:
     branches:
       - main
 
 jobs:
-  test:
+  lint:
     timeout-minutes: 10
     runs-on: ubuntu-20.04
 
@@ -20,12 +16,9 @@ jobs:
         with:
           python-version: "3.9"
 
-      - uses: "./.github/actions/setup-test"
-
       - name: Install Python Dependecies
         working-directory: backend-py
-        run: pip install -r requirements.txt
+        run: pip install "pre-commit==2.20.0"
 
-      - name: Run Tests
-        working-directory: backend-py
-        run: pytest
+      - name: Run Linting
+        run: pre-commit run --all-files

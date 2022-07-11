@@ -10,20 +10,6 @@ on:
       - main
 
 jobs:
-  lint:
-    timeout-minutes: 10
-    runs-on: ubuntu-20.04
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: "./.github/actions/setup-node"
-        with:
-          project_directory: frontend
-
-      - name: Lint files
-        working-directory: frontend
-        run: npm run lint
-
   test:
     timeout-minutes: 20
     runs-on: ubuntu-20.04
