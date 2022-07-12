@@ -36,5 +36,4 @@ jobs:
         run: |
           docker compose up -d frontend backend-ts
           sleep 10
-          curl --request POST http://0.0.0.0:5200 2>&1 || docker logs $container_id && exit 1
-          [ $? == 0 ] && exit 0 || docker logs $container_id && exit 1
+          curl --request GET http://0.0.0.0:5200
