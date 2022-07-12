@@ -22,7 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build Docker image
-        run: |
+      - name: Build database
           cp .env.sample .env
+          docker compose build database
+
+      - name: Build the rest
+        run: |
+          docker compose build frontend backend-py
           docker compose build
