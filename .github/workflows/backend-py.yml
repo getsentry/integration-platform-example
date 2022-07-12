@@ -39,9 +39,7 @@ jobs:
 
       - name: Test image starts up
         run: |
-          cd backend-py
-          docker build -t backend-py:latest .
-          container_id=$(docker run -p 5100:5100 -d backend-py:latest)
-          sleep 5
+          docker compose up -d frontend backend-py
+          sleep 10
           curl --request POST http://0.0.0.0:5100 2>&1 || docker logs $container_id && exit 1
           [ $? == 0 ] && exit 0 || docker logs $container_id && exit 1
