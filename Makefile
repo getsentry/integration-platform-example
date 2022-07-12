@@ -21,10 +21,10 @@ help:
 # Quickstart
 
 serve-python:
-	docker compose up frontend backend-py
+	docker compose up --build frontend backend-py
 
 serve-typescript:
-	docker compose up frontend backend-ts
+	docker compose up --build frontend backend-ts
 
 # Debugging
 

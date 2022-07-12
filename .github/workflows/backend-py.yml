@@ -29,3 +29,10 @@ jobs:
       - name: Run Tests
         working-directory: backend-py
         run: pytest
+
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Test starts up
+        run: docker compose up backend-py --exit-code-from backend-py
