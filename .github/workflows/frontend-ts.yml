@@ -33,6 +33,7 @@ jobs:
 
       - name: Test image starts up
         run: |
+          cp .env.sample .env
           docker compose up -d frontend backend-ts
           sleep 10
           curl --request GET http://0.0.0.0:3000
