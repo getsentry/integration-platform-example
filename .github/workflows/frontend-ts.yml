@@ -33,6 +33,7 @@ jobs:
 
       - name: Test image starts up
         run: |
+          cd frontend-ts
           docker build -t frontend:latest .
           container_id=$(docker run -p 5200:3000 -d frontend:latest)
           sleep 5

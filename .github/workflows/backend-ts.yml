@@ -34,6 +34,7 @@ jobs:
 
       - name: Test image starts up
         run: |
+          cd backend-ts
           docker build -t backend-ts:latest .
           container_id=$(docker run -p 5200:5200 -d backend-ts:latest)
           sleep 5
