@@ -33,9 +33,9 @@ jobs:
 
       - name: Test image starts up
         run: |
-          cd frontend-ts
+          cd frontend
           docker build -t frontend:latest .
-          container_id=$(docker run -p 5200:3000 -d frontend:latest)
+          container_id=$(docker run -p 3000:3000 -d frontend:latest)
           sleep 5
           curl --request POST http://0.0.0.0:3000  2>&1
           [ $? == 0 ] && exit 0 || docker logs $container_id && exit 1
