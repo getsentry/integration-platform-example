@@ -23,3 +23,16 @@ jobs:
       - name: Run Tests
         working-directory: frontend
         run: npm run test
+
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test image starts up
+        run: |
+          cp .env.sample .env
+          docker compose up -d frontend backend-ts
+          curl --request GET http://0.0.0.0:3000 || docker compose logs
