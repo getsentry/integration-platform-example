@@ -24,3 +24,18 @@ jobs:
       - name: Run Tests
         working-directory: backend-ts
         run: npm run test:ci
+
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test image starts up
+        run: |
+          docker build -t backend-ts:latest .
+          container_id=$(docker run -p 5200:5200 -d backend-ts:latest)
+          sleep 5
+          curl --request POST http://0.0.0.0:5200  2>&1
+          [ $? == 0 ] && exit 0 || docker logs $container_id && exit 1

@@ -1,4 +1,4 @@
-name: docker
+name: docker compose
 on:
   pull_request:
     paths:
@@ -26,3 +26,4 @@ jobs:
         run: |
           cp .env.sample .env
           docker compose build
+          docker compose up

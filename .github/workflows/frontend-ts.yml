@@ -23,3 +23,18 @@ jobs:
       - name: Run Tests
         working-directory: frontend
         run: npm run test
+
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Test image starts up
+        run: |
+          docker build -t frontend:latest .
+          container_id=$(docker run -p 5200:3000 -d frontend:latest)
+          sleep 5
+          curl --request POST http://0.0.0.0:3000  2>&1
+          [ $? == 0 ] && exit 0 || docker logs $container_id && exit 1
