@@ -36,5 +36,5 @@ jobs:
         run: |
           cp .env.sample .env
           docker compose up -d frontend backend-ts
-          sleep 10
-          curl --request GET http://0.0.0.0:5200
+          sleep 15
+          curl --request GET http://0.0.0.0:5200 || docker compose logs

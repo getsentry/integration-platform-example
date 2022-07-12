@@ -42,4 +42,4 @@ jobs:
           cp .env.sample .env
           docker compose up -d frontend backend-py
           sleep 10
-          curl --request GET http://0.0.0.0:5100
+          curl --request GET http://0.0.0.0:5100 || docker compose logs
