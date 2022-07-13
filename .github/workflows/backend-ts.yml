@@ -2,9 +2,9 @@ name: backend-ts
 on:
   pull_request:
     paths:
-      - ".github/actions/*"
+      - ".github/actions/**"
       - ".github/workflows/backend-ts.yml"
-      - "backend-ts/*"
+      - "backend-ts/**"
   push:
     branches:
       - main

@@ -4,7 +4,7 @@ on:
     paths:
       - ".github/actions/setup-test"
       - ".github/workflows/backend-py.yml"
-      - "backend-py/*"
+      - "backend-py/**"
   push:
     branches:
       - main
