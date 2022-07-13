@@ -37,7 +37,7 @@ class IssueHandlerWebhookTest(APITestCase):
         assert item
         assert item.title == ISSUE["title"]
         assert item.description == f"{ISSUE['shortId']} - {ISSUE['culprit']}"
-        assert item.is_ignored == False
+        assert item.is_ignored is False
         assert item.column.value == ItemColumn.Todo.value
         assert item.sentry_id == ISSUE["id"]
 
@@ -51,7 +51,7 @@ class IssueHandlerWebhookTest(APITestCase):
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
         assert item
-        assert item.is_ignored == True
+        assert item.is_ignored is True
 
     def test_issue_resolved(self):
         self.get_success_response(
@@ -70,4 +70,4 @@ class IssueHandlerWebhookTest(APITestCase):
             status_code=400,
         )
         item = Item.query.filter(Item.sentry_id == ISSUE["id"]).first()
-        assert item == None
+        assert item is None

@@ -1,7 +1,6 @@
 import copy
 
 from src.database import db_session
-from src.models import Item
 from src.types import ItemComment, JSONData
 
 from tests.api import APITestCase

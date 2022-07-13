@@ -1,4 +1,2 @@
 [flake8]
-max-line-length = 100
-; XXX: Remove in the next PR
-exclude = backend-py/*
+max-line-length = 120
