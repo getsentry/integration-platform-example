@@ -1,5 +1,3 @@
-from src.models import Item
-
 from tests.api import APITestCase
 
 

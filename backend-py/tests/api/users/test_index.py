@@ -6,7 +6,7 @@ class UsersApiIndexTest(UsersApiTestBase):
         super().setUp()
 
         other_organization = self.create_organization("other")
-        other_user = self.create_user(other_organization, "other user")
+        self.create_user(other_organization, "other user")
 
     def test_index(self):
         response = self.get_success_response()
