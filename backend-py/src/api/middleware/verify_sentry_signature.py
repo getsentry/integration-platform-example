@@ -29,7 +29,7 @@ def is_correct_sentry_signature(
         digestmod=hashlib.sha256,
     ).hexdigest()
 
-    if digest != expected:
+    if not hmac.compare_digest(digest, expected):
         return False
 
     app.logger.info("Authorized: Verified request came from Sentry")
