@@ -23,6 +23,12 @@ SENTRY_CLIENT_SECRET = os.getenv("SENTRY_CLIENT_SECRET")
 def is_correct_sentry_signature(
     body: Mapping[str, Any], key: str, expected: str
 ) -> bool:
+    # expected could be `None` if the header was missing,
+    # in which case we return early as the request is invalid
+    # without a signature
+    if not expected:
+        return False
+
     digest = hmac.new(
         key=key.encode("utf-8"),
         msg=body,
