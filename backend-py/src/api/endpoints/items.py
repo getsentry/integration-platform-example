@@ -22,7 +22,7 @@ def add_sentry_api_data(
     for item in items:
         if item["sentryId"]:
             # Use the numerical ID to fetch the short ID
-            sentry_data = sentry.get(f"/issues/{item['sentryId']}/")
+            sentry_data = sentry.get(f"/organizations/{organization.external_slug}/issues/{item['sentryId']}/")
             short_id = sentry_data.json().get("shortId")
             # Replace the numerical ID with the short ID
             if short_id:
