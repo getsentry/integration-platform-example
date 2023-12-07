@@ -41,7 +41,7 @@ class ItemsApiIndexTest(ItemsApiTestBase):
 
         responses.add(
             responses.GET,
-            f"{SENTRY_URL}/api/0/issues/{sentry_id}/",
+            f"{SENTRY_URL}/api/0/organizations/organization/issues/{sentry_id}/",
             body=json.dumps({"shortId": short_id}),
         )
 
@@ -57,7 +57,7 @@ class ItemsApiIndexTest(ItemsApiTestBase):
 
         responses.add(
             responses.GET,
-            f"{SENTRY_URL}/api/0/issues/{sentry_id}/",
+            f"{SENTRY_URL}/api/0/organizations/organization/issues/{sentry_id}/",
             body=json.dumps({}),
         )
 

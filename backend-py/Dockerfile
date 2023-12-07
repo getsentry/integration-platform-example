@@ -1,5 +1,8 @@
 FROM python:3.9-slim as backend-py
 
+RUN apt update && \
+  apt install -y python3-dev gcc libpq-dev
+
 WORKDIR /backend-py
 # Re-create the requirements layer if the requirements change
 COPY requirements.txt .
