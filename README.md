@@ -70,31 +70,12 @@ To get started, you'll need access to [ngrok](https://ngrok.com/). ngrok is a to
 
 Make sure [you add an authtoken](https://ngrok.com/docs/ngrok-agent/ngrok#command-ngrok-config-add-authtoken) in order to generate a [configuration file](https://ngrok.com/docs/ngrok-agent/config).
 
-Open that configuration file and set it up as follows:
-
-```yml
-version: "2"
-authtoken: <YOUR AUTHTOKEN HERE>
-
-tunnels:
-  acme-frontend:
-    proto: http
-    # Make sure this addr matches REACT_APP_PORT in .env
-    addr: 3000
-  acme-backend-py:
-    proto: http
-    # Make sure this addr matches FLASK_RUN_PORT in .env
-    addr: 5100
-  acme-backend-ts:
-    proto: http
-    # Make sure this addr matches EXPRESS_LISTEN_PORT in .env
-    addr: 5200
-```
+Copy the included [`ngrok-config.example.yml`](ngrok-config.example.yml) as `ngrok-config.yml`, with your ngrok auth token in the `authtoken` field. Optionally, you can also assign static hostnames to your different tunnels if you've reserved them via ngrok's [domains](https://dashboard.ngrok.com/cloud-edge/domains) settings page on paid plans.
 
 This will let you easily set up your tunnels with:
 
 ```shell
-ngrok start --all
+ngrok start --all --config ngrok-config.yml
 ```
 
 With ngrok running, you'll be presented with an interface that might look like the following:
@@ -108,15 +89,14 @@ Version             3.0.3
 Region              United States (us)
 Latency             96.595653ms
 Web Interface       http://127.0.0.1:4040
-Forwarding          https://random-uuid-frontend.ngrok.io -> http://localhost:3000
-Forwarding          https://random-uuid-backend-py.ngrok.io -> http://localhost:5100
-Forwarding          https://random-uuid-backend-ts.ngrok.io -> http://localhost:5200
+Forwarding          https://frontend-hostname.ngrok.io -> http://localhost:3000
+Forwarding          https://backend-py-hostname.ngrok.io -> http://localhost:5100
+Forwarding          https://backend-ts-hostname.ngrok.io -> http://localhost:5200
 
 Connections         ttl     opn     rt1     rt5     p50     p90
                     0       0       0.00    0.00    0.00    0.00
 ```
-
-Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within Sentry. You can identify which address coordinates with which server by the port they map to on your local machine. By default:
+Take a note of the forwarding addresses (ending with `.ngrok.io`), as you'll need them to setup your integration within Sentry. These addresses will be randomly generated UUIDs by default if you did not specify custom hostnames in your configuration. You can identify which address coordinates with which server by the port they map to on your local machine. By default:
 
 ```text
 [Frontend address]           -> http://localhost:3000
@@ -136,8 +116,8 @@ Next, we'll be setting up an integration for our app to connect to, and a projec
    - Webhook URL: `<YOUR BACKEND NGROK ADDRESS>/api/sentry/webhook/`
    - Redirect URL: `<YOUR FRONTEND NGROK ADDRESS>/sentry/setup/`
      Using the above example, with the python backend, it may look like this:
-   - Webhook URL: `https://random-uuid-backend-py.ngrok.io/api/sentry/webhook/`
-   - Redirect URL: `https://random-uuid-frontend.ngrok.io/sentry/setup/`
+   - Webhook URL: `https://backend-py-hostname.ngrok.io/api/sentry/webhook/`
+   - Redirect URL: `https://frontend-hostname.ngrok.io/sentry/setup/`
 4. Ensure 'Verify Installation' is checked.
 5. Ensure 'Alert Rule Action' is checked.
 6. In the textbox for 'Schema', paste in the entire [`integration-schema.json` file](integration-schema.json)
@@ -148,7 +128,7 @@ Next, we'll be setting up an integration for our app to connect to, and a projec
 9. Click 'Save Changes'.
 10. Make a note of the **Client ID** and **Client Secret**.
 
-**Note**: On the free plan for ngrok, if your service restarts, you will be issued a new forwarding address. If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
+**Note**: On the free plan for ngrok, if your service restarts, you will be issued a new random forwarding address. If this happens, be sure to update these URLs in Sentry to keep your app functional while developing or testing.
 
 **Note**: We aren't enabling `error.created` webhooks for this demo. See more on this decision [here](docs/webhooks/event-webhooks.md#error-webhooks).
 
