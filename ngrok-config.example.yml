@@ -1,10 +1,10 @@
 version: "2"
-#authtoken: <your auth token here>
+authtoken: <your auth token here>
 
 tunnels:
   acme-frontend:
     proto: http
-    # hostname: <Optional: Put static hostname for frontend here> 
+    # hostname: <Optional: Put static hostname for frontend here>
     # Make sure this addr matches REACT_APP_PORT in .env
     addr: 3000
   acme-backend-py:
