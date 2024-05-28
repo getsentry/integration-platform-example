@@ -15,7 +15,7 @@ async function addSentryAPIData(
     organization.items.map(async item => {
       if (item.sentryId) {
         // Use the numerical ID to fetch the short ID
-        const sentryData = await sentry.get(`/issues/${item.sentryId}/`);
+        const sentryData = await sentry.get(`/organizations/${organization.externalSlug}/issues/${item.sentryId}/`);
         // Replace the numerical ID with the short ID
         const shortId = (sentryData || {})?.data?.shortId;
         if (shortId) {
