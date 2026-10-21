@@ -1,4 +1,4 @@
-FROM node:16.13 as backend-ts
+FROM node:24 as backend-ts
 # Installing packages...
 WORKDIR /backend-ts
 COPY package.json .
