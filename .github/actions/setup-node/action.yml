@@ -10,7 +10,7 @@ runs:
   using: "composite"
   steps:
     - name: Cache Node Modules
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v7
       with:
         node-version: '24'
         cache: 'npm'
