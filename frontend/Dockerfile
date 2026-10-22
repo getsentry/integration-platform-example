@@ -1,4 +1,4 @@
-FROM node:16.13 as frontend
+FROM node:24 as frontend
 # Installing packages...
 WORKDIR /frontend
 COPY package.json .

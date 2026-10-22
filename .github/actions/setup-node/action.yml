@@ -10,9 +10,10 @@ runs:
   using: "composite"
   steps:
     - name: Cache Node Modules
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v7
       with:
-        node-version: '16'
+        node-version: '24'
+        check-latest: true
         cache: 'npm'
         cache-dependency-path: ${{inputs.project_directory}}/package-lock.json
 
