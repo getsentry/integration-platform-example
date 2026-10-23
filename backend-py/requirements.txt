@@ -1,6 +1,6 @@
 attrs==21.4.0
 black==22.1.0
-certifi==2021.10.8
+certifi==2026.10.19
 charset-normalizer==2.0.12
 click==8.0.4
 flake8==4.0.1
