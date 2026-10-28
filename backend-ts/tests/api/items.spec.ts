@@ -46,7 +46,7 @@ describe(path, () => {
     await createSentryInstallation({
       organizationId: organization.id,
     });
-    items[0].update({sentryId: itemSentryId, organizationId: organization.id});
+    await items[0].update({sentryId: itemSentryId, organizationId: organization.id});
 
     const mockSentryAPIClientGet = jest
       .spyOn(SentryAPIClient.prototype, 'get')
@@ -65,7 +65,7 @@ describe(path, () => {
     await createSentryInstallation({
       organizationId: organization.id,
     });
-    items[0].update({sentryId: itemSentryId, organizationId: organization.id});
+    await items[0].update({sentryId: itemSentryId, organizationId: organization.id});
 
     const mockSentryAPIClientGet = jest
       .spyOn(SentryAPIClient.prototype, 'get')
