@@ -21,10 +21,16 @@ describe(path, () => {
 
   afterAll(async () => await closeTestServer());
 
-  it('handles GET', async () => {
+  it('rejects GET without an organization', async () => {
     const response = await request(server).get(path);
-    assert.equal(response.body.length, userNames.length);
-    assert.equal(response.statusCode, 200);
+    assert.equal(response.statusCode, 400);
+  });
+
+  it('returns 404 for GET with an unknown organization', async () => {
+    const response = await request(server)
+      .get(path)
+      .query({organization: 'does-not-exist'});
+    assert.equal(response.statusCode, 404);
   });
 
   it('handles GET by organization', async () => {

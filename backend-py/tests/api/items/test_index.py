@@ -16,18 +16,28 @@ class ItemsApiIndexTest(ItemsApiTestBase):
         super().setUp()
 
         other_organization = self.create_organization("other")
-        other_user = self.create_user(other_organization, "other user")
-        self.create_item(other_organization, other_user)
+        self.other_user = self.create_user(other_organization, "other user")
+        self.create_item(other_organization, self.other_user)
 
-    def test_index(self):
-        response = self.get_success_response()
-        assert len(response.json) == 2
+    def test_index_requires_organization(self):
+        self.get_error_response(status_code=400)
+
+    def test_index_unknown_organization(self):
+        self.get_error_response(organization="does-not-exist", status_code=404)
 
     def test_index_user(self):
-        response = self.get_success_response(user=self.user.id)
+        self.create_item(self.organization)
+        response = self.get_success_response(
+            organization=self.organization.slug, user=self.user.id
+        )
 
-        assert len(response.json) == 1
-        assert response.json[0]["assigneeId"] == self.user.id
+        assert [item["id"] for item in response.json] == [self.item.id]
+
+    def test_index_user_from_other_organization(self):
+        response = self.get_success_response(
+            organization=self.organization.slug, user=self.other_user.id
+        )
+        assert response.json == []
 
     def test_index_organization(self):
         response = self.get_success_response(organization=self.organization.slug)

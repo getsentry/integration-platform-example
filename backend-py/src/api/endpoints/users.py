@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from flask import jsonify, request, Response
 from flask.views import MethodView
-from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import BadRequest, NotFound
 
 from src.api.endpoints.base import register_api
 from src.api.serializers import serialize
@@ -19,17 +19,18 @@ class UserAPI(MethodView):
         return user
 
     def index(self) -> Response:
+        # Always scope users to a single organization so one tenant can never
+        # list another tenant's users.
         organization_slug = request.args.get("organization")
+        if not organization_slug:
+            raise BadRequest("The 'organization' query parameter is required.")
+        organization = Organization.query.filter(
+            Organization.slug == organization_slug
+        ).first()
+        if not organization:
+            raise NotFound
 
-        query = User.query
-
-        if organization_slug is not None:
-            organization_option = Organization.query.filter(
-                Organization.slug == organization_slug
-            ).first()
-            if organization_option:
-                query = query.filter(User.organization_id == organization_option.id)
-
+        query = User.query.filter(User.organization_id == organization.id)
         return jsonify(serialize(query.all()))
 
     def get(self, user_id: int) -> Response:

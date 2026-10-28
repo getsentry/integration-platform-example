@@ -88,7 +88,14 @@ def link_issue_link() -> Response:
     user_link_data: IssueLinkSettings = request.json.get("fields")
 
     # Associate the Sentry Issue with the item from our application the user selected.
-    item = Item.query.filter(Item.id == user_link_data.get("itemId")).first()
+    # Only look up items in this installation's organization, so an installation
+    # can't link to another organization's items.
+    item = Item.query.filter(
+        Item.id == user_link_data.get("itemId"),
+        Item.organization_id == organization.id,
+    ).first()
+    if not item:
+        return Response("", 404)
     item.sentry_id = request.json.get("issueId")
     db_session.commit()
     app.logger.info("Linked item through Sentry Issue Link UI Component")

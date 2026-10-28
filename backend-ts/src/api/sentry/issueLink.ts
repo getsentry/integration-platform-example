@@ -57,7 +57,17 @@ router.post('/link', async (request, response) => {
   const issueLinkData = request.body as IssueLinkRequestData;
 
   // Associate the Sentry Issue with the item from our application the user selected.
-  const item = await Item.findByPk(issueLinkData.fields.itemId);
+  // Only look up items in this installation's organization, so an installation
+  // can't link to another organization's items.
+  const item = await Item.findOne({
+    where: {
+      id: issueLinkData.fields.itemId,
+      organizationId: response.locals.organization.id,
+    },
+  });
+  if (!item) {
+    return response.sendStatus(404);
+  }
   await item.update({sentryId: issueLinkData.issueId});
   console.info('Linked item through Sentry Issue Link UI Component');
 
