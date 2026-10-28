@@ -66,7 +66,8 @@
     "prettier": "2.5.1"
   },
   "overrides": {
-    "serialize-javascript": "^7.0.3"
+    "serialize-javascript": "^7.0.3",
+    "webpack-dev-middleware": "^7.4.6"
   },
   "volta": {
     "node": "24.22.1"
