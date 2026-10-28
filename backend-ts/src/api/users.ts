@@ -6,18 +6,22 @@ import User from '../models/User.model';
 const router = express.Router();
 
 router.get('/', async (request, response) => {
+  // Always scope users to a single organization so one tenant can never
+  // list another tenant's users.
   const {organization: slug} = request.query;
-  if (slug) {
-    const organization = await Organization.findOne({
-      include: User,
-      where: {slug},
-    });
-    if (organization) {
-      return response.send(organization.users);
-    }
+  if (!slug) {
+    return response
+      .status(400)
+      .send({message: "The 'organization' query parameter is required"});
   }
-  const users = await User.findAll();
-  return response.send(users);
+  const organization = await Organization.findOne({
+    include: User,
+    where: {slug},
+  });
+  if (!organization) {
+    return response.sendStatus(404);
+  }
+  return response.send(organization.users);
 });
 
 router.post('/', async (request, response) => {

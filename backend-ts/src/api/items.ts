@@ -29,22 +29,26 @@ async function addSentryAPIData(
 }
 
 router.get('/', async (request, response) => {
+  // Always scope items to a single organization so one tenant can never
+  // list another tenant's items.
   const {organization: slug} = request.query;
-  if (slug) {
-    const organization = await Organization.findOne({
-      include: Item,
-      where: {slug},
-    });
-    if (organization) {
-      return response.send(
-        organization.items.some(item => !!item.sentryId)
-          ? await addSentryAPIData(organization)
-          : organization.items
-      );
-    }
+  if (!slug) {
+    return response
+      .status(400)
+      .send({message: "The 'organization' query parameter is required"});
   }
-  const items = await Item.findAll();
-  return response.send(items);
+  const organization = await Organization.findOne({
+    include: Item,
+    where: {slug},
+  });
+  if (!organization) {
+    return response.sendStatus(404);
+  }
+  return response.send(
+    organization.items.some(item => !!item.sentryId)
+      ? await addSentryAPIData(organization)
+      : organization.items
+  );
 });
 
 router.post('/', async (request, response) => {

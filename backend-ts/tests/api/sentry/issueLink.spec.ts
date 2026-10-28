@@ -55,4 +55,16 @@ describe(`GET ${path}`, () => {
     assert.equal(response.body.project, 'ACME');
     assert.equal(response.body.identifier, item.id);
   });
+
+  it("doesn't link to another organization's items", async () => {
+    const otherItem = await createItem();
+    const payload = {
+      ...MOCK_ISSUE_LINK,
+      fields: {...MOCK_ISSUE_LINK.fields, itemId: otherItem.id},
+    };
+    const response = await request(server).post(`${path}/link`).send(payload);
+    assert.equal(response.statusCode, 404);
+    await otherItem.reload();
+    assert.equal(otherItem.sentryId, null);
+  });
 });

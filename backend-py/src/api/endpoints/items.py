@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from flask import jsonify, request, Response
 from flask.views import MethodView
-from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import BadRequest, NotFound
 
 from src.api.endpoints.base import register_api
 from src.api.serializers import serialize
@@ -40,23 +40,26 @@ class ItemAPI(MethodView):
         return item
 
     def index(self) -> Response:
+        # Always scope items to a single organization so one tenant can never
+        # list another tenant's items.
         organization_slug = request.args.get("organization")
+        if not organization_slug:
+            raise BadRequest("The 'organization' query parameter is required.")
+        organization = Organization.query.filter(
+            Organization.slug == organization_slug
+        ).first()
+        if not organization:
+            raise NotFound
+
+        query = Item.query.filter(Item.organization_id == organization.id)
+
         user_id = request.args.get("user")
-
-        query = Item.query
-
-        if organization_slug:
-            organization_option = Organization.query.filter(
-                Organization.slug == organization_slug
-            ).first()
-            if organization_option:
-                query = query.filter(Item.organization_id == organization_option.id)
-                linked_query = query.filter(Item.sentry_id is not None)
-                if linked_query.count() > 0:
-                    return add_sentry_api_data(organization_option, query)
-
         if user_id is not None:
             query = query.filter(Item.assignee_id == user_id)
+
+        linked_query = query.filter(Item.sentry_id is not None)
+        if linked_query.count() > 0:
+            return add_sentry_api_data(organization, query)
 
         return jsonify(serialize(query.all()))
 

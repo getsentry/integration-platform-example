@@ -57,3 +57,15 @@ class LinkIssueLinkTest(APITestCase):
         assert response.json.get("webUrl") is not None
         assert response.json.get("project") == "ACME"
         assert response.json.get("identifier") == str(self.item.id)
+
+    def test_link_issue_link_other_organization_item(self):
+        other_organization = self.create_organization("other")
+        other_item = self.create_item(other_organization)
+        db_session.commit()
+        payload = {
+            **self.payload,
+            "fields": {**self.payload["fields"], "itemId": other_item.id},
+        }
+
+        self.get_error_response(data=payload, status_code=404)
+        assert other_item.sentry_id is None
