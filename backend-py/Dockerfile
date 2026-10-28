@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 # Copy the rest of the source code now, otherwise, code changes will invalidate the requirements cache
 COPY . .
 # Preparing startup...
-CMD ["flask", "run"]
+CMD ["flask", "run", "--reload"]
