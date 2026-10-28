@@ -1,4 +1,4 @@
-FROM python:3.9-slim as backend-py
+FROM python:3.13-slim as backend-py
 
 RUN apt update && \
   apt install -y python3-dev gcc libpq-dev
