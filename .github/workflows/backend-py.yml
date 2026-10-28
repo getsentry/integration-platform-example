@@ -12,7 +12,8 @@ on:
 jobs:
   test:
     timeout-minutes: 10
-    runs-on: ubuntu-latest
+    # actions/python-versions has no Python 3.9 build for ubuntu-latest (26.04)
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v3
