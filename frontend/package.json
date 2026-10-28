@@ -65,6 +65,9 @@
     "jest-when": "^3.5.1",
     "prettier": "2.5.1"
   },
+  "overrides": {
+    "serialize-javascript": "^7.0.3"
+  },
   "volta": {
     "node": "24.22.1"
   }
